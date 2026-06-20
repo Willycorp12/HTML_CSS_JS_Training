@@ -1,0 +1,269 @@
+<!-- screens/asset-out.html -->
+<div class="asset-modal-overlay">
+    <div class="asset-modal-box">
+    <div class="blue-title-bar" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px;">
+        <div style="flex: 1; text-align: center;">Check-Out an Asset</div>
+        <div style="font-size: 22px; color: #fff; opacity: 0.8; cursor: pointer; line-height: 1;" onclick="loadScreen('asset-master.html')">&times;</div>
+    </div>
+    <div class="content-frame">
+            <div class="top-section-layout">
+                <!-- Left Panel: Check-out To -->
+                <fieldset class="group-box checkout-to-panel">
+                    <legend>Check-out To:</legend>
+                    <div class="form-group">
+                        <label>Scan Badge:</label>
+                        <input type="text" id="out-scan-badge" class="wd-input">
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label class="label-link">or Select Person</label>
+                        <select id="out-select-person" class="wd-input">
+                            <option value="1">Person 1</option>
+                            <option value="2">Person 2</option>
+                        </select>
+                    </div>
+                </fieldset>
+
+                <!-- Right Panel: Items to Check-Out -->
+                <fieldset class="group-box items-to-checkout-panel">
+                    <legend>Items to Check-Out:</legend>
+                    <div class="toolbar-row flex-end">
+                        <input type="text" id="out-asset-search" class="wd-input" placeholder="Click to add Asset..." style="width: 250px; border: 1px solid #000; cursor: pointer;" readonly>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="wd-table blue-header" id="TABLE_AssetOut">
+                            <thead>
+                                <tr>
+                                    <th style="width: 100px;">Asset Number</th>
+                                    <th>Description</th>
+                                    <th style="width: 120px;">Check Out Status</th> <!-- This column seems to contain the delete link -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic Rows will be injected here by renderCheckoutTable -->
+                            </tbody>
+                        </table>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="bottom-section-layout">
+                <div class="left-controls">
+                    <div class="form-row">
+                        <label style="font-weight: bold;">Due Date:</label>
+                        <input type="date" id="out-due-date" class="wd-input" style="width: 150px;" value="2026-04-10">
+                    </div>
+                    <div class="link-group">
+                        <label>Location:</label>
+                        <a href="#" class="black-link">VC Office</a>
+                    </div>
+                    <div class="link-group">
+                        <label>Status:</label>
+                        <a href="#" class="black-link">In Use</a>
+                    </div>
+                </div>
+                
+                <div class="middle-comments">
+                    <label>Comments</label>
+                    <textarea id="out-comments" class="wd-input" rows="4"></textarea>
+                </div>
+
+                <div class="footer-actions">
+                    <button class="wd-btn primary" id="btn-do-checkout" style="width: 130px; justify-content: space-between;">
+                        Check-Out <i class="fa-solid fa-circle-check" style="color: #2e3192;"></i>
+                    </button>
+                    <button class="wd-btn danger" id="btn-cancel-checkout" style="width: 130px; justify-content: space-between;">
+                        Cancel <i class="fa-solid fa-xmark" style="color: #cd2027;"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style id="asset-in-out-styles">
+    /* General Modal Structure */
+    .asset-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10001;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+
+    .asset-modal-box {
+        width: 850px; /* Fixed width for the modal as per image */
+        max-width: 95vw;
+        height: 90vh; /* Adjust height to fit content */
+        max-height: 600px; /* Max height to prevent overflow on smaller screens */
+        background: #f0f0f0; /* Light grey background for the modal content area */
+        border-radius: 6px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; /* Hide overflow from inner elements */
+    }
+
+    .blue-title-bar {
+        background: #2e3192;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+        font-size: 20px;
+        font-weight: 500;
+        border-radius: 4px 4px 0 0;
+        flex-shrink: 0; /* Prevent title bar from shrinking */
+    }
+
+    .content-frame {
+        background: #fff;
+        border: 1px solid #ccc;
+        border-top: none; /* Blends with the blue title bar */
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px; /* Spacing between sections */
+        flex: 1; /* Allows it to grow and fill available height */
+        overflow: hidden; /* Hide overflow from inner elements */
+    }
+
+    /* Group Box Styling (for fieldsets) */
+    .group-box { border: 1px solid #aaa; padding: 10px; border-radius: 4px; position: relative; }
+    .group-box legend {
+        font-size: 12px;
+        color: #333; /* Default legend color */
+        padding: 0 5px;
+        font-weight: bold;
+    }
+
+    /* Form Group for labels and inputs */
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-bottom: 5px; /* Spacing between form groups */
+    }
+    .form-group label {
+        font-weight: bold;
+        color: #000; /* Black labels */
+        font-size: 12px;
+    }
+    .wd-input {
+        padding: 5px 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 12px;
+        box-sizing: border-box;
+    }
+
+    /* Links (Location, Status) */
+    .label-link, .black-link {
+        color: #000 !important; /* Force black color */
+        text-decoration: underline;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 12px;
+    }
+    .link-group {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    .link-group label {
+        font-weight: bold;
+        font-size: 11px;
+    }
+
+    /* Table Styling */
+    .table-wrapper {
+        border: 1px solid #ccc;
+        height: 250px; /* Fixed height to prevent modal expansion */
+        min-height: 250px;
+        overflow: auto; /* Scroll for table content */
+        background: #fff;
+    }
+    .wd-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed; /* Ensures columns respect width settings */
+    }
+    .wd-table th, .wd-table td {
+        border: 1px solid #aaa;
+        padding: 4px 6px;
+        font-size: 11px;
+        text-align: left;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .wd-table.blue-header th {
+        background: #2e3192;
+        color: #fff;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        font-weight: bold;
+    }
+    .wd-table tbody tr.selected td {
+        background: #cd2027 !important;
+        color: #fff !important;
+    }
+    .row-highlight-red td { /* For search highlight */
+        background: #cd2027 !important;
+        color: #fff !important;
+    }
+    .delete-link {
+        color: #2e3192; /* Blue for delete link */
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    .row-highlight-red .delete-link {
+        color: #fff; /* White delete link when row is highlighted */
+    }
+
+    /* Toolbar Row (for search input above table) */
+    .toolbar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+    .flex-end { justify-content: flex-end; }
+
+    /* Layout Sections */
+    .top-section-layout {
+        display: flex;
+        gap: 15px;
+        flex: 1; /* Allows this section to grow */
+    }
+    .checkout-to-panel {
+        width: 280px; /* Fixed width for left panel as per image */
+        flex-shrink: 0;
+    }
+    .items-to-checkout-panel {
+        flex: 1; /* Right panel takes remaining space */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .bottom-section-layout {
+        display: flex;
+        gap: 20px;
+        align-items: flex-end; /* Align items to the bottom */
+        margin-top: 15px; /* Space from the top section */
+    }
+    .left-controls {
+        width: 250px; /* Fixed width for left controls */
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .middle-comments {
+        flex: 1; /* Comments textarea takes remaining space */
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .footer-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+</style>

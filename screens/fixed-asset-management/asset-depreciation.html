@@ -1,0 +1,78 @@
+<!-- screens/asset-depreciation.html -->
+<div class="page-header" style="text-align: center; margin-bottom: 10px;">
+    <h2>Depreciation of Fixed Assets</h2>
+    <p class="form-subtitle">Review depreciation schedules, book values and asset depreciation expense.</p>
+</div>
+
+<div class="asset-report-shell">
+    <div class="asset-report-toolbar">
+        <div class="filter-group">
+            <label>Depreciation Date:</label>
+            <input type="date" class="wd-input" value="2026-04-10">
+        </div>
+        <div class="toolbar-spacer"></div>
+        <button class="wd-btn primary" id="btn-depreciate-now">Depreciate Now</button>
+    </div>
+
+    <div class="asset-report-table">
+        <table class="wd-table blue-header">
+            <colgroup>
+                <col style="width: 30px;"> <!-- Checkbox -->
+                <col style="width: 80px;"> <!-- Status -->
+                <col style="width: 40px;"> <!-- No -->
+                <col> <!-- Asset Name (flexible) -->
+                <col style="width: 90px;"> <!-- Month -->
+                <col style="width: 90px;"> <!-- Orig. Cost -->
+                <col style="width: 90px;"> <!-- Dep. Expense -->
+                <col style="width: 90px;"> <!-- Accum. Dep -->
+                <col style="width: 90px;"> <!-- Book Value -->
+            </colgroup>
+            <thead>
+                <tr>
+                    <th><input type="checkbox" class="select-all-depreciation"></th>
+                    <th>Status</th>
+                    <th>No</th>
+                    <th>Asset Name</th>
+                    <th>Month</th>
+                    <th>Orig. Cost</th>
+                    <th>Dep. Expense</th>
+                    <th>Accum. Dep</th>
+                    <th>Book Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <!-- Dynamic content will be loaded here by JavaScript -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="asset-report-footer">
+        <span>Total Depreciation Expense:</span>
+        <strong id="total-depreciation-expense-value" style="font-size: 16px;">0 FCFA</strong>
+    </div>
+</div>
+
+<style>
+    .asset-report-shell { display: flex; flex-direction: column; height: calc(100% - 70px); gap: 12px; }
+    .asset-report-toolbar { display: flex; align-items: flex-end; gap: 10px; padding: 5px; background: #f8f9fc; border: 1px solid #d1d3e2; }
+    .filter-group { display: grid; gap: 6px; }
+    .filter-group label { font-size: 13px; font-weight: 600; }
+    .wd-input { padding: 9px 10px; border: 1px solid #ccc; border-radius: 5px; }
+    .toolbar-spacer { flex: 1; }
+    .asset-report-table { flex: 1; overflow: auto; border: 1px solid #c8d1eb; background: #fff; }
+    .wd-table { width: 100%; border-collapse: collapse; }
+        .wd-table th, .wd-table td { border: 1px solid #d1d3e2; padding: 9px 8px; font-size: 12px; text-align: left; }
+    .wd-table th { background: #2e3192; color: #fff; position: sticky; top: 0; z-index: 1; } /* Sticky header */
+    .wd-table th:first-child, .wd-table td:first-child { text-align: center; } /* Center checkbox */
+    .asset-report-footer strong { font-size: 16px; color: #2e3192; } /* Make total expense bigger */
+    .asset-report-footer { display: flex; justify-content: flex-end; align-items: center; gap: 12px; padding: 12px 18px; font-size: 14px; background: #fff; border: 1px solid #d1d3e2; }
+
+    /* WinDev-style row selection */
+    .wd-table tbody tr.selected td {
+        background-color: #cd2027 !important;
+        color: #fff !important;
+    }
+    .wd-table tbody tr.selected td input[type="checkbox"] { outline: 1px solid #fff; }
+</style>

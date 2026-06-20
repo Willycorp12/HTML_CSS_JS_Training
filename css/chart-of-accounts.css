@@ -1,0 +1,345 @@
+/* css/chart-of-accounts.css */
+
+/* ===== CHART OF ACCOUNTS SCREEN ===== */
+.coa-screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.coa-subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+/* Toolbar */
+.coa-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  margin-bottom: 4px;
+}
+.coa-left-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.coa-search {
+  width: 250px;
+  padding: 5px 8px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+}
+
+/* Table */
+.coa-table-wrap {
+  flex: 1;
+  overflow: auto;
+  border: 1px solid #ccc;
+  border-bottom: none;
+}
+.coa-table {
+  font-size: 12px;
+}
+.coa-name-cell {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.coa-indent {
+  flex-shrink: 0;
+}
+.coa-toggle {
+  width: 16px;
+  cursor: pointer;
+  text-align: center;
+  color: #555;
+  font-size: 10px;
+}
+.coa-toggle.hidden {
+  visibility: hidden;
+}
+.coa-folder::before {
+  content: '📁';
+  margin-right: 4px;
+  font-size: 13px;
+}
+.coa-code {
+  color: #888;
+}
+.coa-balance {
+  text-align: right;
+}
+
+/* Footer */
+.coa-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid #ccc;
+}
+.coa-footer-right {
+  display: flex;
+  gap: 8px;
+}
+
+/* Context Menu */
+.coa-context {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  background: #fff;
+  border: 1px solid #999;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  font-size: 12px;
+  min-width: 220px;
+}
+.coa-menu-item {
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.coa-menu-item:hover {
+  background: #2e3192;
+  color: #fff;
+}
+.coa-menu-sep {
+  height: 1px;
+  background: #ddd;
+  margin: 4px 0;
+}
+#COA_COPY_NAME {
+  font-weight: bold;
+}
+
+/* ===== NEW ACCOUNT MODAL ===== */
+.coa-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.coa-modal {
+    width: 700px;
+    max-width: 95vw;
+    background: #f0f0f0;
+    border: 1px solid #888;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.coa-modal-header {
+    position: relative;
+    background: #2e3192;
+    color: white;
+    padding: 8px 12px;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+}
+
+.coa-modal-close {
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    opacity: 0.8;
+    z-index: 1;
+}
+.coa-modal-close:hover {
+    opacity: 1;
+}
+
+.coa-modal-body {
+    background: #fff;
+    padding: 20px 16px 16px;
+}
+
+.coa-modal-instruction {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* The three colored dots from the image */
+.coa-modal-instruction-icon {
+    width: 45px;
+    height: 12px;
+    background:
+        radial-gradient(circle at 6px 6px, #ff5f57 5px, transparent 5px),
+        radial-gradient(circle at 18px 6px, #ffbd2e 5px, transparent 5px),
+        radial-gradient(circle at 30px 6px, #28c940 5px, transparent 5px);
+    background-repeat: no-repeat;
+    border: 1px solid #ddd;
+    padding: 0 4px;
+    border-radius: 4px;
+}
+
+.coa-modal-content {
+    display: flex;
+    gap: 16px;
+}
+
+.coa-modal-options {
+    flex: 1;
+}
+.coa-modal-options p {
+    font-weight: bold;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+.coa-modal-options label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 13px;
+    cursor: pointer;
+}
+.coa-modal-options input {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.coa-modal-desc {
+    flex: 0.7;
+    border: 1px solid #ccc;
+    padding: 12px;
+    font-size: 13px;
+    color: #555;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    background-color: #fafafa;
+}
+
+.coa-modal-footer {
+    background: #f0f0f0;
+    padding: 10px 16px;
+    text-align: right;
+    border-top: 1px solid #ddd;
+}
+.coa-modal-footer .wd-action-btn {
+    margin-left: 8px;
+}
+.coa-modal-footer .wd-action-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    color: #888;
+    border-color: #ccc;
+    background: #f0f0f0;
+}
+
+/* Button icons from image */
+.coa-continue-btn::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid #2e3192;
+    margin-left: 8px;
+}
+.coa-close-btn::after {
+    content: '✖';
+    color: #cd2027;
+    margin-left: 8px;
+    font-weight: bold;
+}
+
+/* ===== DETAILS MODAL (STEP 2) ===== */
+.coa-details-modal .coa-modal-body {
+    background-color: #f0f0f0; /* Match image background */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.coa-details-top-row {
+    display: flex;
+    gap: 16px;
+}
+.coa-details-top-row .form-group {
+    flex: 1;
+}
+.coa-details-top-row .form-group:last-child {
+    flex: 0 0 130px; /* Give date a fixed width */
+}
+
+.coa-details-main-form {
+    display: flex;
+    gap: 24px;
+    background: #fff;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+.coa-details-main-form .left-col, .coa-details-main-form .right-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.coa-details-main-form .left-col .form-group input[type="text"], .coa-details-main-form .right-col .form-group input[type="text"],
+.coa-details-main-form .right-col .form-group input[type="date"], .coa-details-main-form .left-col .form-group select {
+    border-radius: 6px;
+} 
+.coa-details-main-form .form-group {
+    margin: 0;
+}
+.coa-details-main-form .main-account-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.coa-details-main-form .main-account-group .checkbox-label {
+    margin-bottom: 0;
+    white-space: nowrap;
+}
+.coa-details-main-form .main-account-group select {
+    flex: 1;
+}
+
+.coa-optional-fieldset {
+    border: 1px solid #ccc;
+    padding: 8px 12px 12px;
+    margin: 0;
+    background: #fff;
+    border-radius: 6px;
+}
+.coa-optional-fieldset legend {
+    font-weight: bold;
+    font-size: 13px;
+    padding: 0 8px;
+    margin-left: 4px;
+}
+.coa-optional-fieldset label { font-size: 12px; font-weight: bold; margin-bottom: 4px; display: block; }
+.coa-optional-fieldset textarea { width: 100%; height: 60px; resize: vertical; border: 1px solid #999; border-radius: 6px; padding: 6px 8px; resize: both; outline: none;}
+
+.coa-validate-btn::after {
+    content: '✔';
+    color: #2e3192;
+    margin-left: 8px;
+    font-weight: bold;
+}
+
+/* Shared form element styles */
+.coa-modal .form-group label { font-size: 12px; font-weight: bold; margin-bottom: 4px; display: block; }
+.coa-modal .form-group input[type="text"], .coa-modal .form-group input[type="date"], .coa-modal .form-group select { width: 100%; padding: 6px 8px; font-size: 13px; border: 1px solid #999; box-sizing: border-box; border-radius: 0; }
+.coa-modal .form-group input[type="checkbox"] { width: auto; }

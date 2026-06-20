@@ -1,0 +1,106 @@
+<!-- screens/asset-in.html -->
+<div class="asset-modal-overlay">
+    <div class="asset-modal-box">
+        <div class="blue-title-bar" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px;">
+            <div style="flex: 1; text-align: center;">Check-In an Asset</div>
+            <div style="font-size: 22px; color: #fff; opacity: 0.8; cursor: pointer; line-height: 1;" onclick="loadScreen('asset-master.html')">&times;</div>
+        </div>
+        <div class="content-frame">
+            <fieldset class="group-box">
+                <legend>Items to Check-In:</legend>
+                
+                <div class="toolbar-row flex-end">
+                    <label>Select Person:</label>
+                    <select id="in-select-person" class="wd-input" style="width: 200px; background: #fff;">
+                        <option value="">--Select a Personnel--</option> <!-- Placeholder with empty value -->
+                        <option value="1">Person 1</option>
+                        <option value="2">Person 2</option>
+                    </select>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="wd-table blue-header" id="TABLE_AssetIn">
+                        <thead>
+                            <tr>
+                                <th style="width: 30px;"><i class="fa-solid fa-check-double"></i></th>
+                                <th style="width: 40px;">No</th>
+                                <th>Description</th>
+                                <th style="width: 100px;">Checked Out</th>
+                                <th style="width: 100px;">Due Date</th>
+                                <th>Custodian</th>
+                                <th style="width: 60px;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </fieldset>
+
+            <div class="footer-layout">
+                <div class="footer-links">
+                    <div class="link-group">
+                        <label>Location:</label>
+                        <a href="#" class="black-link" id="IN_LocationLink">VC Office</a>
+                    </div>
+                    <div class="link-group">
+                        <label>Status:</label>
+                        <a href="#" class="black-link" id="IN_StatusLink">In Use</a>
+                    </div>
+                </div>
+                <div class="footer-comments">
+                    <label>Comments</label>
+                    <textarea id="in-comments" class="wd-input" rows="3"></textarea>
+                </div>
+                <div class="footer-actions">
+                    <button class="wd-btn primary" id="btn-do-checkin" style="width: 130px; justify-content: space-between;">
+                        Check-In <i class="fa-solid fa-circle-check" style="color: #2e3192;"></i>
+                    </button>
+                    <button class="wd-btn danger" id="btn-cancel-checkin" style="width: 130px; justify-content: space-between;">
+                        Cancel <i class="fa-solid fa-xmark" style="color: #cd2027;"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style id="asset-in-out-styles">
+    /* General Modal Structure */
+    .asset-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 10001; font-family: "Segoe UI", Tahoma, sans-serif; }
+    .asset-modal-box { width: 850px; max-width: 95vw; height: 90vh; max-height: 600px; background: #f0f0f0; border-radius: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column; overflow: hidden; }
+    .blue-title-bar { background: #2e3192; color: #fff; text-align: center; padding: 10px; font-size: 20px; font-weight: 500; border-radius: 4px 4px 0 0; flex-shrink: 0; }
+    .content-frame { background: #fff; border: 1px solid #ccc; border-top: none; padding: 15px; display: flex; flex-direction: column; gap: 15px; flex: 1; overflow: hidden; }
+    .group-box { border: 1px solid #aaa; padding: 10px; border-radius: 4px; position: relative; }
+    .group-box legend { font-size: 12px; color: #333; padding: 0 5px; }
+    .toolbar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+    .flex-end { justify-content: flex-end; }
+    .toolbar-row label { font-weight: bold; color: #000; }
+    .table-wrapper { border: 1px solid #ccc; height: 250px; overflow-y: auto; background: #fff; }
+    .wd-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .wd-table th, .wd-table td { border: 1px solid #aaa; padding: 4px 6px; font-size: 11px; text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .wd-table.blue-header th { background: #2e3192; color: #fff; position: sticky; top: 0; z-index: 1; font-weight: bold; }
+    .highlight-red { background: #cd2027 !important; color: #fff !important; }
+    .row-highlight-red td { background: #cd2027 !important; color: #fff !important; }
+    .status-cell { padding: 0 !important; }
+    .status-wrap { display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; height: 100%; }
+    .footer-layout { display: flex; gap: 20px; align-items: flex-end; margin-top: auto; }
+    .footer-links { width: 180px; display: flex; flex-direction: column; gap: 10px; }
+    .link-group { display: flex; flex-direction: column; gap: 2px; }
+    .link-group label { font-weight: bold; font-size: 11px; }
+    .black-link { color: #000 !important; text-decoration: underline; font-size: 12px; }
+    .footer-comments { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+    .footer-comments label { font-weight: bold; }
+    .footer-actions { display: flex; flex-direction: column; gap: 8px; }
+    .wd-btn-action { background: #fff; border: 1px solid #ccc; padding: 6px 12px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 15px; font-weight: bold; width: 130px; box-shadow: 1px 1px 3px rgba(0,0,0,0.2); }
+    .wd-btn-action:hover { background: #f9f9f9; }
+    /* Asset Out Specific Layouts */
+    .top-section-layout { display: flex; gap: 15px; flex: 1; }
+    .checkout-to-panel { width: 280px; flex-shrink: 0; }
+    .items-to-checkout-panel { flex: 1; }
+    .bottom-section-layout { display: flex; gap: 20px; align-items: flex-end; margin-top: 3px; }
+    .left-controls { width: 250px; display: flex; flex-direction: column; gap: 10px; }
+    .middle-comments { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-row { display: flex; align-items: center; gap: 10px; }
+    .label-link { color: #000 !important; text-decoration: underline; cursor: pointer; font-weight: bold; }
+</style>

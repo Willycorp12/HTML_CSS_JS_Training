@@ -1,0 +1,72 @@
+<!-- ===== PAGE HEADER ===== -->
+<div class="page-header">
+    <h2>Internal Transfers Dashboard</h2>
+</div>
+
+<!-- ===== FILTER SECTION ===== -->
+<div style="padding: 12px; background: #f8f9fa; border-bottom: 1px solid #e0e0e0; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+    <label style="margin: 0; font-weight: bold;">From:</label>
+    <input 
+        type="date" 
+        id="FILTER_DateFrom" 
+        style="padding: 6px; border: 1px solid #ccc; border-radius: 3px;"
+    />
+    
+    <label style="margin: 0; margin-left: 12px; font-weight: bold;">To:</label>
+    <input 
+        type="date" 
+        id="FILTER_DateTo" 
+        style="padding: 6px; border: 1px solid #ccc; border-radius: 3px;"
+    />
+    
+    <label style="margin: 0; margin-left: 12px; font-weight: bold;">Status:</label>
+    <select id="FILTER_DashboardStatus" style="padding: 6px; border: 1px solid #ccc; border-radius: 3px;">
+        <option value="">All</option>
+        <option value="Not approved">Not approved</option>
+        <option value="Approved">Approved</option>
+        <option value="Rejected">Rejected</option>
+        <option value="Deleted">Deleted</option>
+    </select>
+    
+    <button id="BTN_Search" style="padding: 6px 16px; background: #2e3192; color: white; border: none; border-radius: 3px; cursor: pointer; margin-left: auto;">Search</button>
+    <button id="BTN_Refresh" style="padding: 6px 16px; background: #6c757d; color: white; border: none; border-radius: 3px; cursor: pointer;">Refresh</button>
+</div>
+
+<!-- ===== STATUS PILLS ===== -->
+<div style="padding: 12px; background: white; border-bottom: 1px solid #e0e0e0; display: flex; gap: 12px; align-items: center;">
+    <span style="color: #666; font-weight: bold;">Status:</span>
+    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+        <input type="radio" name="status-filter" value="not-approved" checked> Not approved
+    </label>
+    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+        <input type="radio" name="status-filter" value="approved"> Approved
+    </label>
+    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+        <input type="radio" name="status-filter" value="rejected"> Rejected
+    </label>
+    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+        <input type="radio" name="status-filter" value="deleted"> Deleted
+    </label>
+</div>
+
+<!-- ===== STANDARD WINDEV TABLE ===== -->
+<div class="table-scroll-wrapper">
+    <table id="TABLE_InternalTransfersDashboard" class="wd-table">
+        <thead>
+            <tr>
+                <th>SN</th>
+                <th>Ref</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Transfer from</th>
+                <th>Transfer to</th>
+                <th>Amount</th>
+                <th>Send By</th>
+                <th>Received By</th>
+                <th>Status</th>
+                <th>Take Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>

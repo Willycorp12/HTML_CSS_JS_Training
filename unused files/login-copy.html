@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institute ERP Login</title>
+    <style>
+:root {
+    --main-color: #004fa0;
+    --secondary-color: #c00000;
+    --bg-color: #f4f6f8;
+    --text-color: #333;
+    --input-bg: #fff;
+    --input-border: #ccc;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Login Container */
+.login-container {
+    background: #fff;
+    padding: 35px 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Logo */
+.logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #fff;
+}
+.logo img { width: 100%; height: 100%; object-fit: contain; }
+
+.school-name { font-size: 12px; color: #555; margin-bottom: 5px; }
+h1 { font-size: 22px; color: var(--main-color); margin-bottom: 5px; font-weight: 700; }
+
+/* Description + Animated Line */
+.description {
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+.line {
+    height: 2px;
+    width: 60px;
+    background: var(--secondary-color);
+    margin: 0 auto 20px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: fadeLine 1s forwards;
+}
+
+/* Form */
+form input {
+    width: 100%;
+    padding: 12px 10px;
+    margin-bottom: 8px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    font-size: 14px;
+    background: var(--input-bg);
+}
+form button {
+    width: 100%;
+    padding: 12px;
+    background: var(--main-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+form button:hover { background: var(--secondary-color); }
+form button:disabled { opacity: 0.7; cursor: not-allowed; }
+
+/* Show/Hide password */
+.toggle-password {
+    display: inline-block;
+    font-size: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: var(--main-color);
+    float: right;
+}
+.toggle-password:hover { color: var(--secondary-color); }
+
+/* Password strength */
+.password-strength {
+    font-size: 12px;
+    margin-bottom: 8px;
+    text-align: left;
+}
+.password-strength.weak { color: #c00000; font-weight: 600; }
+.password-strength.medium { color: #ff9800; font-weight: 600; }
+.password-strength.strong { color: #2e7d32; font-weight: 600; }
+
+/* Remember Me */
+.remember-container { text-align: left; margin-bottom: 12px; font-size: 12px; }
+.remember-container input { width: auto; margin-right: 5px; }
+
+/* Options */
+.options { text-align: right; margin-top: 10px; font-size: 12px; }
+.options a { color: var(--main-color); text-decoration: none; }
+.options a:hover { color: var(--secondary-color); }
+
+/* Footer */
+.footer {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    font-size: 11px;
+    color: #aaa;
+}
+
+/* Security messages */
+.error-msg { color: var(--secondary-color); font-size: 13px; margin-bottom: 10px; min-height: 18px; }
+.attempts-counter { font-size: 12px; margin-top: 8px; color: #555; }
+
+/* Animations */
+@keyframes fadeLine { to { opacity: 1; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Media Queries */
+@media (max-width: 400px){
+    .login-container { padding: 30px 20px; }
+    h1 { font-size: 20px; }
+    .description { font-size: 11px; }
+}
+</style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <img src="logo.png" alt="Institute Logo">
+        </div>
+        <div class="school-name">Your Institute Name</div>
+        <h1>Institute ERP Login</h1>
+        <div class="description">
+            Access your institute's ERP system securely.
+            <div class="animated-line"></div>
+        </div>
+        <form class="login-form" action="/submit-login" method="POST">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!-- screens/hr-payroll/salary-approvals.html -->
+<div class="page-header">
+    <h2 id="SALARY_PAGE_TITLE">Salary Paylist Approval</h2>
+</div>
+
+<div class="asset-report-shell" style="height: calc(100% - 60px);">
+    <!-- TABS -->
+    <div class="main-tabs">
+        <div class="main-tab active" onclick="switchSalaryTab('approval', this)">Awaiting Approval</div>
+        <div class="main-tab" onclick="switchSalaryTab('approved', this)">Approved Paylists</div>
+        <div class="main-tab" onclick="switchSalaryTab('rejected', this)">Rejected Paylists</div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="page-toolbar" style="background: #f4f6f9; padding: 10px; border-bottom: 1px solid #ddd; display: flex; align-items: center; gap: 15px;">
+        <div style="display: flex; gap: 5px; align-items: center;">
+            <label>Year:</label>
+            <select id="PB_Filter_Year" class="wd-input" style="width: 80px;"></select>
+        </div>
+        <div style="display: flex; gap: 5px; align-items: center;">
+            <label>Month:</label>
+            <select id="PB_Filter_Month" class="wd-input" style="width: 100px;"></select>
+        </div>
+        <div style="display: flex; gap: 5px; align-items: center;">
+            <label>Branch:</label>
+            <select id="PB_Filter_Branch" class="wd-input" style="width: 150px;"></select>
+        </div>
+        <div style="display: flex; gap: 5px; align-items: center;">
+            <label>Dep't:</label>
+            <select id="PB_Filter_Dept" class="wd-input" style="width: 150px;"></select>
+        </div>
+        <button class="wd-btn primary" onclick="fetchSalarySummaryList()" title="Refresh list">
+            <i class="fa-solid fa-rotate"></i>
+        </button>
+        <input
+            type="text"
+            id="EDT_SalaryGlobalSearch"
+            class="global-search"
+            placeholder="Search paylists (Ref, Month, Year)..."
+            style="width: 250px; margin-left: auto;"
+        />
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div class="table-scroll-wrapper" style="flex: 1;">
+        <!-- APPROVAL TABLE -->
+        <table id="TABLE_SalaryApproval" class="wd-table blue-header">
+            <thead>
+                <tr>
+                    <th style="width: 50px;">SN</th>
+                    <th>Ref</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Month</th>
+                    <th>Year</th>
+                    <th class="text-right">Net Amount</th>
+                    <th>Initiated By</th>
+                    <th style="width: 250px; text-align: center;">Take Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- APPROVED TABLE -->
+        <table id="TABLE_SalaryApproved" class="wd-table blue-header" style="display: none;">
+            <thead>
+                <tr>
+                    <th style="width: 50px;">SN</th>
+                    <th>Ref</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Month</th>
+                    <th>Year</th>
+                    <th class="text-right">Net Amount</th>
+                    <th>Initiated By</th>
+                    <th>Approved By</th>
+                    <th style="width: 120px; text-align: center;">Take Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- REJECTED TABLE (Hidden by default) -->
+        <table id="TABLE_SalaryRejected" class="wd-table blue-header" style="display: none;">
+            <thead>
+                <tr>
+                    <th style="width: 50px;">SN</th>
+                    <th>Ref</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Month</th>
+                    <th>Year</th>
+                    <th class="text-right">Net Amount</th>
+                    <th>Initiated By</th>
+                    <th>Rejected By</th>
+                    <th style="width: 180px; text-align: center;">Take Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    /* Layout adjustments for the shell */
+    .asset-report-shell { display: flex; flex-direction: column; height: calc(100% - 50px); background: #f8f9fc; border: 1px solid #ccc; font-family: "Segoe UI", Tahoma, sans-serif; font-size: 12px; }
+
+    /* Reuse Master Tabs Styling */
+    .main-tabs { display: flex; background: #f0f0f0; border-bottom: 1px solid #ccc; padding-top: 6px; padding-left: 6px; align-items: flex-end; }
+    .main-tab { padding: 6px 15px; border: 1px solid #ccc; border-bottom: none; background: #e0e0e0; margin-right: 2px; cursor: pointer; border-radius: 4px 4px 0 0; color: #555; transition: all 0.2s; }
+    .main-tab.active { background: #fff; font-weight: bold; color: #2e3192; border-bottom: 1px solid #fff; margin-bottom: -1px; z-index: 1; }
+    .main-tab:hover:not(.active) { background: #ebebeb; }
+
+    /* Global Button Style Enforcements for Salary module */
+    .wd-btn { 
+        padding: 6px 12px; border: 1px solid #999; background: #f0f0f0; 
+        cursor: pointer; font-size: 12px; display: inline-flex; 
+        align-items: center; gap: 6px; justify-content: center; border-radius: 4px; 
+    }
+    .wd-btn.primary { border-color: #2e3192 !important; background-color: #2e3192 !important; color: #fff !important; font-weight: bold; }
+    .wd-btn.danger { border-color: #cd2027 !important; background-color: #cd2027 !important; color: #fff !important; font-weight: bold; }
+    .wd-btn.pay { border-color: #28a745 !important; background-color: #28a745 !important; color: #fff !important; font-weight: bold; }
+    .wd-btn.reject { border-color: #dc3545 !important; background-color: #dc3545 !important; color: #fff !important; font-weight: bold; }
+
+    .text-right { text-align: right !important; }
+    .text-center { text-align: center !important; }
+
+    .wd-table.blue-header th { background: #2e3192; color: #fff; font-weight: bold; position: sticky; top: 0; z-index: 5; border-right: 1px solid #1f226f; }
+    
+    /* WinDev-style selection from reference files */
+    .wd-table tbody tr.selected td { background: #cd2027 !important; color: #fff !important; }
+    .wd-table tbody tr:hover:not(.selected) td { background-color: #f0f4ff; }
+
+    /* Specific highlighting for rejected rows as seen in other screens */
+    #TABLE_SalaryRejected tbody tr:hover:not(.selected) td { background-color: #fff0f0 !important; }
+
+    /* Detailed Modal Table Styles (Paylist Style) */
+    .paylist-table-modal { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .paylist-table-modal th, .paylist-table-modal td { border: 1px solid #ddd; padding: 4px 6px; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .paylist-table-modal thead th { background: #f4f4f4; color: #333; font-weight: bold; text-align: center; }
+    
+    /* Modal specific adjustments */
+    .po-modal-body .table-scroll-wrapper { flex: 1; overflow: auto; border-top: 1px solid #ccc; }
+</style>

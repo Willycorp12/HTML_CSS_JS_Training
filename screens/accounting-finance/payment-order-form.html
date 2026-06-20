@@ -1,0 +1,87 @@
+<div class="form-wrapper">
+
+    <!-- ===== FORM HEADER ===== -->
+    <div class="form-header">
+        <div class="page-header">
+        <h2>Petty Cash Payment Voucher</h2>
+        </div>
+        <div class="form-subtitle">Formal Approval Process</div>
+    </div>
+    <!-- ===== GLOBAL SEARCH ===== -->
+    <div class="page-toolbar">
+        <input
+            type="text"
+            id="EDT_GlobalSearch"
+            class="global-search"
+            placeholder="Search by Account name..."
+        />
+    </div>
+    <!-- ===== FORM BODY ===== -->
+     <form id="po-form">
+    <div class="form-body">
+
+        <!-- LEFT MAIN FORM -->
+        <div class="form-main">
+
+            <!-- AMOUNT SECTION -->
+            <div class="amount-section">
+                <label for="po-amount">Amount</label>
+                <div class="amount-editable">
+                    <input type="text" id="amount-input" class="amount-input" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="0" />
+                    <span class="fcfa-label">FCFA</span>
+                </div>
+                <div class="amount-words" id="po-amount-words">Amount in words</div>
+            </div>
+
+            <!-- INPUT FIELDS -->
+            <div class="form-group">
+                <label for="po-receiver">Receiver</label>
+                <input type="text" id="po-receiver" placeholder="Receiver name">
+            </div>
+
+            <div class="form-group">
+                <label for="po-position">Position</label>
+                <input type="text" id="po-position" placeholder="Receiver position">
+            </div>
+
+            <div class="form-group">
+                <label for="po-justification">Justification</label>
+                <textarea id="po-justification" placeholder="Reason for payment"></textarea>
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDE PANEL -->
+        <div class="form-side">
+
+            <div class="side-group">
+                <label for="po-invoice-date">Invoice Date</label>
+                <input type="date" id="po-invoice-date">
+            </div>
+
+            <div class="side-group" style="display: none;">
+                <label for="po-payment-date">Payment Date</label>
+                <input type="date" id="po-payment-date">
+            </div>
+
+            <div class="side-group">
+                <label for="po-reference">Reference</label>
+                <input type="text" id="po-reference" value="PMT/10444" disabled>
+            </div>
+
+            <div class="side-summary">
+                <div class="net-amount">Bill:</div><div class="dynamical" id="bill">0 FCFA</div><br/>
+                <div class="net-amount">AIT (5.5%):<input id="inc-ait" type="checkbox" style="margin-left: 4px;"/></div><div class="dynamical" id="ait">0 FCFA</div><br/>
+                <div class="net-amount">Net:</div><div class="dynamical" id="net">0 FCFA</div><br/>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===== FORM ACTIONS ===== -->
+    <div class="form-actions">
+        <button type="submit" class="btn-primary" id="po-submit">Forward for Approval</button>
+        <button type="button" class="btn-secondary" id="po-close">Close</button>
+    </div>
+    </form>
+</div>

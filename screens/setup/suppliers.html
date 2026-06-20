@@ -1,0 +1,50 @@
+<!-- screens/suppliers.html -->
+<div class="wd-screen suppliers-screen" style="height: 100%; display: flex; flex-direction: column;">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h2>SUPPLIERS</h2>
+    </div>
+
+    <!-- Toolbar --> 
+    <div class="coa-toolbar" style="padding: 8px 0; display: flex; justify-content: space-between; align-items: center;">
+        <div class="coa-left-tools">
+            <input type="text"
+        id="SUPPLIER_SEARCH"
+        class="global-search" placeholder="Search by Supplier Name >>>" style="width: 300px;">
+        </div>
+        <div class="coa-right-tools" style="display: flex; gap: 8px;">
+            <button class="wd-action-btn primary" id="BTN_NewSupplier">
+                New <i class="fa-solid fa-plus-circle"></i>
+            </button>
+            <button class="wd-action-btn primary" id="BTN_ModifySupplier">
+                Modify <i class="fa-solid fa-pen"></i>
+            </button>
+            <button class="wd-action-btn danger" id="BTN_DeleteSupplier">
+                Delete <i class="fa-solid fa-circle-minus"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Table Wrapper (Scrollable) -->
+    <div class="table-scroll-wrapper" style="flex: 1; border-bottom: none;">
+        <table class="wd-table" id="TABLE_Suppliers">
+            <thead>
+                <tr>
+                    <th>Company Name</th>
+                    <th>Contact Person</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Address 2</th>
+                    <th>Country</th>
+                    <th>City</th>
+                    <th style="text-align: right;">Account Balance</th>
+                </tr>
+            </thead>
+            <tbody id="TBODY_Suppliers">
+                <!-- Rows will be injected by js/suppliers.js -->
+            </tbody>
+        </table>
+    </div>
+</div>

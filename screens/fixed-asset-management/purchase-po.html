@@ -1,0 +1,76 @@
+<!-- screens/purchase-po.html -->
+<div class="page-header">
+    <h2>Create Purchase Order (P.O)</h2>
+    <p class="page-subtitle">Prepare purchase orders for fixed assets with supplier and pricing details.</p>
+</div>
+
+<div class="form-shell">
+    <div class="form-section">
+        <div class="form-row">
+            <label>PO Number:</label>
+            <input type="text" class="wd-input" value="PO-2026-004">
+        </div>
+        <div class="form-row">
+            <label>Supplier:</label>
+            <select class="wd-input"><option>Select Supplier</option></select>
+        </div>
+        <div class="form-row">
+            <label>Order Date:</label>
+            <input type="date" class="wd-input">
+        </div>
+        <div class="form-row">
+            <label>Delivery Date:</label>
+            <input type="date" class="wd-input">
+        </div>
+        <div class="form-row">
+            <label>Asset Description:</label>
+            <textarea class="wd-input" rows="3"></textarea>
+        </div>
+        <div class="form-row">
+            <label>Quantity:</label>
+            <input type="number" class="wd-input" value="1">
+        </div>
+        <div class="form-row">
+            <label>Unit Cost:</label>
+            <input type="number" class="wd-input" value="0">
+        </div>
+        <div class="form-row">
+            <label>Total Cost:</label>
+            <input type="text" class="wd-input" value="0 FCFA" readonly>
+        </div>
+        <div class="form-row full-width">
+            <label>Comments:</label>
+            <textarea class="wd-input" rows="4"></textarea>
+        </div>
+        <div class="form-actions">
+            <button class="wd-btn primary">Save P.O</button>
+            <button class="wd-btn danger">Cancel</button>
+        </div>
+    </div>
+
+    <div class="grid-panel">
+        <div class="panel-header-blue">Purchase Order Items</div>
+        <table class="wd-table blue-header">
+            <thead>
+                <tr><th style="width: 40px;">#</th><th>Item</th><th>Qty</th><th>Unit Cost</th><th>Total</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>Dell Precision</td><td>1</td><td>1,200,000 FCFA</td><td>1,200,000 FCFA</td><td>Draft</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .form-shell { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; height: calc(100% - 70px); }
+    .form-section, .grid-panel { padding: 18px; background: #fff; border: 1px solid #c8d1eb; }
+    .form-row { display: flex; flex-direction: column; margin-bottom: 14px; }
+    .form-row label { font-weight: 600; font-size: 13px; margin-bottom: 6px; }
+    .wd-input { padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    .full-width { grid-column: span 2; }
+    .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; }
+    .panel-header-blue { background: #2e3192; color: #fff; padding: 10px 12px; font-weight: 700; margin-bottom: 10px; }
+    .wd-table { width: 100%; border-collapse: collapse; }
+    .wd-table th, .wd-table td { border: 1px solid #d1d3e2; padding: 9px 8px; font-size: 12px; }
+    .wd-table th { background: #2e3192; color: #fff; }
+</style>

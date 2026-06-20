@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trial Balance Print Preview</title>
+    <style>
+        /* Base Screen Styles for Preview */
+        body {
+            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+            background-color: #525659; /* PDF viewer background */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 800px;
+        }
+        button {
+            padding: 8px 14px;
+            margin: 4px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        button:hover { background: #0056b3; }
+        .controls input[type="radio"] { margin-left: 15px; cursor: pointer; }
+
+        /* Print Page Container - strictly A4 dimensions */
+        .page {
+            background: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            display: flex;
+            box-sizing: border-box;
+            flex-direction: column;
+            padding: 1cm 1cm 0.5cm 1cm; /* Margins */
+            margin-bottom: 20px;
+        }
+        
+        /* Dynamic Paper Sizes */
+        .page.portrait { width: 21cm; min-height: 29.7cm; }
+        .page.landscape { width: 29.7cm; min-height: 21cm; }
+
+        .doc-content { flex: 1 1 auto; }
+
+        /* Document Headers */
+        .doc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+        .header-left { width: 150px; }
+        .logo-placeholder {
+            width: 80px;
+            height: 80px;
+            border: 1px dashed #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #666;
+            background: #f9f9f9;
+        }
+        .header-center { flex: 1; text-align: center; }
+        .header-center h2 { margin: 0; font-size: 18px; text-transform: uppercase; font-weight: bold; }
+        .header-center h3 { margin: 5px 0; font-size: 14px; font-weight: normal; }
+        .header-center .sub-date { font-size: 12px; font-weight: bold; }
+        
+        .header-right { width: 150px; text-align: right; font-size: 11px; line-height: 1.4; }
+
+        /* The Sticky Footer */
+        .doc-footer {
+            margin-top: auto; 
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            border-top: 1px solid #ccc;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            width: 100%;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px; 
+            table-layout: fixed; /* Respects colgroup widths */
+        }
+        
+        /* Using thead ensures columns repeat on new pages, 
+           but omitting tfoot ensures totals only print ONCE at the end of the tbody. 
+        */
+        thead { display: table-header-group; }
+        tr { page-break-inside: avoid; } /* Prevents rows from splitting across pages */
+
+        th, td {
+            border: 1px solid #000;
+            padding: 4px 6px;
+            vertical-align: middle;
+            word-wrap: break-word; /* Allows long text like "Artificial Intelligence..." to wrap */
+        }
+        th {
+            background-color: #f0f0f0; /* Light gray for print clarity */
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        /* Utilities */
+        .text-right { text-align: right !important; }
+        .text-center { text-align: center !important; }
+        .bg-yellow { background-color: #ffffcc !important; } /* Softer yellow for print */
+        .total-row td { font-weight: bold; border-top: 2px solid #000; background-color: #f9f9f9; }
+
+        /* Print Media Queries */
+        @media print {
+            body { background: none; margin: 0; padding: 0; display: block; }
+            .controls { display: none; }
+            .page { 
+                box-shadow: none; 
+                margin: 0; 
+                padding: 0; 
+                height: auto; 
+                min-height: 100vh;
+                page-break-after: always;
+            }
+            .landscape { @page { size: landscape; margin: 1cm; } }
+            .portrait { @page { size: portrait; margin: 1cm; } }
+            .bg-yellow { background-color: #ffffcc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .doc-content { min-height: calc(100vh - 100px); } 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <label><input type="radio" name="tb_fmt" value="2" onchange="renderReport(2)"> 2 Columns T.B</label>
+        <label><input type="radio" name="tb_fmt" value="4" onchange="renderReport(4)"> 4 Columns T.B</label>
+        <label><input type="radio" name="tb_fmt" value="6" onchange="renderReport(6)"> 6 Columns T.B</label>
+        <label><input type="radio" name="tb_fmt" value="8" checked onchange="renderReport(8)"> 8 Columns T.B</label>
+        <button onclick="window.print()" style="background: #28a745; margin-left: 20px;">Print Active Document</button>
+    </div>
+
+    <div id="print-page" class="page landscape">
+        <div class="doc-content">
+            <div class="doc-header">
+                <div class="header-left">
+                    <div class="logo-placeholder">Company<br>Logo</div>
+                </div>
+                <div class="header-center">
+                    <h2>BIAKA HOSPITAL</h2>
+                    <h3>Adjusted Trial Balance for the Period <span id="TB_Label">(8-Columns)</span></h3>
+                    <div class="sub-date">1 October 2025 To 30 September 2026.</div>
+                </div>
+                <div class="header-right">
+                    <div>03/23/2026</div>
+                    <div>16:18</div>
+                </div>
+            </div>
+            
+            <table id="TB_Table">
+                <colgroup id="TB_Colgroup"></colgroup>
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        
+        <div class="doc-footer">
+            <span>Copyright(c)2022. Institute ERP PRO</span>
+            <span>Page 1</span>
+            <span>Powered by Kilimanjaro SYSTEMS Molyko Buea.</span>
+        </div>
+    </div>
+
+    <script>
+        // Mock Data expanded slightly to demonstrate wrapping
+        const tbData = [
+            { code: '4712200', name: 'Sundry debtors', open: {d:0, c:0}, mvt: {d:250100, c:159000}, adj: {d:91100, c:0}, close: {d:91100, c:0} },
+            { code: '5710000', name: 'Main Cash in hand', open: {d:0, c:0}, mvt: {d:159000, c:0}, adj: {d:0, c:0}, close: {d:159000, c:0} },
+            { code: '7061020', name: 'Pharmacy', open: {d:0, c:0}, mvt: {d:0, c:166100}, adj: {d:0, c:166100}, close: {d:0, c:166100} },
+            { code: '7061030', name: 'Laboratory', open: {d:0, c:0}, mvt: {d:0, c:21500}, adj: {d:0, c:21500}, close: {d:0, c:21500} },
+            { code: '7061050', name: 'Consultation', open: {d:0, c:0}, mvt: {d:0, c:2500}, adj: {d:0, c:2500}, close: {d:0, c:2500} },
+            { code: '7061130', name: 'Artificial Intelligence Laboratory Machine (A.I)', open: {d:0, c:0}, mvt: {d:0, c:60000}, adj: {d:0, c:60000}, close: {d:0, c:60000} },
+            { code: '871000', name: 'Stock Adjustment Income (Increase in stock)', open: {d:0, c:0}, mvt: {d:90, c:0}, adj: {d:0, c:0}, close: {d:90, c:0} },
+            // Duplicating some rows so the table is long enough to show proper rendering
+            { code: '4011000', name: 'Suppliers Control', open: {d:0, c:0}, mvt: {d:15000, c:45000}, adj: {d:0, c:0}, close: {d:0, c:30000} },
+            { code: '6011000', name: 'Purchases of Drugs', open: {d:0, c:0}, mvt: {d:80000, c:0}, adj: {d:0, c:0}, close: {d:80000, c:0} },
+        ];
+
+        const fmtMoney = (n) => n === 0 ? '0' : n.toLocaleString('en-US');
+
+        function renderReport(cols) {
+            const page = document.getElementById('print-page');
+            const label = document.getElementById('TB_Label');
+            label.textContent = `(${cols}-Columns)`;
+
+            // Auto-switch page orientation based on columns to fit properly
+            if (cols === 2 || cols === 4) {
+                page.className = 'page portrait';
+            } else {
+                page.className = 'page landscape';
+            }
+
+            const thead = document.querySelector('#TB_Table thead');
+            const tbody = document.querySelector('#TB_Table tbody');
+            const colgroup = document.getElementById('TB_Colgroup');
+
+            let headerHTML = '';
+            let colHTML = '';
+
+            // Using your exact requested widths and structures
+            if (cols === 8) {
+                colHTML = `<col style="width:70px"><col auto><col style="width:80px"><col style="width:80px"><col style="width:80px"><col style="width:80px"><col style="width:80px"><col style="width:80px"><col style="width:80px"><col style="width:80px">`;
+                headerHTML = `
+                    <tr>
+                        <th colspan="2">Account Information</th>
+                        <th colspan="2">Opening</th>
+                        <th colspan="2">Movement</th>
+                        <th colspan="2">Adjustments</th>
+                        <th colspan="2">Closing Balance</th>
+                    </tr>
+                    <tr>
+                        <th>A/c code</th>
+                        <th>Account Name</th>
+                        <th>Debit</th><th>Credit</th>
+                        <th>Debit</th><th>Credit</th>
+                        <th>Debit</th><th>Credit</th>
+                        <th>Debit</th><th>Credit</th>
+                    </tr>`;
+            } else if (cols === 6) {
+                colHTML = `<col style="width:70px"><col auto><col style="width:90px"><col style="width:90px"><col style="width:90px"><col style="width:90px"><col style="width:90px"><col style="width:90px">`;
+                headerHTML = `
+                    <tr>
+                        <th colspan="2">Account Information</th>
+                        <th colspan="2">Opening</th>
+                        <th colspan="2">Movement</th>
+                        <th colspan="2">Closing Balance</th>
+                    </tr>
+                    <tr>
+                        <th>A/c code</th>
+                        <th>Account Name</th>
+                        <th>Debit</th><th>Credit</th>
+                        <th>Debit</th><th>Credit</th>
+                        <th>Debit</th><th>Credit</th>
+                    </tr>`;
+            } else if (cols === 4) {
+                colHTML = `<col style="width:80px"><col auto><col style="width:100px"><col style="width:100px"><col style="width:100px"><col style="width:100px">`;
+                headerHTML = `
+                    <tr>
+                        <th colspan="2">Account Information</th>
+                        <th colspan="2">Opening</th>
+                        <th colspan="2">Closing Balance</th>
+                    </tr>
+                    <tr>
+                        <th>A/c code</th>
+                        <th>Account Name</th>
+                        <th>Debit</th><th>Credit</th>
+                        <th>Debit</th><th>Credit</th>
+                    </tr>`;
+            } else { // 2 Cols 
+                colHTML = `<col style="width:90px"><col auto><col style="width:120px"><col style="width:120px">`;
+                headerHTML = `
+                    <tr>
+                        <th colspan="2">Account Information</th>
+                        <th colspan="2">Closing Balance</th>
+                    </tr>
+                    <tr>
+                        <th>A/c code</th>
+                        <th>Account Name</th>
+                        <th>Debit</th><th>Credit</th>
+                    </tr>`;
+            }
+            thead.innerHTML = headerHTML;
+            colgroup.innerHTML = colHTML;
+
+            // Build Body Data
+            let bodyHTML = '';
+            let sums = { od:0, oc:0, md:0, mc:0, ad:0, ac:0, cd:0, cc:0 };
+
+            tbData.forEach(row => {
+                bodyHTML += `<tr><td class="text-center">${row.code}</td><td>${row.name}</td>`;
+                
+                if (cols === 8) {
+                    bodyHTML += `
+                        <td class="text-right">${fmtMoney(row.open.d)}</td><td class="text-right">${fmtMoney(row.open.c)}</td>
+                        <td class="text-right bg-yellow">${fmtMoney(row.mvt.d)}</td><td class="text-right bg-yellow">${fmtMoney(row.mvt.c)}</td>
+                        <td class="text-right">${fmtMoney(row.adj.d)}</td><td class="text-right">${fmtMoney(row.adj.c)}</td>
+                        <td class="text-right">${fmtMoney(row.close.d)}</td><td class="text-right">${fmtMoney(row.close.c)}</td>`;
+                } else if (cols === 6) {
+                    bodyHTML += `
+                        <td class="text-right">${fmtMoney(row.open.d)}</td><td class="text-right">${fmtMoney(row.open.c)}</td>
+                        <td class="text-right bg-yellow">${fmtMoney(row.mvt.d)}</td><td class="text-right bg-yellow">${fmtMoney(row.mvt.c)}</td>
+                        <td class="text-right">${fmtMoney(row.close.d)}</td><td class="text-right">${fmtMoney(row.close.c)}</td>`;
+                } else if (cols === 4) {
+                    bodyHTML += `
+                        <td class="text-right">${fmtMoney(row.open.d)}</td><td class="text-right">${fmtMoney(row.open.c)}</td>
+                        <td class="text-right">${fmtMoney(row.close.d)}</td><td class="text-right">${fmtMoney(row.close.c)}</td>`;
+                } else {
+                    bodyHTML += `
+                        <td class="text-right">${fmtMoney(row.close.d)}</td><td class="text-right">${fmtMoney(row.close.c)}</td>`;
+                }
+                bodyHTML += `</tr>`;
+
+                // Summation logic
+                sums.od += row.open.d; sums.oc += row.open.c;
+                sums.md += row.mvt.d; sums.mc += row.mvt.c;
+                sums.ad += row.adj.d; sums.ac += row.adj.c;
+                sums.cd += row.close.d; sums.cc += row.close.c;
+            });
+
+            // Append Totals row DIRECTLY to the tbody so it only prints on the last page.
+            let totalsHTML = `<tr class="total-row"><td colspan="2" class="text-center">TOTAL</td>`;
+            if (cols === 8) {
+                totalsHTML += `
+                    <td class="text-right">${fmtMoney(sums.od)}</td><td class="text-right">${fmtMoney(sums.oc)}</td>
+                    <td class="text-right bg-yellow">${fmtMoney(sums.md)}</td><td class="text-right bg-yellow">${fmtMoney(sums.mc)}</td>
+                    <td class="text-right">${fmtMoney(sums.ad)}</td><td class="text-right">${fmtMoney(sums.ac)}</td>
+                    <td class="text-right">${fmtMoney(sums.cd)}</td><td class="text-right">${fmtMoney(sums.cc)}</td>`;
+            } else if (cols === 6) {
+                totalsHTML += `
+                    <td class="text-right">${fmtMoney(sums.od)}</td><td class="text-right">${fmtMoney(sums.oc)}</td>
+                    <td class="text-right bg-yellow">${fmtMoney(sums.md)}</td><td class="text-right bg-yellow">${fmtMoney(sums.mc)}</td>
+                    <td class="text-right">${fmtMoney(sums.cd)}</td><td class="text-right">${fmtMoney(sums.cc)}</td>`;
+            } else if (cols === 4) {
+                totalsHTML += `
+                    <td class="text-right">${fmtMoney(sums.od)}</td><td class="text-right">${fmtMoney(sums.oc)}</td>
+                    <td class="text-right">${fmtMoney(sums.cd)}</td><td class="text-right">${fmtMoney(sums.cc)}</td>`;
+            } else {
+                totalsHTML += `
+                    <td class="text-right">${fmtMoney(sums.cd)}</td><td class="text-right">${fmtMoney(sums.cc)}</td>`;
+            }
+            totalsHTML += `</tr>`;
+            
+            tbody.innerHTML = bodyHTML + totalsHTML;
+        }
+
+        // Initialize the view with 8 columns
+        window.onload = () => renderReport(8);
+    </script>
+</body>
+</html>

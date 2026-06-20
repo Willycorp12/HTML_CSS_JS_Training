@@ -1,0 +1,57 @@
+<!-- screens/supplier-master.html -->
+<div class="page-header">
+    <h2>Supplier Master Data</h2>
+    <p class="page-subtitle">Browse supplier records, add new vendors, modify or delete supplier details.</p>
+</div>
+
+<div class="asset-page-shell">
+    <div class="asset-toolbar">
+        <button class="wd-btn primary" onclick="loadScreen('supplier-new.html')">New Supplier</button>
+        <button class="wd-btn">Edit</button>
+        <button class="wd-btn danger">Delete</button>
+        <button class="wd-btn">Refresh</button>
+        <div class="toolbar-spacer"></div>
+        <input type="text" class="wd-input" placeholder="Search by Supplier Name >>>">
+    </div>
+
+    <div class="asset-table-container">
+        <table class="wd-table blue-header">
+            <thead>
+                <tr>
+                    <th style="width: 40px;">No</th>
+                    <th>Supplier Name</th>
+                    <th>Contact Person</th>
+                    <th>Telephone</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="selected">
+                    <td>1</td>
+                    <td>Global Tech Supplies</td>
+                    <td>Hans Mbappe</td>
+                    <td>+237 6 9911 2233</td>
+                    <td>hans@globaltech.cm</td>
+                    <td>Yaounde</td>
+                    <td>Active</td>
+                </tr>
+                <tr><td>2</td><td>Cameroon Industrial</td><td>Lucie Ndo</td><td>+237 6 8822 3344</td><td>lucie@camindust.cm</td><td>Douala</td><td>Active</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .asset-page-shell { display: flex; flex-direction: column; height: calc(100% - 70px); gap: 12px; }
+    .asset-toolbar { display: flex; align-items: center; gap: 8px; padding: 10px; background: #f8f9fc; border: 1px solid #d1d3e2; }
+    .toolbar-spacer { flex: 1; }
+    .wd-input { width: 250px; padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
+    .asset-table-container { flex: 1; overflow: auto; border: 1px solid #c8d1eb; background: #fff; }
+    .wd-table { width: 100%; border-collapse: collapse; }
+    .wd-table th, .wd-table td { padding: 10px 8px; border: 1px solid #d1d3e2; font-size: 12px; }
+    .wd-table th { background: #2e3192; color: #fff; text-align: left; }
+    .wd-table tbody tr.selected { background: #ff4d4d22; }
+    .wd-table tbody tr:hover { background: #f4f6ff; }
+</style>

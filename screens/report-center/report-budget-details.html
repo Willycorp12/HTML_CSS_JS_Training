@@ -1,0 +1,153 @@
+<div class="report-screen-wrapper">
+    <!-- Compact Header Section -->
+    <div class="report-header-section compact">
+        <!-- Left: Filters -->
+        <div class="report-header-left">
+            <div class="form-row compact">
+                <label>Academic Year:</label>
+                <select class="wd-input small"><option>Finance Year 2026</option></select>
+            </div>
+            <div class="form-row compact">
+                <label>Report Type:</label>
+                <select class="wd-input small"><option>Annual Report</option></select>
+            </div>
+        </div>
+
+        <!-- Center: Title -->
+        <div class="report-header-center">
+            <div class="company-title" style="font-size: 14px;">BIAKA HOSPITAL</div>
+            <div class="report-main-title" id="BD_MainTitle" style="font-size: 18px;">Yearly Budgeted Operating Income and Expenditure Report</div>
+            <div class="report-separator-line" style="margin: 2px auto;"></div>
+            <div class="report-sub-title" id="BD_Subtitle" style="font-size: 12px;">From 10/1/2025 to 9/30/2026</div>
+        </div>
+
+        <!-- Right: Actions -->
+        <div class="report-header-right">
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <button class="wd-btn budget-action-btn cap-ex" id="BTN_ToggleReportMode" onclick="getCapitalExpenditure()">
+                    Get Capital Expenditure <i class="fa-solid fa-file-invoice-dollar"></i>
+                </button>
+                <button class="wd-btn budget-action-btn print-btn" onclick="printBudgetDetails()">
+                    Print <i class="fa-solid fa-print"></i>
+                </button>
+            </div>
+            <div class="live-datetime-display" style="font-size: 11px; margin-top: 4px;">
+                <span id="BD_CurrentDate">03/23/2026</span> @ <span id="BD_CurrentTime">17:56</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toolbar/Filter -->
+    <div class="report-toolbar">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-weight: bold; font-size: 12px; color: #cd2027;">Filter Reports:</span>
+            <select class="wd-input" style="width: 140px;"><option>---Display All---</option></select>
+        </div>
+        <div class="search-wrapper" style="flex: 1; display: flex; align-items: center; gap: 8px; margin-left: 20px;">
+            <i class="fa-solid fa-magnifying-glass" style="color: #2e3192;"></i>
+            <input type="text" id="BD_Search" class="global-search" placeholder="Search by Account Name..." style="flex: 1;">
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-scroll-wrapper">
+        <table class="wd-table blue-header" id="BD_Table">
+            <colgroup>
+                <col style="width: 40px;">
+                <col>
+                <col style="width: 85px;">
+                <col style="width: 85px;">
+                <col style="width: 85px;">
+                <col style="width: 25px;">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Account Code</th>
+                    <th>Description</th>
+                    <th class="text-right">Budgeted Amount</th>
+                    <th class="text-right">Actual Amount</th>
+                    <th class="text-right">Variance</th>
+                    <th class="text-center">Rate (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data injected by JS -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .report-screen-wrapper { display: flex; flex-direction: column; height: 100%; background-color: #fdfdfd; font-family: "Segoe UI", Tahoma, sans-serif; }
+    
+    .report-header-section.compact {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 6px 15px; border-bottom: 1px solid #ccc; min-height: 60px;
+    }
+
+    .report-header-left { display: flex; flex-direction: column; gap: 2px; }
+    .form-row.compact { display: flex; align-items: center; gap: 5px; font-size: 11px; }
+    .form-row.compact label { font-weight: bold; width: 90px; text-align: right; color: #2e3192; }
+    .wd-input.small { padding: 2px 4px; height: 22px; font-size: 11px; width: 130px; }
+
+    .report-header-center { text-align: center; flex: 1; }
+    .company-title { color: #2e3192; font-weight: bold; }
+    .report-main-title { color: #2e3192; font-weight: bold; margin: 0; }
+    .report-sub-title { color: #cd2027; font-weight: 600; }
+
+    .report-header-right { display: flex; flex-direction: column; align-items: flex-end; }
+    
+    /* Styled Action Buttons */
+    .budget-action-btn {
+        padding: 4px 12px !important;
+        font-size: 11px !important;
+        font-weight: bold !important;
+        border-radius: 4px !important;
+        transition: transform 0.1s;
+    }
+    .budget-action-btn:active { transform: translateY(1px); }
+    
+    .cap-ex { 
+        background: linear-gradient(180deg, #fff 0%, #e6e6e6 100%) !important;
+        color: #333 !important; border: 1px solid #999 !important;
+    }
+    .print-btn { 
+        background: #2e3192 !important; color: #fff !important; border: 1px solid #1a1d63 !important;
+    }
+
+    .report-toolbar { padding: 4px 12px; border-bottom: 1px solid #ccc; display: flex; align-items: center; background: #f9f9f9; }
+    .table-scroll-wrapper { flex: 1; overflow: auto; background: #fff; border-top: 1px solid #ccc; }
+
+    /* Table Styling */
+    .wd-table.blue-header thead th {
+        background-color: #2e3192; color: white; position: sticky; top: 0; z-index: 10;
+        padding: 6px 4px; font-size: 13px; border: 1px solid #1a1d63;
+    }
+    /* Base cell styles - ensure they don't block the row background */
+    .wd-table tbody td {
+        padding: 4px 6px; border: 1px solid #eee; font-size: 13px;
+        background-color: transparent !important;
+    }
+
+    /* Overriding zebra striping for colored rows so backgrounds are visible */
+    .wd-table tbody tr[class*="row-"] td { background-color: inherit !important; }
+    
+    /* Row Types */
+    .wd-table tbody tr.row-group-header { background-color: #ffff00 !important; font-weight: bold; color: #000 !important; border-top: 1.5px solid #000 !important; }
+    .wd-table tbody tr.row-subgroup { background-color: #f0f0f0 !important; font-weight: bold; color: #2e3192 !important; }
+    .wd-table tbody tr.row-total-bar { background-color: #d3d3d3 !important; font-weight: bold; border-bottom: 1px solid #000 !important; color: #000 !important; }
+    .wd-table tbody tr.row-grand-revenue { background-color: #008000 !important; color: #ffffff !important; font-weight: bold; }
+    .wd-table tbody tr.row-grand-expense { background-color: #ffa500 !important; color: #000 !important; font-weight: bold; border-top: 1.5px solid #000 !important; }
+    .wd-table tbody tr.row-net-surplus { background-color: #9acd32 !important; color: #000 !important; font-weight: bold; }
+    
+    /* Force white text for revenue totals */
+    .wd-table tbody tr.row-grand-revenue td { color: #ffffff !important; }
+
+    .text-right { text-align: right; }
+    .text-center { text-align: center; }
+
+    @media (max-width: 1200px) {
+        .report-header-left { display: none; }
+        .report-main-title { font-size: 15px; }
+    }
+</style>

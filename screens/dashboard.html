@@ -1,0 +1,199 @@
+<div class="screen">
+    <h2>Dashboard</h2>
+    <!-- ===== DASHBOARD ===== -->
+<div class="dashboard">
+
+    <!-- ===== KPI CARDS ===== -->
+    <div class="dashboard-kpis">
+
+        <div class="kpi-card">
+            <div class="kpi-icon blue">
+                <i class="fa-solid fa-coins"></i>
+            </div>
+            <div class="kpi-info">
+                <div class="kpi-value">12,450,000</div>
+                <div class="kpi-label">Total Revenue (FCFA)</div>
+            </div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-icon red">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+            <div class="kpi-info">
+                <div class="kpi-value">18</div>
+                <div class="kpi-label">Pending Payments</div>
+            </div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-icon green">
+                <i class="fa-solid fa-boxes-stacked"></i>
+            </div>
+            <div class="kpi-info">
+                <div class="kpi-value">245</div>
+                <div class="kpi-label">Stock Items</div>
+            </div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-icon orange">
+                <i class="fa-solid fa-building"></i>
+            </div>
+            <div class="kpi-info">
+                <div class="kpi-value">96</div>
+                <div class="kpi-label">Fixed Assets</div>
+            </div>
+        </div>
+
+    </div>
+
+<!-- ===== CHARTS ROW ===== -->
+<div class="dashboard-row">
+
+    <!-- Monthly Revenue -->
+    <div class="dashboard-panel">
+        <div class="panel-header">
+            <i class="fa-solid fa-chart-column"></i>
+            Monthly Revenue
+        </div>
+
+        <div class="bar-chart">
+            <div class="bar" style="--h: 60%">
+                <span>Jan</span>
+            </div>
+            <div class="bar" style="--h: 75%">
+                <span>Feb</span>
+            </div>
+            <div class="bar" style="--h: 50%">
+                <span>Mar</span>
+            </div>
+            <div class="bar" style="--h: 90%">
+                <span>Apr</span>
+            </div>
+            <div class="bar" style="--h: 70%">
+                <span>May</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Revenue vs Expenses -->
+    <div class="dashboard-panel">
+        <div class="panel-header">
+            <i class="fa-solid fa-scale-balanced"></i>
+            Revenue vs Expenses
+        </div>
+
+        <div class="progress-chart">
+            <div class="progress-item">
+                <span>Revenue</span>
+                <div class="progress-bar">
+                    <div class="progress-fill blue" style="width: 80%"></div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <span>Expenses</span>
+                <div class="progress-bar">
+                    <div class="progress-fill red" style="width: 45%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+    <!-- ===== MIDDLE ROW ===== -->
+    <div class="dashboard-row">
+
+        <!-- Alerts -->
+        <div class="dashboard-panel">
+            <div class="panel-header">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                System Alerts
+            </div>
+
+            <ul class="panel-list">
+                <li>
+                    <span>Low stock on Printers</span>
+                    <span class="badge red">Critical</span>
+                </li>
+                <li>
+                    <span>3 Assets overdue</span>
+                    <span class="badge orange">Warning</span>
+                </li>
+                <li>
+                    <span>Pending supplier bills</span>
+                    <span class="badge blue">Info</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Approvals -->
+        <div class="dashboard-panel">
+            <div class="panel-header">
+                <i class="fa-solid fa-check-circle"></i>
+                Pending Approvals
+            </div>
+
+            <ul class="panel-list">
+                <li>
+                    <span>Supplier Bills</span>
+                    <span class="badge blue">5</span>
+                </li>
+                <li>
+                    <span>Payment Orders</span>
+                    <span class="badge blue">3</span>
+                </li>
+                <li>
+                    <span>Requisitions</span>
+                    <span class="badge blue">2</span>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- ===== RECENT ACTIVITY ===== -->
+    <div class="dashboard-panel">
+        <div class="panel-header">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            Recent Activity
+        </div>
+
+        <table class="activity-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Action</th>
+                    <th>User</th>
+                    <th>Module</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2025-01-18</td>
+                    <td>Payment Approved</td>
+                    <td>Admin</td>
+                    <td>Accounting</td>
+                </tr>
+                <tr>
+                    <td>2025-01-18</td>
+                    <td>Stock Added</td>
+                    <td>Store Officer</td>
+                    <td>Stock</td>
+                </tr>
+                <tr>
+                    <td>2025-01-17</td>
+                    <td>Asset Checked Out</td>
+                    <td>Asset Officer</td>
+                    <td>Fixed Assets</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</div>

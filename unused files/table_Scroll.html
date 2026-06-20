@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Responsive Fixed Columns & Header</title>
+<style>
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #ccc;
+    max-width: 800px;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    background: white;
+    white-space: normal; /* Allow wrapping */
+  }
+
+  /* Sticky header row */
+  thead th {
+    position: sticky;
+    top: 0;
+    background: #ddd;
+    z-index: 4;
+  }
+
+  /* First column sticky */
+  th:first-child, td:first-child {
+    position: sticky;
+    left: 0;
+    background: #f1f1f1;
+    z-index: 3;
+  }
+
+  /* Second column sticky — no fixed px, use table layout */
+  th:nth-child(2), td:nth-child(2) {
+    position: sticky;
+    left: calc(var(--col1-width, 0px));
+    background: #f9f9f9;
+    z-index: 3;
+  }
+
+  /* Ensure header cells in frozen columns are above everything */
+  thead th:first-child {
+    z-index: 5;
+  }
+  thead th:nth-child(2) {
+    z-index: 5;
+  }
+</style>
+</head>
+<body>
+
+<h2>Responsive Table with Wrapping & Frozen Columns</h2>
+
+<div class="table-container">
+  <table id="myTable">
+    <thead>
+      <tr>
+        <th>Long Header Column 1</th>
+        <th>Another Long Header Column 2</th>
+        <th>Column 3</th>
+        <th>Column 4</th>
+        <th>Column 5</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>This is some long text that wraps in column 1</td>
+        <td>More wrapping text in column 2</td>
+        <td>Short</td>
+        <td>Some more text</td>
+        <td>End</td>
+      </tr>
+      <tr>
+        <td>Another long text in column 1</td>
+        <td>Column 2 content that also wraps</td>
+        <td>Short</td>
+        <td>Some more text</td>
+        <td>End</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  // Dynamically set CSS variable for first column width
+  function updateColumnWidths() {
+    const table = document.getElementById('myTable');
+    const firstCol = table.querySelector('thead th:first-child');
+    if (firstCol) {
+      const width = firstCol.offsetWidth + 'px';
+      table.style.setProperty('--col1-width', width);
+    }
+  }
+
+  // Run on load and resize
+  window.addEventListener('load', updateColumnWidths);
+  window.addEventListener('resize', updateColumnWidths);
+</script>
+
+</body>
+</html>

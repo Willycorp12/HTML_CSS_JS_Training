@@ -1,0 +1,520 @@
+<!-- screens/student-new.html -->
+<div class="asset-overlay" id="student-new-overlay">
+    <div class="asset-modal" id="student-new-modal">
+        <!-- Header -->
+        <div class="asset-header">
+            <div class="asset-title">Creating a New Student</div>
+            <div class="asset-close" onclick="loadScreen('student-master-data.html')" title="Close">&times;</div>
+        </div>
+
+        <div class="asset-body">
+            
+            <!-- Tabs Navigation -->
+            <div class="asset-tabs">
+                <div class="asset-tab active" onclick="switchStudentNewTab('TAB_BasicInfo', this)">
+                    <i class="fa-solid fa-user"></i> Basic Info
+                </div>
+                <div class="asset-tab" onclick="switchStudentNewTab('TAB_FeesInfo', this)">
+                    <i class="fa-solid fa-money-bill"></i> Fees Info
+                </div>
+                <div class="asset-tab hidden" id="student-new-attachments-tab" onclick="switchStudentNewTab('TAB_Attachments', this)">
+                    <i class="fa-solid fa-paperclip"></i> Attachments
+                </div>
+            </div>
+
+            <!-- Tab Content: Basic Info -->
+            <div id="TAB_BasicInfo" class="asset-tab-content active">
+                <div class="asset-general-layout basic-info-layout">
+                    <div class="asset-general-left basic-info-form">
+                        <!-- Row 1: Full Names, Matricule, Level -->
+                        <div class="form-row-compact form-row-3col">
+                            <div>
+                                <label>Full Names:</label>
+                                <input type="text" id="student-new-name" class="wd-input" value="Aminata Dione">
+                            </div>      
+                            <div>
+                                <label>Matricule:</label>
+                                <input type="text" id="student-new-matricule" class="wd-input" value="2000004">
+                            </div>
+                            <div>
+                                <label>Level:</label>
+                                <select id="student-new-level" class="wd-input">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Row 2: DOB, Place of Birth -->
+                        <div class="form-row-compact form-row-2col">
+                            <div>
+                                <label>DOB:</label>
+                                <input type="date" id="student-new-dob" class="wd-input" value="2003-04-05">
+                            </div>
+                            <div>
+                                <label>Place Of Birth:</label>
+                                <input type="text" id="student-new-place-of-birth" class="wd-input" value="Douala">
+                            </div>
+                        </div>
+
+                        <!-- Row 3: Gender, Nationality -->
+                        <div class="form-row-compact form-row-2col">
+                            <div>
+                                <label>Gender:</label>
+                                <select id="student-new-gender" class="wd-input">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Nationality:</label>
+                                <input type="text" id="student-new-nationality" class="wd-input" value="Cameroon">
+                            </div>
+                        </div>
+
+                        <!-- Row 4: Student Category, City -->
+                        <div class="form-row-compact form-row-2col">
+                            <div>
+                                <label>Student Category:</label>
+                                <select id="student-new-category" class="wd-input">
+                                    <option>Normal Trainees</option>
+                                    <option>Special Trainees</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>City:</label>
+                                <input type="text" id="student-new-city" class="wd-input" value="Douala, Bepanda">
+                            </div>
+                        </div>
+
+                        <!-- Row 5: Residence (full width) -->
+                        <div class="form-row-compact form-row-full">
+                            <label>Residence:</label>
+                            <input type="text" id="student-new-residence" class="wd-input" value="Bepanda, fin goudron defosso">
+                        </div>
+
+                        <!-- Row 6: Phone, Reg. Date -->
+                        <div class="form-row-compact form-row-2col">
+                            <div>
+                                <label>Phone:</label>
+                                <input type="text" id="student-new-phone" class="wd-input" value="690614834">
+                            </div>
+                            <div>
+                                <label>Reg. Date:</label>
+                                <input type="date" id="student-new-reg-date" class="wd-input" value="2026-04-27">
+                            </div>
+                        </div>
+
+                        <!-- Row 7: Fee Type, Intake -->
+                        <div class="form-row-compact form-row-2col">
+                            <div>
+                                <label>Fee Type:</label>
+                                <select id="student-new-fee-type" class="wd-input">
+                                    <option>One-Off Payment</option>
+                                    <option>Annual Fee</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Intake:</label>
+                                <select id="student-new-intake" class="wd-input">
+                                    <option>September Intake</option>
+                                    <option>January Intake</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="asset-general-right student-photo-panel-compact">
+                        <div class="student-photo-box-compact">
+                            <div class="student-photo-placeholder-compact" id="student-new-photo-preview">
+                                <span>Student Photo</span>
+                            </div>
+                            <div class="student-photo-actions-compact">
+                                <button type="button" class="wd-btn" id="student-new-photo-upload">...</button>
+                                <button type="button" class="wd-btn danger" id="student-new-photo-delete"><i class="fa-solid fa-trash"></i> Delete</button>
+                            </div>
+                        </div>
+                        <div class="student-photo-info-compact">
+                            Upload a clear passport photo of the student here.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Fees Info -->
+            <div id="TAB_FeesInfo" class="asset-tab-content">
+                <div class="asset-general-layout">
+                    <div class="asset-general-left">
+                        <fieldset class="asset-num-group">
+                            <legend>Fee Options</legend>
+                            <div class="form-row">
+                                <label>Academic Year:</label>
+                                <select id="student-new-academic-year" class="wd-input">
+                                    <option>Academic Year 2025</option>
+                                    <option>Academic Year 2024</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label>School Level:</label>
+                                <select id="student-new-school-level" class="wd-input">
+                                    <option>TRAINEES</option>
+                                    <option>STUDENTS</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label>School Type:</label>
+                                <select id="student-new-school-type" class="wd-input">
+                                    <option>TRAINEES</option>
+                                    <option>REGULAR</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label>Specialty:</label>
+                                <select id="student-new-specialty" class="wd-input">
+                                    <option>REGULAR TRAINEES</option>
+                                    <option>SPECIAL TRAINEES</option>
+                                </select>
+                            </div>
+                            <div class="fee-action-buttons">
+                                <button type="button" class="student-new-pay-enroll-btn" id="student-new-pay-enroll" style="background: #6bc85a; color: #fff; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: bold;"><i class="fa-solid fa-money-bill"></i> Pay & Enroll Student</button>
+                                <button type="button" class="student-new-enroll-only-btn" id="student-new-enroll-only" style="background: #cd2027; color: #fff; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: bold;"><i class="fa-solid fa-arrow-right"></i> Enroll Only</button>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="asset-general-right student-fee-panel">
+                        <fieldset class="asset-num-group cf-fee-table-group">
+                            <legend>Annual fee package required by this Student</legend>
+                            <div class="table-scroll-wrapper" style="max-height: 230px; overflow: auto;">
+                                <table class="wd-table cf-table" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 10%; text-align: center;">check</th>
+                                            <th style="width: 70%;">Service Name</th>
+                                            <th style="width: 20%; text-align: right;">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background: #e8e8e8; font-weight: bold; color: #2e3192;">
+                                            <td style="text-align: center;">&vellip;</td>
+                                            <td>TUITION FEES</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: center;"><input type="checkbox" checked /></td>
+                                            <td>TUITION FOR REGULAR TRAINEES</td>
+                                            <td style="text-align: right; color: #cd2027;">157,000 FCFA</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="fee-totals">
+                                <div><span>Total Annual Fee Payable:</span><span id="student-new-total-annual-fee">157,000 FCFA</span></div>
+                                <div><span>Fee Discount:</span><span id="student-new-fee-discount">0 Frs</span></div>
+                                <div><span>Net Annual Fee Payable:</span><span id="student-new-net-annual-fee">157,000 FCFA</span></div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Attachments -->
+            <div id="TAB_Attachments" class="asset-tab-content">
+                <fieldset class="asset-num-group">
+                    <legend>Student Documents</legend>
+                    <div class="form-row">
+                        <label>Identification:</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="text" class="wd-input" placeholder="No file selected" readonly style="flex:1;">
+                            <button type="button" class="wd-btn">Browse...</button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label>Transcripts:</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="text" class="wd-input" placeholder="No file selected" readonly style="flex:1;">
+                            <button type="button" class="wd-btn">Browse...</button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label>Medical Certificate:</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="text" class="wd-input" placeholder="No file selected" readonly style="flex:1;">
+                            <button type="button" class="wd-btn">Browse...</button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label>Birth Certificate:</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="text" class="wd-input" placeholder="No file selected" readonly style="flex:1;">
+                            <button type="button" class="wd-btn">Browse...</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    /* Base styles copied from asset-new.html to ensure modal works standalone */
+    .asset-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(5px);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .asset-modal {
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        border-radius: 8px;
+        box-shadow: 0 15px 28px rgba(0,0,0,0.28);
+        overflow: hidden;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        font-size: 12px;
+        animation: modalPop 0.2s ease-out;
+        width: 75%;
+        max-width: 980px;
+        height: 70%;
+    }
+    @keyframes modalPop {
+        from { transform: scale(0.95); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+    .asset-header {
+        background: #2e3192;
+        color: #fff;
+        padding: 8px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+        font-size: 14px;
+        cursor: move;
+        flex-shrink: 0;
+    }
+    .asset-close { cursor: pointer; font-size: 18px; opacity: 0.8; }
+    .asset-close:hover { opacity: 1; }
+    .asset-body {
+        padding: 8px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background: #f0f0f0;
+    }
+    .asset-tabs { display: flex; border-bottom: 1px solid #ccc; margin-bottom: 4px; flex-shrink: 0; }
+    .asset-tab {
+        padding: 5px 10px;
+        background: #e0e0e0;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        margin-right: 2px;
+        cursor: pointer;
+        border-radius: 4px 4px 0 0;
+        color: #555;
+        display: flex; 
+        align-items: center; 
+        gap: 4px;
+        font-size: 11px;
+    }
+    .asset-tab.active {background: #fff; border-color: #ccc; border-bottom: 1px solid #fff; margin-bottom: -1px; color: #2e3192; font-weight: bold; }
+    .asset-tab:hover {
+        background: #f8f4f4;
+        color: #2e3192;
+    }
+    .asset-tab.hidden { display: none; }
+    .asset-tab-content {
+        flex: 1;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-top: none;
+        padding: 10px;
+        display: none;
+        overflow: hidden;
+    }
+    .asset-tab-content.active { display: block; }
+    
+    /* Compact Basic Info Layout */
+    .basic-info-layout { 
+        display: flex; 
+        gap: 15px; 
+        height: 100%;
+    }
+    .basic-info-form {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        overflow-y: hidden;
+        padding-right: 5px;
+    }
+    .basic-info-form::-webkit-scrollbar {
+        width: 6px;
+    }
+    .basic-info-form::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    .basic-info-form::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+    
+    .form-row-compact {
+        display: flex;
+        gap: 8px;
+    }
+    .form-row-3col { 
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+    .form-row-3col > div {
+        flex: 1;
+    }
+    .form-row-2col {
+        gap: 8px;
+    }
+    .form-row-2col > div {
+        flex: 1;
+    }
+    .form-row-full {
+        flex-direction: column;
+    }
+    
+    .form-row-compact label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 2px;
+        color: #333;
+        font-size: 11px;
+    }
+    .form-row-compact input,
+    .form-row-compact select {
+        width: 100%;
+        padding: 6px 8px;
+        font-size: 11px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+    
+    .student-photo-panel-compact {
+        flex-shrink: 0;
+        width: 150px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .student-photo-box-compact {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 8px;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+    }
+    .student-photo-placeholder-compact {
+        width: 150px;
+        height: 150px;
+        border: 1px solid #ddd;
+        background: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #999;
+        font-size: 10px;
+        border-radius: 2px;
+    }
+    .student-photo-actions-compact {
+        display: flex;
+        gap: 4px;
+        width: 80%;
+        justify-content: center;
+    }
+    .student-photo-actions-compact .wd-btn {
+        padding: 4px 8px;
+        font-size: 10px;
+        flex: 1;
+    }
+    .student-photo-info-compact {
+        font-size: 9px;
+        color: #555;
+        text-align: center;
+        padding: 4px;
+        background: #fcfcfc;
+        border: 1px solid #eee;
+        border-radius: 2px;
+    }
+    
+    .asset-general-layout { display: flex; gap: 20px; height: 100%; }
+    .asset-general-left { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .asset-general-right { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .student-photo-panel { justify-content: center; align-items: flex-start; padding-top: 10px; }
+    .student-photo-box { border: 1px solid #ccc; border-radius: 4px; padding: 12px; background: #fff; width: 100%; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+    .student-photo-placeholder { width: 220px; height: 220px; border: 1px solid #ddd; background: #f5f5f5; display: flex; justify-content: center; align-items: center; color: #999; font-size: 12px; }
+    .student-photo-actions { display: flex; gap: 8px; width: 100%; justify-content: center; }
+    .student-photo-info { font-size: 11px; color: #555; text-align: center; padding: 5px 8px; background: #fcfcfc; border: 1px solid #eee; border-radius: 4px; }
+    .student-fee-panel { padding-top: 0; }
+    .cf-fee-table-group { padding: 10px; }
+    .cf-fee-table-group table { border-collapse: collapse; }
+    .cf-fee-table-group th, .cf-fee-table-group td { padding: 8px; border-bottom: 1px solid #e5e5e5; font-size: 11px; }
+    .fee-action-buttons { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+    .fee-action-buttons .wd-btn { width: auto; }
+    .fee-totals { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; font-size: 11px; }
+    .fee-totals div { display: flex; justify-content: space-between; gap: 10px; }
+    .fee-totals span:last-child { font-weight: bold; }
+    
+    .po-modal-footer {
+        padding: 8px;
+        background: #f0f0f0;
+        border-top: 1px solid #ddd;
+        text-align: right;
+    }
+    .wd-btn {
+        padding: 6px 12px;
+        border: 1px solid #999;
+        background: #f0f0f0;
+        cursor: pointer;
+        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        justify-content: center;
+        border-radius: 4px;
+        white-space: nowrap;
+    }
+    .wd-btn.primary {
+        border-color: #2e3192;
+        background-color: #2e3192;
+        color: #fff;
+        font-weight: bold;
+    }
+    .wd-btn.danger {
+        border-color: #cd2027;
+        background-color: #cd2027;
+        color: #fff;
+        font-weight: bold;
+    }
+    .wd-btn.secondary {
+        border-color: #666;
+        background-color: #e8e8e8;
+        color: #333;
+    }
+    .wd-btn:hover {
+        opacity: 0.9;
+    }
+    textarea {
+        resize: vertical;
+    }
+
+</style>

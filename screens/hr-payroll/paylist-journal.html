@@ -1,0 +1,118 @@
+<link rel="stylesheet" href="css/pay-master.css">
+
+<div class="pm-container">
+    <!-- 1. Top Header Row -->
+    <div class="pm-header-row">
+        <div class="pm-header-group">
+            <label style="font-weight: bold;">No:</label>
+            <input type="text" id="PB_Header_No" class="pm-input" value="" style="width: 60px;" readonly>
+        </div>
+        
+        <div class="pm-page-title">Taxes WithHeld on Wages</div>
+
+        <div class="pm-header-group" style="flex-direction: column; align-items: flex-end; gap: 2px;">
+            <div style="display: flex; gap: 5px; align-items: center;">
+                <label>Year:</label>
+                <select id="PB_Filter_Year" class="pm-input"><option>2026</option></select>
+            </div>
+            <div style="display: flex; gap: 5px; align-items: center;">
+                <label>Month:</label>
+                <select id="PB_Filter_Month" class="pm-input"><option>December</option></select>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Filter Toolbar -->
+    <div class="pm-toolbar" style="padding: 5px 15px; background: #fdfdfd;">
+        <div class="pm-filter-group">
+            <label>Select Branch:</label>
+            <select id="PB_Filter_Branch" class="pm-input w-150"><option>Buea</option></select>
+        </div>
+        <div class="pm-filter-group">
+            <label>Search by Dep't</label>
+            <select id="PB_Filter_Dept" class="pm-input w-150"><option>---Display All---</option></select>
+        </div>
+        <div class="pm-search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input class="global-search" type="text" placeholder="Search by Employee Name >>>>>" style="width: 300px; background: #fff;">
+        </div>
+        <select id="PB_Filter_SalaryType" class="pm-input" style="width: 120px; margin-left: auto;"><option>Monthly Salary</option></select>
+    </div>
+
+    <!-- 3. Content Area (Table + Sidebar) -->
+    <div class="pm-content-row">
+        <!-- Main Table Area -->
+        <div class="pm-main-area">
+            <div class="paylist-table-container">
+                <table class="paylist-table">
+                    <thead>
+                        <tr>
+                            <!-- Sticky Columns Headers -->
+                            <th class="sticky-col col-chk"><input type="checkbox"></th>
+                            <th class="sticky-col col-sn">SN</th>
+                            <th class="sticky-col col-month">Month</th>
+                            <th class="sticky-col col-name">Staff Names</th>
+                            <th class="sticky-col col-branch">Branch Name</th>          
+                            <th class="sticky-col">Department</th>
+                            <th class="sticky-col">Gross Salary</th>
+                            
+                            <!-- Scrollable Headers -->
+                            <th>Basic Salary</th>
+                            <th>Overtime</th>
+                            <th>Housing Allowance</th>
+                            <th>Seniority Bonus</th>
+                            <th>Water Allowance</th>
+                            <th>Electricity Allowance</th>
+                            <th>Duty Allowance</th>
+                            <th>Research Allowance</th>
+                            <th>Transport Allowance</th>
+                            <th>Representation Allowance</th>
+                            <th>Gross Taxable</th>
+                            <th>IRPP (PIT)</th>
+                            <th>CAC (ACT)</th>
+                            <th>CCF (LBT)</th>
+                            <th>COUNCIL TAX</th>
+                            <th>RAV (AVT)</th>
+                            <th>CNPS</th>
+                            <th>Medical Deductions</th>
+                            <th>Unjustified Absences</th>
+                            <th>Total EmployeeTaxes</th>
+                            <th>CCF (LBT) Employer's Share</th>
+                            <th>Total Employer Taxes</th>
+                            <th>Total Taxes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be populated by js/paylist-data.js -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <div class="pm-footer">
+                <div style="margin-right: auto;"></div> <!-- Spacer -->
+                <span class="pm-summary-label" style="font-size: 16px; color: #005a9e;">Total Taxes:</span>
+                <span class="pm-summary-value" style="font-size: 18px; color: #333;">56,726 FCFA</span>
+            </div>
+        </div>
+
+        <!-- Right Sidebar (Action Buttons) -->
+        <div class="pm-sidebar">
+            <div class="pm-side-btn btn-cnps" onclick="loadScreen('paylist-cnps.html')">
+                CNPS Offline <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="pm-side-btn btn-tax" onclick="loadScreen('paylist-tax.html')">
+                Tax Sheet <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="pm-side-btn btn-journal" onclick="loadScreen('paylist-journal.html')">
+                Journal Entries <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="pm-side-btn btn-paylist" onclick="loadScreen('paylist-generate.html')" style="margin-top: 10px;">
+                Pay List <i class="fa-solid fa-list"></i>
+            </div>
+            <div class="pm-side-btn btn-print-list" onclick="printReport('journal')">
+                Print Journal <i class="fa-solid fa-print"></i>
+            </div>
+        </div>
+    </div>
+</div>

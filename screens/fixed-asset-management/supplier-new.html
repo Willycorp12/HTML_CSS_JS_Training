@@ -1,0 +1,60 @@
+<!-- screens/supplier-new.html -->
+<div class="asset-overlay">
+    <div class="asset-modal">
+        <div class="asset-header">
+            <div class="asset-title">Create a New Supplier</div>
+            <div class="asset-close" onclick="loadScreen('supplier-master.html')" title="Close">&times;</div>
+        </div>
+
+        <div class="asset-body">
+            <div class="modal-grid">
+                <div class="form-row">
+                    <label>Supplier Name:</label>
+                    <input type="text" class="wd-input" placeholder="Supplier Name">
+                </div>
+                <div class="form-row">
+                    <label>Contact Person:</label>
+                    <input type="text" class="wd-input" placeholder="Contact Person">
+                </div>
+                <div class="form-row">
+                    <label>Telephone:</label>
+                    <input type="text" class="wd-input" placeholder="Telephone">
+                </div>
+                <div class="form-row">
+                    <label>Email:</label>
+                    <input type="email" class="wd-input" placeholder="Email Address">
+                </div>
+                <div class="form-row">
+                    <label>Address:</label>
+                    <textarea class="wd-input" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <label>Status:</label>
+                    <select class="wd-input"><option>Active</option><option>Inactive</option></select>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="wd-btn primary">Validate <i class="fa-solid fa-check-circle"></i></button>
+                <button class="wd-btn danger" onclick="loadScreen('supplier-master.html')">Close <i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .asset-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+    .asset-modal { width: 680px; max-width: 96%; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 18px 40px rgba(0,0,0,0.2); }
+    .asset-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; background: #2e3192; color: #fff; }
+    .asset-title { font-size: 18px; font-weight: 700; }
+    .asset-close { cursor: pointer; font-size: 24px; line-height: 1; }
+    .asset-body { padding: 20px; }
+    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-row { display: flex; flex-direction: column; gap: 6px; }
+    .form-row label { font-weight: 600; font-size: 13px; }
+    .wd-input { width: 100%; padding: 9px 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 13px; }
+    .modal-actions { margin-top: 18px; display: flex; justify-content: flex-end; gap: 10px; }
+    .wd-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; }
+    .wd-btn.primary { background: #2e3192; color: #fff; }
+    .wd-btn.danger { background: #d32f2f; color: #fff; }
+</style>

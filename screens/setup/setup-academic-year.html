@@ -1,0 +1,104 @@
+<!-- screens/setup/setup-academic-year.html -->
+<div class="page-header">
+    <h2 style="color: #2e3192; margin-left: 20px;">Academic Year Setup</h2>
+</div>
+
+<div class="ay-container">
+    <div class="coa-toolbar" style="padding: 8px 10px; display: flex; justify-content: flex-end; align-items: center; background: #f8f9fc; border-bottom: 1px solid #ccc;">
+        <div class="coa-right-tools" style="display: flex; gap: 8px;">
+            <button class="wd-action-btn primary" onclick="AcademicYearModalManager.openNew()">
+                New <i class="fa-solid fa-plus-circle"></i>
+            </button>
+            <button class="wd-action-btn primary" onclick="AcademicYearModalManager.openModify()">
+                Modify <i class="fa-solid fa-pen"></i>
+            </button>
+            <button class="wd-action-btn danger" onclick="AcademicYearModalManager.handleDelete()">
+                Delete <i class="fa-solid fa-circle-minus"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="ay-content-row">
+        <div class="ay-table-wrapper">
+            <table class="wd-table ay-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">ID</th>
+                        <th>SchoolYear</th>
+                        <th style="width: 150px;">Starting Period</th>
+                        <th style="width: 150px;">Ending Period</th>
+                    </tr>
+                </thead>
+                <tbody id="TB_AcademicYears">
+                    <!-- Populated by setup-academic-year.js -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL for New/Modify Academic Year -->
+<div id="MODAL_AcademicYear" class="coa-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 10005; align-items: center; justify-content: center;">
+    <div class="coa-modal" style="width: 480px; background: #f0f0f0; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); overflow: hidden; border: 1px solid #888;">
+        <div class="coa-modal-header" id="MAY_Header" style="background: #2e3192; color: white; padding: 10px 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move; user-select: none;">
+            <div id="MAY_Title" style="font-size: 14px;">New Academic Year</div>
+            <div style="font-size: 22px; color: #fff; opacity: 0.8; cursor: pointer; padding: 0 5px;" onclick="AcademicYearModalManager.closeModal()" onmousedown="event.stopPropagation()">&times;</div>
+        </div>
+        <div class="coa-modal-body" style="padding: 20px; background: #fff;">
+            <form id="MAY_Form" onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 15px;">
+                <div class="form-row-setup">
+                    <label style="width: 100px;">Academic Year</label>
+                    <input type="text" id="MAY_Name" class="wd-input-setup" placeholder="e.g. 2026">
+                </div>
+                <div class="form-row-setup">
+                    <label style="width: 100px;">Starting Period</label>
+                    <input type="date" id="MAY_Start" class="wd-input-setup">
+                </div>
+                <div class="form-row-setup">
+                    <label style="width: 100px;">Ending Period</label>
+                    <input type="date" id="MAY_End" class="wd-input-setup">
+                </div>
+            </form>
+        </div>
+        <div class="coa-modal-footer" style="padding: 12px; background: #f5f5f5; border-top: 1px solid #ddd; text-align: right; display: flex; justify-content: center; gap: 15px;">
+            <button class="wd-btn primary" style="padding: 8px 25px;" onclick="AcademicYearModalManager.handleSave()">
+                Validate <i class="fa-solid fa-circle-check"></i>
+            </button>
+            <button class="wd-btn danger" style="padding: 8px 25px;" onclick="AcademicYearModalManager.closeModal()">
+                Cancel <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .ay-container { height: calc(100% - 60px); border: 1px solid #ccc; background: #fff; display: flex; flex-direction: column; font-family: 'Segoe UI', Tahoma, sans-serif; }
+    
+    .ay-toolbar { background: #333; padding: 2px 10px; display: flex; justify-content: space-between; align-items: center; }
+    .ay-company-banner { color: #fff; background: #cd2027; padding: 4px 30px; font-weight: bold; font-size: 13px; clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%); }
+    .ay-actions { display: flex; gap: 8px; padding: 5px 0; }
+
+    .ay-content-row { display: flex; flex: 1; overflow: hidden; border-top: 2px solid #2e3192; }
+    .ay-table-wrapper { flex: 1; overflow: auto; border-right: 1px solid #ccc; }
+    .ay-sidebar { width: 120px; background: #f4f6f9; display: flex; flex-direction: column; align-items: center; padding-top: 40px; }
+    .sidebar-info-box { text-align: center; font-size: 11px; }
+
+    .ay-table { width: 100%; border-collapse: collapse; }
+    .ay-table thead th { background: #2e3192; color: #fff; padding: 10px; text-align: left; position: sticky; top: 0; z-index: 10; border-right: 1px solid #1f226f; }
+    .ay-table tbody td { padding: 4px 8px; border-bottom: 1px solid #b4c7e7; border-right: 1px solid #b4c7e7; font-size: 13px; color: #000; height: 26px; }
+    .ay-table tr:nth-child(even) { background-color: #f2f7ff; }
+    .ay-table tr.selected td { background-color: #cd2027 !important; color: #fff !important; }
+    .ay-table tr:hover:not(.selected) td { background-color: #e6f1ff; }
+
+    .form-row-setup { display: flex; align-items: center; gap: 10px; }
+    .form-row-setup label { width: 120px; font-size: 12px; color: #333; }
+    .wd-input-setup { flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 2px; }
+
+    .ay-actions .wd-btn { background: #fff; color: #555; border: 1px solid #ccc; font-size: 11px; font-weight: normal; padding: 4px 10px; }
+    .ay-actions .wd-btn.primary { color: #2e3192; }
+    .ay-actions .wd-btn.danger { color: #cd2027; }
+    .ay-actions .wd-btn i { font-size: 14px; margin-right: 4px; }
+
+    .coa-modal-footer .wd-btn.primary { background: #2e3192 !important; color: #fff !important; font-weight: bold; border-color: #2e3192; }
+    .coa-modal-footer .wd-btn.danger { background: #cd2027 !important; color: #fff !important; font-weight: bold; border-color: #cd2027; }
+</style>

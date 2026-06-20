@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll Print Previews - Refined Layout</title>
+    <style>
+        /* Base Screen Styles for Preview */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333639; /* Dark PDF viewer background */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 800px;
+        }
+        button {
+            padding: 8px 14px;
+            margin: 4px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        button:hover { background: #0056b3; }
+        
+        /* Print Page Container - strictly A4 dimensions */
+        .page {
+            background: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            display: none;
+            box-sizing: border-box;
+            /* Flexbox ensures the footer sticks to the bottom */
+            flex-direction: column;
+            padding: 1cm 1cm 0.5cm 1cm; /* Top, Right, Bottom, Left margins */
+            margin-bottom: 20px;
+        }
+        .page.active {
+            display: flex;
+        }
+        .page.portrait {
+            width: 21cm;
+            height: 29.7cm; /* Fixed A4 Portrait */
+        }
+        .page.landscape {
+            width: 29.7cm;
+            height: 21cm; /* Fixed A4 Landscape */
+        }
+
+        /* Content Wrapper to push footer down */
+        .doc-content {
+            flex: 1 1 auto; /* Takes up all available space */
+        }
+
+        /* Document Headers */
+        .doc-header { margin-bottom: 12px; }
+        .doc-header h2 { margin: 0; font-size: 16px; text-transform: uppercase; font-weight: bold; text-align: center;}
+        .doc-header h3 { margin: 4px 0 0 0; font-size: 13px; text-transform: uppercase; font-weight: normal; text-align: center;}
+        .doc-meta { display: flex; justify-content: space-between; font-size: 10px; margin-top: 8px; font-weight: bold; }
+        .meta-left, .meta-right { display: flex; flex-direction: column; }
+        .meta-right { text-align: right; }
+        
+        /* The Sticky Footer */
+        .doc-footer {
+            margin-top: auto; /* Pushes to the absolute bottom of the Flex container */
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
+            border-top: 1px solid #ccc;
+            padding-top: 4px;
+            padding-bottom: 4px;
+            width: 100%;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8.5px; /* Scaled down slightly to fit 21 columns cleanly */
+            margin-bottom: 10px;
+            table-layout: auto;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 3px 2px; /* Very tight padding */
+            text-align: right;
+            vertical-align: middle;
+            white-space: nowrap; /* Prevents text from scattering/breaking randomly */
+        }
+        th {
+            background-color: #fff;
+            text-align: center;
+            font-weight: bold;
+            white-space: normal; /* Allows headers to stack using <br> */
+        }
+        .text-left { text-align: left !important; }
+        .text-center { text-align: center !important; }
+        .no-border { border: none !important; }
+
+        /* Payslip Specifics */
+        .payslip-details-grid {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            margin-bottom: 12px;
+            border: 1px solid #000;
+            padding: 8px;
+        }
+        .payslip-details-grid div { line-height: 1.5; }
+        .summary-box {
+            width: 45%;
+            border: 1px solid #000;
+            padding: 5px;
+            margin-top: 5px;
+            font-size: 10px;
+        }
+        .summary-box table { margin: 0; border: none; font-size: 10px; }
+        .summary-box th, .summary-box td { border: none; padding: 2px 0; }
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        .legend { 
+            font-size: 9px; 
+            margin-top: auto; /* Sticky bottom for payslip legend */
+            line-height: 1.3; 
+            border-top: 1px solid #ccc;
+            padding-top: 5px;
+        }
+
+        /* Print Media Queries */
+        @media print {
+            body { background: none; margin: 0; padding: 0; display: block; }
+            .controls { display: none; }
+            .page { 
+                box-shadow: none; 
+                margin: 0; 
+                padding: 0; /* Let @page handle margins */
+                height: auto; /* Let content dictate height on paper */
+                min-height: 100vh;
+                page-break-after: always;
+            }
+            .landscape { @page { size: landscape; margin: 0.5cm 1cm; } }
+            .portrait { @page { size: portrait; margin: 0.5cm 1cm; } }
+            
+            /* Ensure footer stays at bottom even on printed pages if content is short */
+            .doc-content { min-height: calc(100vh - 80px); } 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button onclick="showReport('employee-list')">Print Employee List</button>
+        <button onclick="showReport('paylist')">Print Paylist</button>
+        <button onclick="showReport('cnps')">Print CNPS Sheet</button>
+        <button onclick="showReport('tax')">Print Tax Sheet</button>
+        <button onclick="showReport('payslip')">Print Pay Slip</button>
+        <button onclick="window.print()" style="background: #28a745; margin-left: 20px;">Print Active Document</button>
+    </div>
+
+    <div id="employee-list" class="page landscape">
+        <div class="doc-content">
+            <div class="doc-header">
+                <h2>Institute Name</h2>
+                <h3>Employee List</h3>
+            </div>
+            <table id="tbl-employee">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Employee Name</th>
+                        <th>Matricule</th>
+                        <th>Employment<br>Date</th>
+                        <th>Direction</th>
+                        <th>Telephone</th>
+                        <th>CNPS No</th>
+                        <th>Position<br>Name</th>
+                        <th>Branch</th>
+                        <th>Personnel Type</th>
+                        <th>Department</th>
+                        <th>Address</th>
+                        <th>Email</th>
+                        <th>NIU</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="doc-footer">
+            <span></span>
+            <span>Page 1/1</span>
+            <span></span>
+        </div>
+    </div>
+
+    <div id="paylist" class="page landscape">
+        <div class="doc-content">
+            <div class="doc-header">
+                <h2>Institute Name</h2>
+                <h3>PAYLIST REPORT FOR THE PERIOD</h3>
+                <div class="doc-meta">
+                    <div class="meta-left">
+                        <span>DECEMBER 2025</span>
+                        <span>---Display All---</span>
+                    </div>
+                    <div class="meta-right">
+                        <span>Printed</span>
+                        <span>Saturday, 21 March 2026 @08:46 AM</span>
+                        <span>By: 08:16:00</span>
+                    </div>
+                </div>
+            </div>
+            <table id="tbl-paylist">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Staff Names</th>
+                        <th>Gross<br>Salary</th>
+                        <th>Basic<br>Salary</th>
+                        <th>Over<br>Time</th>
+                        <th>Housing<br>Allow</th>
+                        <th>Senority<br>Bonus</th>
+                        <th>Duty<br>Allow</th>
+                        <th>Resch<br>Allow</th>
+                        <th>Transp<br>Allow</th>
+                        <th>Rep<br>Allow</th>
+                        <th>Gross<br>Taxable</th>
+                        <th>IRPP<br>(PIT)</th>
+                        <th>CAC<br>(ACT)</th>
+                        <th>CCF<br>(LBT)</th>
+                        <th>RAV<br>(AVT)</th>
+                        <th>COUNCI<br>L TAX</th>
+                        <th>CNPS</th>
+                        <th>NET<br>SALARY</th>
+                        <th>Others</th>
+                        <th>NET<br>PAYMENT</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr style="font-weight: bold; background-color: #f9f9f9;" id="ftr-paylist"></tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="doc-footer">
+            <span>Copyright(c)2025. MyHCM PRO</span>
+            <span>Page 1/1</span>
+            <span>Powered by AfricReNov Group Sarl.</span>
+        </div>
+    </div>
+
+    <div id="cnps" class="page landscape">
+        <div class="doc-content">
+            <div class="doc-header">
+                <h2>Institute Name</h2>
+                <h3>CNPS WITHHELD ON TAX REPORT<br>DECEMBER 2025</h3>
+                <div class="doc-meta">
+                    <div class="meta-left"></div>
+                    <div class="meta-right">
+                        <span>Printed</span>
+                        <span>Saturday, 21 March 2026 @09:08 AM</span>
+                        <span>By: 08:16:00</span>
+                    </div>
+                </div>
+            </div>
+            <table id="tbl-cnps">
+                <thead>
+                    <tr>
+                        <th colspan="13" class="no-border"></th>
+                        <th colspan="1">EE</th>
+                        <th colspan="3">EMPLOYER</th>
+                        <th class="no-border"></th>
+                    </tr>
+                    <tr>
+                        <th>SN</th>
+                        <th>Staff Names</th>
+                        <th>Gross<br>Salary</th>
+                        <th>Basic<br>Salary</th>
+                        <th>Over<br>Time</th>
+                        <th>Housing<br>Allow</th>
+                        <th>Senority<br>Bonus</th>
+                        <th>Water<br>Allow</th>
+                        <th>Electricity<br>Allow</th>
+                        <th>Duty<br>Allow</th>
+                        <th>Research<br>Allow</th>
+                        <th>Transport<br>Allow</th>
+                        <th>Rep<br>Allow</th>
+                        <th>PV</th>
+                        <th>PV</th>
+                        <th>AT<br><br>AF</th>
+                        <th>Total</th>
+                        <th>GROSS<br>TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr style="font-weight: bold; background-color: #f9f9f9;" id="ftr-cnps"></tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="doc-footer">
+            <span>Copyright(c)2025. MyHCM PRO</span>
+            <span>Page 1/1</span>
+            <span>Powered by AfricReNov Group Sarl.</span>
+        </div>
+    </div>
+
+    <div id="tax" class="page landscape">
+        <div class="doc-content">
+            <div class="doc-header">
+                <h2>Institute Name</h2>
+                <h3>TAX REPORT | TAXES WITHHELD ON WAGES<br>DECEMBER 2025</h3>
+                <div class="doc-meta">
+                    <div class="meta-left"></div>
+                    <div class="meta-right">
+                        <span>Printed</span>
+                        <span>Saturday, 21 March 2026 @09:13 AM</span>
+                        <span>By: 08:16:00</span>
+                    </div>
+                </div>
+            </div>
+            <table id="tbl-tax">
+                <thead>
+                    <tr>
+                        <th colspan="11" class="no-border"></th>
+                        <th colspan="6">EMPLOYEES</th>
+                        <th colspan="3">EMPLOYER</th>
+                        <th class="no-border"></th>
+                    </tr>
+                    <tr>
+                        <th>Staff Names<br><br>SN</th>
+                        <th>Gross<br>Salary</th>
+                        <th>Basic<br>Salary</th>
+                        <th>Over<br>Time</th>
+                        <th>Housing<br>Allow</th>
+                        <th>Senrty<br>Bonus</th>
+                        <th>Duty<br>Allow</th>
+                        <th>Resch<br>Allow</th>
+                        <th>Transp<br>Allow</th>
+                        <th>Rep<br>Allow</th>
+                        <th>Gross<br>Taxable</th>
+                        <th>IRPP<br>(PIT)</th>
+                        <th>CAC<br>(ACT)</th>
+                        <th>CCF<br>(LBT)</th>
+                        <th>RAV<br>(AVT)</th>
+                        <th>COUNCIL<br>TAX</th>
+                        <th>Total</th>
+                        <th>CCF<br>(LBT)</th>
+                        <th>NEF</th>
+                        <th>Total</th>
+                        <th>TOTAL<br>TAXES</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr style="font-weight: bold; background-color: #f9f9f9;" id="ftr-tax"></tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="doc-footer">
+            <span>Copyright(c)2025. MyHCM PRO</span>
+            <span>Page 1/1</span>
+            <span>Powered by AfricReNov Group Sarl.</span>
+        </div>
+    </div>
+
+    <div id="payslip" class="page portrait">
+        <div class="doc-content">
+            <div class="doc-header" style="margin-bottom: 5px;">
+                <h2>Institute Name</h2>
+                <div style="font-size: 11px;">Email: Tel: (+237)<br>Authorization No:</div>
+            </div>
+            
+            <div class="payslip-details-grid">
+                <div>
+                    <strong>Names:</strong> <span id="ps-name"></span><br>
+                    <strong>Category:</strong> p<br>
+                    <strong>Echelon:</strong> hn<br>
+                    <strong>Emplym't Date:</strong> <span id="ps-date"></span><br>
+                    <strong>Matricule:</strong> <span id="ps-id"></span><br>
+                    <strong>Post:</strong> fh<br>
+                    <strong>Family Status:</strong> Single
+                </div>
+                <div>
+                    <strong style="font-size: 14px; text-decoration: underline;">Payslip</strong><br>
+                    <strong>Month:</strong> December<br>
+                    <strong>Year:</strong> 2025<br>
+                    <strong>Employer CNPS No:</strong> <br>
+                    <strong>Payment Mode:</strong> Bank Transfer<br>
+                    <strong>Bank A/C No:</strong> <br>
+                    <strong>Bank Name:</strong> 
+                </div>
+                <div style="text-align: right;">
+                    <br><br>
+                    <strong>S/N:</strong> <span id="ps-sn"></span><br>
+                    <strong>CNPS No:</strong> <br>
+                    <strong>Conges Cumule: 0</strong>
+                </div>
+            </div>
+            
+            <table id="tbl-payslip-main" style="font-size: 10px;">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="no-border"></th>
+                        <th colspan="2" style="border-bottom:none;">Salary</th>
+                        <th colspan="2" style="border-bottom:none;">Elements</th>
+                        <th colspan="2" style="border-bottom:none;">Elements</th>
+                        <th class="no-border"></th>
+                    </tr>
+                    <tr>
+                        <th>S/N</th>
+                        <th class="text-left">DESCRIPTION</th>
+                        <th>BASE</th>
+                        <th>Rate<br>(%)</th>
+                        <th>BENEFITS<br>TAXABLE</th>
+                        <th>NON-TAX<br>ABLE</th>
+                        <th>Deductions<br>BASE</th>
+                        <th>Rate</th>
+                        <th>AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody id="ps-tbody"></tbody>
+            </table>
+
+            <div style="font-weight: bold; margin-bottom: 5px; font-size: 11px;">Social Contribution</div>
+            <div class="summary-box">
+                <table>
+                    <tr><td class="text-left">Gross Salary</td><td class="text-right" id="ps-gross"></td></tr>
+                    <tr><td class="text-left">Payroll Deductions (a to f)</td><td class="text-right" id="ps-payded"></td></tr>
+                    <tr><td class="text-left">Other Deductions (10 to 4d)</td><td class="text-right" id="ps-othded"></td></tr>
+                    <tr><th class="text-left">Net Pay</th><th class="text-right" id="ps-net"></th></tr>
+                </table>
+            </div>
+
+            <div class="signatures">
+                <div>Sign Employer & Date</div>
+                <div>Sign Employee & Date</div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            Copyright. (2024). MyHCM PRO. All Rights Reserved.<br>
+            X= Gross Salary<br>
+            Y= Gross Taxable Salary<br>
+            A Total Payroll Deductions<br>
+            B Tax paid by employer on behalf of the Staff<br>
+            i Staff's Savings to Retirement Pension (Social Ins/CNPS)<br>
+            ü+ili+iv Employer's Contribution to Staff's Savings to Retirement Pension (Social Ins/CNPS)<br>
+            <div style="float: right; margin-top: -12px;">Powered by Kilimanjaro SYSTEMS LTD</div>
+        </div>
+    </div>
+
+    <script>
+        const samplePayrollData = [
+            {
+                id: 1, month: "December", name: "Wilfred", empDate: "19/03/2026",
+                grossSalary: 250000, basicSalary: 250000, overtime: 0, housing: 0, seniority: 0,
+                water: 0, electricity: 0, duty: 0, research: 0, transport: 0, representation: 0,
+                grossTaxable: 250000,
+                irpp: 13512, cac: 1351, ccf: 2500, council: 1500, rav: 3250, cnps: 10500,
+                pvEmp: 10500, pvEmpr: 10500, af: 17500, at: 4375, ccfEmpr: 3750, nefEmpr: 2500
+            },
+            {
+                id: 2, month: "December", name: "Wilfred", empDate: "19/03/2026",
+                grossSalary: 250000, basicSalary: 250000, overtime: 0, housing: 0, seniority: 0,
+                water: 0, electricity: 0, duty: 0, research: 0, transport: 0, representation: 0,
+                grossTaxable: 250000,
+                irpp: 13512, cac: 1351, ccf: 2500, council: 1500, rav: 3250, cnps: 10500,
+                pvEmp: 10500, pvEmpr: 10500, af: 17500, at: 4375, ccfEmpr: 3750, nefEmpr: 2500
+            }
+        ];
+
+        const fmt = (num) => (num || 0).toLocaleString('en-US');
+
+        function showReport(reportId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(reportId).classList.add('active');
+            
+            if(reportId === 'employee-list') renderEmployeeList();
+            if(reportId === 'paylist') renderPaylist();
+            if(reportId === 'cnps') renderCNPS();
+            if(reportId === 'tax') renderTaxSheet();
+            if(reportId === 'payslip') renderPayslip(samplePayrollData[0]);
+        }
+
+        function renderEmployeeList() {
+            const tbody = document.querySelector('#tbl-employee tbody');
+            tbody.innerHTML = '';
+            samplePayrollData.forEach(d => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="text-center">${d.id}</td><td class="text-left">${d.name}</td>
+                        <td class="text-center"></td><td class="text-center">${d.empDate}</td><td></td>
+                        <td></td><td></td><td class="text-center">th</td><td class="text-left">Buea</td>
+                        <td></td><td></td><td></td><td></td><td></td>
+                    </tr>`;
+            });
+        }
+
+        function renderPaylist() {
+            const tbody = document.querySelector('#tbl-paylist tbody');
+            tbody.innerHTML = '';
+            let sums = { gross: 0, basic: 0, taxable: 0, irpp: 0, cac: 0, ccf: 0, rav: 0, council: 0, cnps: 0, net: 0, netPay: 0 };
+            
+            samplePayrollData.forEach(d => {
+                const netSalary = d.grossTaxable - (d.irpp + d.cac + d.ccf + d.rav + d.council + d.cnps);
+                sums.gross += d.grossSalary; sums.basic += d.basicSalary; sums.taxable += d.grossTaxable;
+                sums.irpp += d.irpp; sums.cac += d.cac; sums.ccf += d.ccf; sums.rav += d.rav; sums.council += d.council;
+                sums.cnps += d.cnps; sums.net += netSalary; sums.netPay += netSalary;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="text-center">${d.id}</td><td class="text-left">${d.name}</td>
+                        <td>${fmt(d.grossSalary)}</td><td>${fmt(d.basicSalary)}</td><td>0</td><td>0</td><td>0</td>
+                        <td>0</td><td>0</td><td>0</td><td>0</td><td>${fmt(d.grossTaxable)}</td>
+                        <td>${fmt(d.irpp)}</td><td>${fmt(d.cac)}</td><td>${fmt(d.ccf)}</td><td>${fmt(d.rav)}</td>
+                        <td>${fmt(d.council)}</td><td>${fmt(d.cnps)}</td>
+                        <td>${fmt(netSalary)}</td><td>0</td><td>${fmt(netSalary)}</td>
+                    </tr>`;
+            });
+            document.getElementById('ftr-paylist').innerHTML = `
+                <td colspan="2" class="text-center">TOTAL</td>
+                <td>${fmt(sums.gross)}</td><td>${fmt(sums.basic)}</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                <td>${fmt(sums.taxable)}</td><td>${fmt(sums.irpp)}</td><td>${fmt(sums.cac)}</td><td>${fmt(sums.ccf)}</td>
+                <td>${fmt(sums.rav)}</td><td>${fmt(sums.council)}</td><td>${fmt(sums.cnps)}</td><td>${fmt(sums.net)}</td>
+                <td>0</td><td>${fmt(sums.netPay)}</td>
+            `;
+        }
+
+        function renderCNPS() {
+            const tbody = document.querySelector('#tbl-cnps tbody');
+            tbody.innerHTML = '';
+            let sums = { gross: 0, basic: 0, pvEmp: 0, pvEmpr: 0, atAf: 0, total: 0, grossTot: 0 };
+
+            samplePayrollData.forEach(d => {
+                const atAf = d.at + d.af;
+                const totalEmpr = d.pvEmpr + atAf;
+                const grossTot = d.pvEmp + totalEmpr;
+                
+                sums.gross += d.grossSalary; sums.basic += d.basicSalary; 
+                sums.pvEmp += d.pvEmp; sums.pvEmpr += d.pvEmpr; sums.atAf += atAf;
+                sums.total += totalEmpr; sums.grossTot += grossTot;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="text-center">${d.id}</td><td class="text-left">${d.name}</td>
+                        <td>${fmt(d.grossSalary)}</td><td>${fmt(d.basicSalary)}</td>
+                        <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                        <td>${fmt(d.pvEmp)}</td><td>${fmt(d.pvEmpr)}</td><td>${fmt(d.at)}<br><br>${fmt(d.af)}</td>
+                        <td>${fmt(totalEmpr)}</td><td>${fmt(grossTot)}</td>
+                    </tr>`;
+            });
+
+            document.getElementById('ftr-cnps').innerHTML = `
+                <td colspan="2" class="text-center">TOTAL</td>
+                <td>${fmt(sums.gross)}</td><td>${fmt(sums.basic)}</td>
+                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                <td>${fmt(sums.pvEmp)}</td><td>${fmt(sums.pvEmpr)}</td><td>${fmt(samplePayrollData.reduce((a,b)=>a+b.at,0))}<br><br>${fmt(samplePayrollData.reduce((a,b)=>a+b.af,0))}</td>
+                <td>${fmt(sums.total)}</td><td>${fmt(sums.grossTot)}</td>
+            `;
+        }
+
+        function renderTaxSheet() {
+            const tbody = document.querySelector('#tbl-tax tbody');
+            tbody.innerHTML = '';
+            let sums = { gross: 0, basic: 0, taxable: 0, irpp: 0, cac: 0, ccf: 0, rav: 0, council: 0, totEmp: 0, ccfEmpr: 0, nef: 0, totEmpr: 0, grandTot: 0 };
+
+            samplePayrollData.forEach(d => {
+                const totEmp = d.irpp + d.cac + d.ccf + d.rav + d.council;
+                const totEmpr = d.ccfEmpr + d.nefEmpr;
+                const grandTot = totEmp + totEmpr;
+
+                sums.gross += d.grossSalary; sums.basic += d.basicSalary; sums.taxable += d.grossTaxable;
+                sums.irpp += d.irpp; sums.cac += d.cac; sums.ccf += d.ccf; sums.rav += d.rav; sums.council += d.council;
+                sums.totEmp += totEmp; sums.ccfEmpr += d.ccfEmpr; sums.nef += d.nefEmpr; sums.totEmpr += totEmpr; sums.grandTot += grandTot;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="text-left">${d.id} ${d.name}</td>
+                        <td>${fmt(d.grossSalary)}</td><td>${fmt(d.basicSalary)}</td>
+                        <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                        <td>${fmt(d.grossTaxable)}</td>
+                        <td>${fmt(d.irpp)}</td><td>${fmt(d.cac)}</td><td>${fmt(d.ccf)}</td><td>${fmt(d.rav)}</td><td>${fmt(d.council)}</td>
+                        <td>${fmt(totEmp)}</td><td>${fmt(d.ccfEmpr)}</td><td>${fmt(d.nefEmpr)}</td><td>${fmt(totEmpr)}</td>
+                        <td>${fmt(grandTot)}</td>
+                    </tr>`;
+            });
+
+            document.getElementById('ftr-tax').innerHTML = `
+                <td class="text-left">TOTAL</td>
+                <td>${fmt(sums.gross)}</td><td>${fmt(sums.basic)}</td>
+                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                <td>${fmt(sums.taxable)}</td>
+                <td>${fmt(sums.irpp)}</td><td>${fmt(sums.cac)}</td><td>${fmt(sums.ccf)}</td><td>${fmt(sums.rav)}</td><td>${fmt(sums.council)}</td>
+                <td>${fmt(sums.totEmp)}</td><td>${fmt(sums.ccfEmpr)}</td><td>${fmt(sums.nef)}</td><td>${fmt(sums.totEmpr)}</td>
+                <td>${fmt(sums.grandTot)}</td>
+            `;
+        }
+
+        function renderPayslip(emp) {
+            document.getElementById('ps-name').innerText = emp.name;
+            document.getElementById('ps-id').innerText = emp.id;
+            document.getElementById('ps-sn').innerText = emp.id;
+            document.getElementById('ps-date').innerText = emp.empDate;
+
+            document.getElementById('ps-tbody').innerHTML = `
+                <tr><td>1</td><td class="text-left">Basic Salary:</td><td>${fmt(emp.basicSalary)}</td><td></td><td>${fmt(emp.basicSalary)}</td><td>${fmt(emp.basicSalary)}</td><td></td><td></td><td></td></tr>
+                <tr><td>2</td><td class="text-left">Overtime</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>3</td><td class="text-left">Seniority Bonus</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>4</td><td class="text-left">Duty Post Allowance</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td colspan="9" class="text-left"><strong>Tax Deductions</strong></td></tr>
+                <tr><td>ab</td><td class="text-left">Personal Income Tax (IRPP)<br>CAC IRPP</td><td>${fmt(emp.grossTaxable)}<br>${fmt(emp.irpp)}</td><td>10</td><td></td><td></td><td>${fmt(emp.irpp)}<br>${fmt(emp.cac)}</td><td></td><td></td></tr>
+                <tr><td>C</td><td class="text-left">Council Tax (TC)</td><td>${fmt(emp.grossTaxable)}</td><td></td><td></td><td></td><td>${fmt(emp.council)}</td><td></td><td></td></tr>
+                <tr><td>d</td><td class="text-left">Land Tax (CFC)</td><td>${fmt(emp.grossTaxable)}</td><td>1</td><td></td><td></td><td>${fmt(emp.ccf)}</td><td>(A)</td><td>32,613<br>CFAF</td></tr>
+                <tr><td>e</td><td class="text-left">Audio visual tax (RAV)</td><td>${fmt(emp.grossTaxable)}</td><td></td><td></td><td></td><td>${fmt(emp.rav)}</td><td></td><td></td></tr>
+                <tr><td>f</td><td class="text-left">Social Ins. (CNPS)</td><td>${fmt(emp.grossTaxable)}</td><td>4.2</td><td></td><td></td><td>${fmt(emp.cnps)}</td><td></td><td></td></tr>
+                <tr><td>g</td><td class="text-left">CFC (Employer's Charge)</td><td>${fmt(emp.grossTaxable)}</td><td>1.5</td><td></td><td></td><td>${fmt(emp.ccfEmpr)}</td><td></td><td></td></tr>
+                <tr><td>h</td><td class="text-left">FNE (Employer's charge)</td><td>${fmt(emp.grossTaxable)}</td><td>1.0</td><td></td><td></td><td>${fmt(emp.nefEmpr)}</td><td>B</td><td></td></tr>
+                <tr><td colspan="9" class="text-left"><strong>Other Deductions</strong></td></tr>
+                <tr><td colspan="9" class="text-left"><strong>Social Contributions</strong></td></tr>
+                <tr><td>!</td><td class="text-left">CNPS (Employee's charge)</td><td></td><td></td><td></td><td></td><td>${fmt(emp.grossTaxable)}</td><td>4.2</td><td>${fmt(emp.cnps)}</td></tr>
+                <tr><td>!!<br>iv</td><td class="text-left">CNPS (Employer's charge)<br>Industrial Accident (AT)<br>Family Allowance (AF)</td><td></td><td></td><td></td><td></td><td>${fmt(emp.grossTaxable)}<br>${fmt(emp.grossTaxable)}<br>${fmt(emp.grossTaxable)}</td><td>1.75<br><br>7.0</td><td>${fmt(emp.pvEmpr)}<br>${fmt(emp.at)}<br>${fmt(emp.af)}</td></tr>
+                <tr style="font-weight:bold;"><td>TOTAL</td><td></td><td></td><td>(X) 250,000</td><td>(Y) 250,000</td><td></td><td>38,863</td><td></td><td>42,875</td></tr>
+            `;
+
+            const totalPayDed = emp.irpp + emp.cac + emp.council + emp.ccf + emp.rav + emp.cnps;
+            const netPay = emp.grossTaxable - totalPayDed;
+
+            document.getElementById('ps-gross').innerText = fmt(emp.grossSalary) + ' CFAF';
+            document.getElementById('ps-payded').innerText = '(' + fmt(totalPayDed) + ') CFAF';
+            document.getElementById('ps-othded').innerText = '0 CFAF';
+            document.getElementById('ps-net').innerText = fmt(netPay) + ' CFAF';
+        }
+
+        window.onload = () => showReport('paylist'); // Testing layout with the widest table
+    </script>
+</body>
+</html>

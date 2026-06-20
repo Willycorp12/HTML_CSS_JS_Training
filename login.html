@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Institute ERP Login</title>
+<style>
+:root {
+    --main-color: #004fa0;
+    --secondary-color: #c00000;
+    --bg-color: #f4f6f8;
+    --text-color: #333;
+    --input-bg: #fff;
+    --input-border: #ccc;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Login Container */
+.login-container {
+    background: #fff;
+    padding: 35px 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Logo */
+.logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #fff;
+}
+.logo img { width: 100%; height: 100%; object-fit: contain; }
+
+.school-name { font-size: 12px; color: #555; margin-bottom: 5px; }
+h1 { font-size: 22px; color: var(--main-color); margin-bottom: 5px; font-weight: 700; }
+
+/* Description + Animated Line */
+.description {
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+.line {
+    height: 2px;
+    width: 60px;
+    background: var(--secondary-color);
+    margin: 0 auto 20px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: fadeLine 1s forwards;
+}
+
+/* Form */
+form input {
+    width: 100%;
+    padding: 12px 10px;
+    margin-bottom: 8px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    font-size: 14px;
+    background: var(--input-bg);
+}
+form button {
+    width: 100%;
+    padding: 12px;
+    background: var(--main-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+form button:hover { background: var(--secondary-color); }
+form button:disabled { opacity: 0.7; cursor: not-allowed; }
+
+/* Show/Hide password */
+.toggle-password {
+    display: inline-block;
+    font-size: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: var(--main-color);
+    float: right;
+}
+.toggle-password:hover { color: var(--secondary-color); }
+
+/* Password strength */
+.password-strength {
+    font-size: 12px;
+    margin-bottom: 8px;
+    text-align: left;
+}
+.password-strength.weak { color: #c00000; font-weight: 600; }
+.password-strength.medium { color: #ff9800; font-weight: 600; }
+.password-strength.strong { color: #2e7d32; font-weight: 600; }
+
+/* Remember Me */
+.remember-container { text-align: left; margin-bottom: 12px; font-size: 12px; }
+.remember-container input { width: auto; margin-right: 5px; }
+
+/* Options */
+.options { text-align: right; margin-top: 10px; font-size: 12px; }
+.options a { color: var(--main-color); text-decoration: none; }
+.options a:hover { color: var(--secondary-color); }
+
+/* Footer */
+.footer {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    font-size: 11px;
+    color: #aaa;
+}
+
+/* Security messages */
+.error-msg { color: var(--secondary-color); font-size: 13px; margin-bottom: 10px; min-height: 18px; }
+.attempts-counter { font-size: 12px; margin-top: 8px; color: #555; }
+
+/* Animations */
+@keyframes fadeLine { to { opacity: 1; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Media Queries */
+@media (max-width: 400px){
+    .login-container { padding: 30px 20px; }
+    h1 { font-size: 20px; }
+    .description { font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="logo">
+        <img src="images/school-logo.png" alt="School Logo">
+    </div>
+
+    <h1>Institute ERP</h1>
+    <div class="description">Higher Institute Management ERP</div>
+    <div class="line"></div>
+    <div class="school-name">BIAKA UNIVERSITY INSTITUTE OF BUEA (BUIB)</div>
+
+    <div class="error-msg" id="errorMsg"></div>
+
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <span class="toggle-password" id="togglePassword">Show</span>
+        <div class="password-strength" id="passwordStrength"></div>
+
+        <div class="remember-container">
+            <input type="checkbox" id="rememberMe"> Remember Me
+        </div>
+
+        <button type="submit" id="btnLogin">Login</button>
+    </form>
+
+    <div class="attempts-counter" id="attemptsCounter"></div>
+
+    <div class="options">
+        <a href="#">Change my Password</a>
+    </div>
+
+    <div class="footer">
+        &copy; 2026. All rights Reserved. AfricRenov Group Sarl
+    </div>
+</div>
+
+<script>
+// =========================
+// Config
+// =========================
+const API_BASE = "http://192.168.100.239"; // <-- set your WebDev server base URL
+const API_KEY  = "KSL-CLIENT-2025-SECURE";
+
+// =========================
+// Local lockout
+// =========================
+let attempts = 0;
+const maxAttempts = 5;
+const lockoutTime = 60;
+let lockoutTimer = null;
+
+// =========================
+// Remember Me (username only)
+// =========================
+window.addEventListener('load', function(){
+    if(localStorage.getItem('rememberMe') === "true"){
+        const storedUser = localStorage.getItem('username');
+        if(storedUser) document.getElementById('username').value = storedUser;
+        document.getElementById('rememberMe').checked = true;
+    }
+});
+
+// Password toggle
+document.getElementById('togglePassword').addEventListener('click', function() {
+    const passInput = document.getElementById('password');
+    if(passInput.type === "password"){ passInput.type = "text"; this.textContent = "Hide"; }
+    else { passInput.type = "password"; this.textContent = "Show"; }
+});
+
+// Password strength
+document.getElementById('password').addEventListener('input', function() {
+    const val = this.value;
+    const hint = document.getElementById('passwordStrength');
+    let strength = "Weak";
+    let cls = "weak";
+
+    if(val.length >= 8 && /[A-Z]/.test(val) && /[0-9]/.test(val) && /[\W]/.test(val)){
+        strength = "Strong"; cls = "strong";
+    } else if(val.length >= 6){
+        strength = "Medium"; cls = "medium";
+    }
+
+    hint.textContent = val ? `Password Strength: ${strength}` : "";
+    hint.className = `password-strength ${val ? cls : ""}`;
+});
+
+// Lockout counter
+function updateCounter(seconds) {
+    const counter = document.getElementById("attemptsCounter");
+    counter.textContent = seconds > 0 ? `Locked out for ${seconds}s` : "";
+}
+
+function setError(msg){
+    document.getElementById('errorMsg').textContent = msg || "";
+}
+
+// =========================
+// LIVE LOGIN CALL
+// =========================
+async function doLogin(username, password) {
+    const resp = await fetch(`${API_BASE}/api/v1/auth/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-API-KEY": API_KEY
+        },
+        body: JSON.stringify({ username: username, password: password })
+    });
+
+    // Read as text first (prevents crash if server returns HTML or plain text)
+    const raw = await resp.text();
+
+    let data;
+    try {
+        data = JSON.parse(raw);
+    } catch (e) {
+        // Not JSON (often happens on 500 errors or wrong route)
+        return {
+            success: false,
+            message: "Server did not return JSON. " + raw.slice(0, 140)
+        };
+    }
+
+    // If HTTP is not OK, still show meaningful message
+    if (!resp.ok && data && data.success !== true) {
+        data.success = false;
+        data.message = data.message || ("HTTP Error " + resp.status);
+    }
+
+    return data;
+}
+
+
+// Login submission
+document.getElementById('loginForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    if(lockoutTimer) return;
+
+    const btnLogin = document.getElementById('btnLogin');
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const rememberMe = document.getElementById('rememberMe').checked;
+
+    setError("");
+
+    if(username === "" || password === ""){
+        setError("Please enter credentials.");
+        return;
+    }
+
+    btnLogin.disabled = true;
+    btnLogin.textContent = "Logging in...";
+
+    try {
+        const data = await doLogin(username, password);
+
+        if(!data.success){
+            attempts++;
+            setError(data.message || "Invalid username or password.");
+
+            if(attempts >= maxAttempts){
+                let remaining = lockoutTime;
+                updateCounter(remaining);
+                lockoutTimer = setInterval(()=>{
+                    remaining--;
+                    updateCounter(remaining);
+                    if(remaining <= 0){
+                        clearInterval(lockoutTimer);
+                        lockoutTimer = null;
+                        attempts = 0;
+                        updateCounter(0);
+                    }
+                }, 1000);
+            }
+            return;
+        }
+
+        // Remember Me (username only)
+        if(rememberMe){
+            localStorage.setItem('rememberMe','true');
+            localStorage.setItem('username',username);
+        } else {
+            localStorage.removeItem('rememberMe');
+            //localStorage.removeItem('username');
+        }
+
+        // Store session token from WebDev
+        const SESSION_DURATION_MINUTES = Number(data.sessionDurationMinutes || 120);
+        const expiresAt = Date.now() + (SESSION_DURATION_MINUTES * 60 * 1000);
+
+        localStorage.setItem("SESSION_TOKEN", data.sessionToken);
+        localStorage.setItem("SESSION_EXPIRES_AT", String(expiresAt));
+        localStorage.setItem("SESSION_DURATION_MINUTES", String(SESSION_DURATION_MINUTES));
+        localStorage.setItem("username", username);
+
+        window.location.href = "index.html";
+
+    } catch (err){
+        setError("Login failed: " + err.message);
+    } finally {
+        btnLogin.disabled = false;
+        btnLogin.textContent = "Login";
+    }
+});
+
+        const urlParams = new URLSearchParams(window.location.search);
+
+        if (urlParams.has("expired")) {
+            setError("Your session expired. Please log in again.");
+        }
+
+        if (urlParams.get("reason") === "no_session") {
+            setError("Please log in to continue.");
+        }
+</script>
+
+</body>
+</html>

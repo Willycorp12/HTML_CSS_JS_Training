@@ -1,0 +1,97 @@
+<!-- screens/stock-management/stock-master.html -->
+<div class="page-header">
+    <h2 style="text-align: center; color: #2e3192;">STOCK MASTER DATA</h2>
+</div>
+
+<div class="stock-master-wrapper">
+    <div class="main-tabs">
+        <div class="main-tab active" onclick="switchStockMasterTab('item-list', this)">Item List</div>
+        <div class="main-tab" onclick="switchStockMasterTab('issue-items', this)">Issue Items</div>
+        <div class="main-tab" onclick="switchStockMasterTab('receive-items', this)">Receive Items</div>
+    </div>
+
+    <div class="stock-master-body">
+        <!-- TAB 1: ITEM LIST -->
+        <div id="item-list-content" class="stk-tab-panel" style="display: flex; flex-direction: column; height: 100%;">
+            <div class="coa-toolbar" style="padding: 10px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; margin-bottom: 5px;">
+                <div class="coa-left-tools">
+                    <input type="text" id="STK_MASTER_SEARCH" class="global-search" placeholder="Search item name here..." style="width: 350px;">
+                </div>
+                <div class="coa-right-tools" style="display: flex; gap: 8px;">
+                    <button class="wd-action-btn primary" onclick="loadScreen('stock-new.html', null, 'Register New Stock Item')">
+                        New <i class="fa-solid fa-plus-circle"></i>
+                    </button>
+                    <button class="wd-action-btn primary" id="BTN_STK_Modify">
+                        Modify <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button class="wd-action-btn danger" id="BTN_STK_Delete">
+                        Delete <i class="fa-solid fa-circle-minus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-scroll-wrapper" style="flex: 1; background: #fff; border: 1px solid #ccc;">
+                <table class="wd-table stock-table" id="TABLE_StockItems">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;">SN <i class="fa-solid fa-sort"></i></th>
+                            <th style="width: auto;">Item</th>
+                            <th style="width: 150px;"><i class="fa-solid fa-barcode"></i> Barcode</th>
+                            <th style="width: 180px;">Main Category <i class="fa-solid fa-sort"></i></th>
+                            <th style="width: 180px;">Sub Category <i class="fa-solid fa-sort"></i></th>
+                            <th style="width: 100px; text-align: center;">Total Qty</th>
+                            <th style="width: 100px; text-align: center;">Units <i class="fa-solid fa-sort"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody id="STK_MASTER_TBODY">
+                        <!-- Populated by inventory-data.js -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 2: ISSUE ITEMS (Placeholder) -->
+        <div id="issue-items-content" class="stk-tab-panel" style="display: none; padding: 40px; text-align: center; color: #888;">
+            <i class="fa-solid fa-box-open" style="font-size: 48px; margin-bottom: 15px;"></i>
+            <h3>Issue Items Interface</h3>
+            <p>This module is under development.</p>
+        </div>
+
+        <!-- TAB 3: RECEIVE ITEMS (Placeholder) -->
+        <div id="receive-items-content" class="stk-tab-panel" style="display: none; padding: 40px; text-align: center; color: #888;">
+            <i class="fa-solid fa-truck-ramp-box" style="font-size: 48px; margin-bottom: 15px;"></i>
+            <h3>Receive Items Interface</h3>
+            <p>This module is under development.</p>
+        </div>
+    </div>
+</div>
+<style>
+    .stock-master-wrapper { display: flex; flex-direction: column; gap: 0; height: calc(100% - 60px); background: #fff; }
+    .stock-master-body { flex: 1; padding: 15px; overflow: hidden; }
+    
+    .main-tabs { display: flex; background: #f0f0f0; border-bottom: 1px solid #ccc; padding-top: 6px; padding-left: 6px; align-items: flex-end; }
+    .main-tab { padding: 10px 25px; border: 1px solid #ccc; border-bottom: none; background: #e0e0e0; margin-right: 2px; cursor: pointer; border-radius: 4px 4px 0 0; color: #555; transition: 0.2s; font-size: 13px; }
+    .main-tab.active { background: #fff; font-weight: bold; color: #2e3192; border-bottom: 1px solid #fff; margin-bottom: -1px; z-index: 1; }
+
+    .coa-toolbar { border-bottom: 1px solid #eee; margin-bottom: 5px; }
+    .global-search { padding: 8px 12px; border: 1px solid #999; border-radius: 4px; font-size: 13px; }
+    
+    .wd-action-btn { padding: 6px 15px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: bold; border: 1px solid #ccc; font-size: 12px; }
+    .wd-action-btn.primary { background: #2e3192; color: #fff; border-color: #2e3192; }
+    .wd-action-btn.danger { background: #cd2027; color: #fff; border-color: #cd2027; }
+
+    .stock-table { width: 100%; border-collapse: collapse; }
+    .stock-table thead th { background: #2e3192; color: #fff; padding: 10px; font-size: 13px; text-align: left; position: sticky; top: 0; z-index: 5; border-right: 1px solid #1f226f; }
+    .stock-table tbody td { padding: 6px 10px; border-bottom: 1px solid #eee; border-right: 1px solid #f0f0f0; font-size: 13px; color: #333; }
+    .stock-table thead th { background: #2e3192; color: #fff; padding: 8px 6px; border-right: 1px solid #1f226f; font-size: 13px; text-align: left; position: sticky; top: 0; z-index: 5; }
+    .stock-table tbody td { padding: 5px 8px; border-bottom: 1px dotted #ccc; border-right: 1px solid #eee; white-space: nowrap; font-size: 12px; max-width: 250px; overflow: hidden; text-overflow: ellipsis; color: #333; }
+    
+    .stock-table tr:nth-child(even) { background-color: #f9f9fb; }
+    .stock-table tr:hover:not(.selected) td { background-color: #f0f4ff; cursor: pointer; }
+    .stock-table tr:nth-child(even) { background-color: #f9f9f9; }
+    .stock-table tr:hover:not(.selected) td { background-color: #e6f1ff; cursor: pointer; }
+    
+    /* Specialized Selection from item list.png */
+    .stock-table tr.selected td { background-color: #cd2027 !important; color: #fff !important; border-bottom-color: #cd2027 !important; }
+    .stock-table tr.selected .fa-barcode { color: #fff !important; }
+</style>

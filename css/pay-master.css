@@ -1,0 +1,306 @@
+/* Shared Styles for Pay Master Center Modules */
+
+:root {
+    --pm-primary: #2e3192;
+    --pm-primary-dark: #1a1c5e;
+    --pm-bg: #f4f6f9;
+    --pm-white: #ffffff;
+    --pm-border: #e0e0e0;
+    --pm-text: #333333;
+    --pm-text-light: #666666;
+    --pm-danger: #cd2027;
+    --pm-success: #27ae60;
+    --pm-warning: #f39c12;
+    --pm-hover: #f0f4ff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.pm-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--pm-bg);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    color: var(--pm-text);
+}
+
+/* Toolbar Section */
+.pm-toolbar {
+    background: var(--pm-white);
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--pm-border);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+}
+
+.pm-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--pm-primary);
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Filter Groups */
+.pm-filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fdfdfd;
+    padding: 4px 8px;
+    border: 1px solid var(--pm-border);
+    border-radius: 4px;
+}
+
+.pm-filter-group label {
+    font-weight: 600;
+    color: var(--pm-text-light);
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.pm-input {
+    padding: 5px 8px;
+    border: 1px solid var(--pm-border);
+    border-radius: 4px;
+    font-size: 13px;
+    outline: none;
+    color: var(--pm-text);
+    background-color: #fff;
+}
+
+.pm-input:focus {
+    border-color: var(--pm-primary);
+    box-shadow: 0 0 0 2px rgba(46, 49, 146, 0.1);
+}
+
+/* Buttons (Assuming .wd-btn exists globally, but adding overrides) */
+.wd-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid var(--pm-border);
+    background: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+.wd-btn:hover { background: #f5f5f5; }
+.wd-btn.primary { background: var(--pm-primary); color: #fff; border-color: var(--pm-primary); }
+.wd-btn.primary:hover { background: var(--pm-primary-dark); }
+.wd-btn.danger { background: var(--pm-danger); color: #fff; border-color: var(--pm-danger); }
+
+/* Footer */
+.pm-footer {
+    background: var(--pm-white);
+    padding: 15px 20px;
+    border-top: 1px solid var(--pm-border);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--pm-text);
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.02);
+    flex-shrink: 0;
+}
+
+.pm-summary-label {
+    color: var(--pm-text-light);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.pm-summary-value {
+    color: var(--pm-primary);
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 15px;
+}
+
+/* Utilities */
+.text-right { text-align: right !important; }
+.text-center { text-align: center !important; }
+.w-150 { width: 150px; }
+.w-100 { width: 100px; }
+
+/* =========================================
+   PAYLIST GENERATE SPECIFIC STYLES
+   ========================================= */
+
+/* 1. Top Header Row (No, Title, Year/Month) */
+.pm-header-row {
+    background: #fff;
+    padding: 0px 5px 2px 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /*border-bottom: 1px solid #eee;*/
+}
+
+.pm-page-title {
+    font-size: 24px;
+    color: #cd2027; /* Red from image */
+    font-weight: 400;
+    border-bottom: 1px solid #cd2027;
+    padding: 0 20px;
+}
+
+.pm-header-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* 2. Main Layout (Table + Sidebar) */
+.pm-content-row {
+    display: flex;
+    flex: 1;
+    overflow: hidden; /* Contain scroll */
+}
+
+.pm-main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-right: 1px solid #ccc;
+}
+
+.pm-sidebar {
+    width: 160px;
+    background: #eef1f5;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-left: 1px solid #ddd;
+}
+
+/* Sidebar Buttons */
+.pm-side-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: left;
+}
+.pm-side-btn.bottom { margin-top: auto; }
+
+.pm-side-btn i { font-size: 14px; }
+.btn-cnps { background-color: #e74c3c; } /* Red */
+.btn-tax { background-color: #8bc34a; } /* Light Green */
+.btn-journal { background-color: #f39c12; } /* Orange */
+.btn-print-list { background-color: #0d47a1; } /* Dark Blue */
+.btn-print-slips { background-color: #f1c40f; color: #333; } /* Yellow */
+.btn-paylist { background-color: #3498db; } /* Standard Blue */
+.btn-excel { background-color: #217346; } /* Excel Green */
+
+/* 3. Complex Table Styles (Sticky Columns) */
+.paylist-table-container {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+    background: #fff;
+}
+
+.paylist-table {
+    border-collapse: collapse;
+    width: max-content; /* Allow table to grow horizontally */
+    font-size: 11px;
+}
+
+.paylist-table th {
+    background: #005a9e; /* Header Blue */
+    color: white;
+    padding: 4px 3px;
+    border: 1px solid #004a80;
+    text-align: center;
+    white-space: normal;
+    vertical-align: middle;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    max-width: 85px; /* Forces text wrapping */
+    line-height: 1.2;
+}
+
+.paylist-table td {
+    padding: 4px;
+    border: 1px solid #ccc;
+    text-align: right;
+    max-width: 100px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+.paylist-table td.text-left { text-align: left; }
+.paylist-table tr:nth-child(even) { background-color: #f9f9f9; }
+.paylist-table tr:hover td { background-color: #e6f7ff; }
+
+/* Column Colors */
+.col-orange { background-color: #ff9800 !important; color: white !important; font-weight: bold; }
+.col-green { background-color: #008000 !important; color: white !important; font-weight: bold; }
+.col-grey { background-color: #ccc !important; }
+
+/* =========================================
+   STICKY & WRAPPING LOGIC (Standardized)
+   ========================================= */
+
+/* 1. Sticky Columns: Never Wrap, High Z-Index */
+.paylist-table .sticky-col {
+    white-space: nowrap !important;
+    position: sticky;
+}
+
+/* Specific styling for sticky header cells (Blue) */
+.paylist-table thead th.sticky-col {
+    z-index: 30; /* Headers must be higher than body sticky cols */
+    background-color: #005a9e; /* Default blue header to ensure visibility */
+    color: white;
+}
+
+/* Specific styling for sticky body cells (White/Opaque) */
+.paylist-table tbody td.sticky-col {
+    z-index: 10;
+    background-color: #fff; 
+}
+
+/* 2. Non-Sticky Columns: Wrap Text */
+.paylist-table th:not(.sticky-col),
+.paylist-table td:not(.sticky-col) {
+    white-space: normal !important;
+    word-break: break-word;
+    min-width: auto; /* Ensure wrapping doesn't squish too much */
+}
+
+/* Alternating row background for sticky columns (Body only) */
+.paylist-table tbody tr:nth-child(even) td.sticky-col {
+    background-color: #f9f9f9;
+}

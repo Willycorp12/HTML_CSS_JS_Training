@@ -1,0 +1,261 @@
+/* ===== WINDEV TABLE BASE ===== */
+
+.table-scroll-wrapper {
+    width: 100%;
+    height: 96%; /* Adjust as needed to fit the page layout */
+    padding-bottom: 2%; /* small gap for scrollbar */
+    overflow-x: auto;
+    overflow-y: auto;
+}
+.wd-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 13px;
+    background: #ffffff;
+    margin-top: 0;         /* no gap */
+    min-width: 0;
+}
+
+/* ===== PAGE TITLE (used by pending-payments.html too) ===== */
+.page-header {
+    padding: 6px 0 0px;
+}
+.page-header h2 {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: #2e3192;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 6px 0 0;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #cd2027;
+}
+
+/* ===== HEADER ===== */
+.wd-table thead th {
+    background: #2e3192; /* TRUE WinDev Blue */
+    color: #ffffff;
+    padding: 6px 8px;
+    text-align: left;
+    border-right: 1px solid #1f226f;
+    white-space: nowrap;
+}
+
+/* ===== BODY CELLS ===== */
+.wd-table tbody td {
+    padding: 4px 8px;
+    border-bottom: 1px dotted #2e3192;
+    white-space: nowrap;
+    background: #ffffff;
+}
+
+/* ===== GLOSSY HOVER (CREAM / EMBOSS) ===== */
+.wd-table tbody tr:hover td {
+    background: linear-gradient(
+        to bottom,
+        #ffffff 0%,
+        #f7f4ee 45%,
+        #efe9df 100%
+    );
+}
+
+/* ===== SELECTED ROW (OXBLOOD RED) ===== */
+.wd-table tbody tr.selected td {
+    background: #cd2027; /* TRUE WinDev Red */
+    color: #ffffff;
+}
+
+.wd-table tbody tr.selected td.amount {
+    background: #cd2027;
+     font-weight: bold;
+     color: #fff;
+}
+
+/* ===== AMOUNT COLUMN ===== */
+.wd-table td.amount {
+    background: #FED8B1; /* TRUE Table Orange */
+    font-weight: bold;
+    text-align: right;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.wd-btn {
+    padding: 2px 6px;
+    font-size: 12px;
+    border: 1px solid #999;
+    cursor: pointer;
+    background: linear-gradient(#ffffff, #e6e6e6);
+    border-radius: 4px;
+}
+
+/* Pay */
+.wd-btn.pay {
+    color: #009980; /* TRUE Green */
+    border-color: #009980;
+}
+
+/* Reject */
+.wd-btn.reject {
+    color: #cb2027; /* TRUE Red */
+    border-color: #cb2027;
+}
+
+/* Modif */
+.wd-btn.modify {
+    color: #2e3192; /* TRUE Blue */
+    border-color: #2e3192;
+}
+
+.wd-btn:hover {
+    background: linear-gradient(#f8f8f8, #dcdcdc);
+}
+
+/* ===== HEADER WRAPPER ===== */
+.wd-table-header {
+    box-shadow: inset 0 -1px 0 #bbb;
+    background: #f5f5f5;
+    padding: 4px 8px 2px;   /* reduced bottom padding */
+    border-bottom: 1px solid #ccc;
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 12px;
+}
+
+/* ===== SECTION 1: TITLE ===== */
+.wd-header-title-row {
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.wd-header-title {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: #2e3192;
+    display: inline-block;
+    padding-bottom: 2px;
+    border-bottom: 2px solid #cd2027;
+
+    text-align: center;
+    margin-bottom: 2px;    /* was too large */
+}
+/* ===== SECTION 2: TOOLBAR ===== */
+.wd-header-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* anchors controls downwards */
+    padding-bottom: 2px;
+}
+
+/* LEFT GROUP */
+.wd-header-left {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+/* FILTER BOX */
+.wd-filter-box {
+    border: 1px solid #ccc;
+    padding: 4px 8px 6px;
+    font-size: 12px;
+}
+
+.wd-filter-box legend {
+    font-weight: bold;
+    border: 1px solid #ccc;
+    padding: 3px 6px 4px;
+}
+
+/* SEARCH */
+.wd-search {
+    padding: 20px 50px;
+    height: 20px;          /* aligns baseline */
+     font-size: 12px;
+       width: 1000px; 
+}
+
+/* BUTTON */
+.wd-btn.refresh {
+    padding: 2px 8px;
+    height: 22px;
+}
+
+/* RIGHT: REFRESH COUNTER */
+.wd-header-right {
+    white-space: nowrap;
+    font-size: 11px;
+    align-self: flex-end;  /* stick to bottom */
+    padding-bottom: 2px;
+}
+
+.refresh-timer {
+    color: #cd2027;
+    font-weight: bold;
+}
+
+.page-toolbar {
+    display: flex;          /* allows proper layout if you add buttons later */
+    align-items: center;    /* vertical alignment */
+    gap: 8px;               /* spacing between items */
+}
+
+
+.global-search {
+    margin-top: 4px;
+    margin-bottom: 2px;
+    width: 300px;              /* desired width */
+    max-width: 100%;           /* responsive fallback */
+    padding: 6px 10px;         /* inner spacing */
+    font-size: 13px;           /* text size */
+    box-sizing: border-box;    /* include padding in width */
+    border: 1px solid #ccc;    /* optional: subtle border */
+    border-radius: 4px;        /* optional: rounded corners */
+    outline: none;             /* remove default focus outline */
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.global-search:focus {
+    border-color: #007BFF;     /* highlight on focus */
+    box-shadow: 0 0 5px rgba(0,123,255,0.3);
+}
+
+@media (max-width: 1279px) {
+    .table-scroll-wrapper {
+        overflow-x: auto;
+    }
+    .wd-table {
+        min-width: 1280px;
+        width: 1280px;
+    }
+}
+.wd-table td {
+    width: auto;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+    box-sizing: border-box;
+    height: 32px;
+}
+.custom-tooltip {
+    position: absolute;
+    z-index: 9999;
+    background: #fff;
+    border: 1px solid #888;
+    border-radius: 4px;
+    padding: 8px 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    font-size: 13px;
+    color: #222;
+    pointer-events: none;
+    white-space: pre-line;
+    max-width: 320px;
+}
+.custom-tooltip .tt-header {
+    font-weight: bold;
+    margin-bottom: 2px;
+}

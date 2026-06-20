@@ -1,0 +1,312 @@
+<div class="bank-journal-screen">
+    <!-- Tabs and Action Buttons -->
+    <div class="cj-nav-bar">
+        <div class="cj-tabs">
+            <button class="cj-tab" onclick="loadScreen('cash-journal.html', this, 'Cash Journal')">Cash Journal</button>
+            <button class="cj-tab active">Bank Journal</button>
+        </div>
+        <div class="cj-actions">
+            <div class="cj-action-item" onclick="loadScreen('bank-deposits.html', this, 'Make Bank Deposits')">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+                <span>Make Bank Deposits</span>
+            </div>
+            <div class="cj-action-item" onclick="loadScreen('bank-withdrawals.html', this, 'Make Bank Withdrawals')">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+                <span>Make Bank Withdrawal</span>
+            </div>
+            <div class="cj-action-item">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Record Bank Interest</span>
+            </div>
+            <div class="cj-action-item">
+                <i class="fa-solid fa-file-invoice"></i>
+                <span>Record Bank Charges</span>
+            </div>
+            <div class="cj-action-item">
+                <i class="fa-solid fa-exchange-alt"></i>
+                <span>Internal Funds Transfer</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtering and Balance Section -->
+    <div class="cj-filter-section">
+        <div class="cj-filter-left">
+            <div class="cj-form-group">
+                <label for="bankAccount">Select a Bank Account</label>
+                <select id="bankAccount" class="wd-input">
+                    <option>First Trust Bank (19660)</option>
+                </select>
+            </div>
+        </div>
+        <div class="page-header" style="width: 60%;">
+            <h2>BANK JOURNAL</h2>
+        </div>
+        <div class="cj-filter-right">
+            <div class="cj-balance-bf">
+                Balance B/F: <span class="amount-display">0 FCFA</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter by Description -->
+    <div class="cj-description-filter">
+        <input
+            type="text"
+            id="EDT_GlobalSearch"
+            class="global-search"
+            placeholder="Filter by Description..."
+        />
+    </div>
+
+    <!-- Main Table -->
+    <div class="table-scroll-wrapper">
+        <table class="wd-table">
+            <colgroup>
+                <col style="width: 5%" />
+                <col style="width: 5%" />
+                <col style="width: 6%" />
+                <col style="width: 57%" />
+                <col style="width: 9%" />
+                <col style="width: 9%" />
+                <col style="width: 9%" />
+            </colgroup>
+            <thead>
+                <tr class="bj-table-header-main">
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Ref</th>
+                    <th>Description</th>
+                    <th>Deposits</th>
+                    <th>Withdrawals</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody id="BJ_TableBody">
+                <!-- More rows would be dynamically added here -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" style="text-align: left; font-weight: bold;">Sum</td>
+                    <td class="amount" id="BJ_TotalDeposits">0</td>
+                    <td class="amount" id="BJ_TotalWithdrawals">0</td>
+                    <td class="amount" id="BJ_FooterBalance">0</td> 
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="cj-footer">
+        <button class="wd-btn">Print <i class="fa-solid fa-print"></i></button>
+        <div class="cj-current-balance">
+            Current Account Balance: <span class="amount-display">0 FCFA</span>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    /* Custom styles for bank-journal.html */
+    .bank-journal-screen {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        font-family: Tahoma, Arial, sans-serif;
+        font-size: 13px;
+        color: #333;
+    }
+
+    .cj-nav-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding: 8px 12px;
+        border-bottom: 1px solid #ccc;
+        background: #f5f5f5;
+    }
+
+    .cj-tabs {
+        display: flex;
+        gap: 2px;
+    }
+
+    .cj-tab {
+        background: #e0e0e0;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        padding: 6px 12px;
+        cursor: pointer;
+        font-size: 12px;
+        border-radius: 4px 4px 0 0;
+        color: #555;
+    }
+
+    .cj-tab.active {
+        background: #fff;
+        border-color: #2e3192;
+        color: #2e3192;
+        font-weight: bold;
+    }
+
+    .cj-actions {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .cj-action-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 11px;
+        color: #2e3192;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+    }
+
+    .cj-action-item:hover {
+        background: #e6e6e6;
+    }
+
+    .cj-action-item i {
+        font-size: 20px;
+        margin-bottom: 2px;
+    }
+
+    .cj-filter-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 10px 12px;
+        background: #f8f8f8;
+        border-bottom: 1px solid #e0e0e0;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .cj-filter-left {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: flex-end;
+    }
+
+    .cj-form-group {
+        display: flex;
+        flex-direction: column;
+        font-size: 12px;
+    }
+
+    .cj-form-group label {
+        font-weight: bold;
+        margin-bottom: 3px;
+    }
+
+    .cj-form-group select,
+    .cj-form-group input[type="date"] {
+        padding: 4px 6px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-size: 12px;
+        min-width: 120px;
+    }
+
+    .cj-filter-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 10px;
+    }
+
+    .cj-balance-bf {
+        font-weight: bold;
+        font-size: 14px;
+        color: #2e3192;
+    }
+
+    .cj-balance-bf .amount-display {
+        color: #cd2027;
+        font-size: 18px;
+    }
+
+    .cj-description-filter {
+        padding: 5px 12px;
+        background: #f8f8f8;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .table-scroll-wrapper {
+        flex: 1;
+        overflow-y: auto;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .wd-table {
+        margin-top: 0;
+    }
+
+    .wd-table tfoot td {
+        background: #f0f0f0;
+        font-weight: bold;
+        padding: 6px 8px;
+        border-top: 1px solid #ccc;
+    }
+
+    .cj-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+        border-top: 1px solid #e0e0e0;
+        background: #f8f8f8;
+    }
+
+    .cj-current-balance {
+        font-weight: bold;
+        font-size: 14px;
+        color: #2e3192;
+    }
+
+    .cj-current-balance .amount-display {
+        color: #cd2027;
+        font-size: 18px;
+    }
+
+    .cj-footer .wd-btn {
+        padding: 4px 10px;
+        font-size: 13px;
+    }
+
+    .cj-footer .wd-btn i {
+        margin-left: 5px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .cj-nav-bar {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .cj-actions {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .cj-filter-section {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .cj-filter-left {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .cj-filter-right {
+            align-items: stretch;
+        }
+        .cj-balance-bf {
+            text-align: center;
+        }
+    }
+</style>

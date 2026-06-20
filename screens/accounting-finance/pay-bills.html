@@ -1,0 +1,341 @@
+<!-- ================= PAY BILLS SCREEN ================= -->
+<style>
+  /* Page-specific styles for Pay Bills */
+  .pay-bills-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: #fdfdfd;
+    padding: 0;
+  }
+
+  /* Top Section: Header, Filters, etc. */
+  .pb-top-panel {
+    flex: 0 0 auto; /* Height determined by content */
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  /* Middle Section: Table (Scrollable) */
+  .pb-middle-panel {
+    flex: 1; /* Takes remaining height */
+    overflow-y: auto;
+    position: relative; /* For sticky header */
+    padding: 0 12px; /* Horizontal padding for the table */
+    min-height: 100px;
+  }
+
+  /* Bottom Section: Totals, Actions (Sticky Bottom) */
+  .pb-bottom-panel {
+    flex: 0 0 auto;
+    background: #f8f8f8;
+    border-top: 1px solid #ccc;
+    padding: 10px 12px 2px 12px;
+    z-index: 10;
+  }
+
+  /* Sticky Table Header */
+  #TABLE_PayBills thead th {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    /* Background is inherited from windev-table.css */
+  }
+
+  /* Top section layout */
+  .top-section {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .filter-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    flex: 1.2;
+    background: #f8f9fa;
+  }
+  .filter-box fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+  .filter-box legend {
+    font-weight: bold;
+    margin-bottom: 2px;
+    font-size: 13px;
+    color: #2e3192;
+  }
+  .filter-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+    font-size: 13px;
+  }
+  .filter-row select,
+  .filter-row input[type="date"] {
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+
+  .amount-display {
+    margin-top: 2px;
+  }
+  .amount-display label {
+    font-weight: bold;
+    font-size: 14px;
+    display: block;
+  }
+.amount-display input {
+  width: 100%;
+  font-size: 25px;
+  font-weight: 800;
+  color: #000;
+  border: none;
+  outline: none;
+  background: transparent;
+  text-align: left;
+  padding: 0 8px 0 0;
+  transition: width 0.2s;
+}
+.amount-display input::placeholder {
+  color: black; /* make it black */
+  opacity: 100; /* ensure full visibility */
+}
+.amount-display input:focus {
+  outline: none;
+  }
+.wd-table td.to-grey {
+    background-color: #e9e9e9; /* A neutral grey that fits the theme */
+    text-align: right;
+    font-weight: bold;
+  }
+  .main-info-panel {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .payment-details-table {
+    border-collapse: collapse;
+    width: auto;
+  }
+  .payment-details-table th,
+  .payment-details-table td {
+    border: 1px solid #999;
+    padding: 4px 6px;
+    font-size: 12px;
+  }
+  .payment-details-table th {
+    background-color: #2e3192;
+    color: white;
+  }
+  .payment-details-table td {
+    background-color: #fff;
+  }
+  .payment-details-table select,
+  .payment-details-table input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+  }
+  /* Responsive adjustments */
+  @media (max-width: 950px) {
+    .top-section,
+    .bottom-section {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .summary-and-actions,
+    .final-summary-box {
+      align-items: stretch;
+      text-align: left;
+    }
+  }
+</style>
+
+<div class="pay-bills-wrapper">
+  <!-- ================= TOP SECTION ================= -->
+  <div class="pb-top-panel">
+    <div class="page-header"><h2 class="page-title">PAY BILLS</h2></div>
+    <div class="top-section">
+      <div class="filter-box">
+        <fieldset>
+          <legend>Select Bills to pay</legend>
+          <div class="filter-row">
+            <input type="radio" name="show_bills" value="due_on_or_before" />
+            <label>Due on or before</label>
+            <input type="date" placeholder="__-_-_" />
+          </div>
+          <div class="filter-row">
+            <input type="radio" name="show_bills" value="all" checked />
+            <label>Show all bills</label>
+          </div>
+          <div class="filter-row">
+            <label>Supplier:</label>
+            <select id="PB_SelectSupplier">
+              <option>----All Suppliers----</option>
+            </select>
+          <div class="filter-row">
+            <button id="BTN_ClearSupplierFilter"
+            style="border: none; outline: none; cursor: pointer;">🔁</button>
+          </div>
+          </div>
+        </fieldset>
+        
+          <label>Amount:</label>
+          <div class="amount-display">
+            <input type="text" id="PB_TotalToPayInput" style="font-size: 25px; width: 100%;" class="amount-input" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="0 FCFA" />
+            <span id="PB_AmountWarning" style="color: red; font-weight: bold; font-size: 12px; display: none; margin-top: 4px;"></span>
+          </div>
+        
+      </div>
+
+      <div class="main-info-panel">
+        <table class="payment-details-table">
+          <thead>
+            <tr>
+              <th>Payment Method</th>
+              <th>Reference #</th>
+              <th>Payment Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 0;">
+                <input type="text" id="PB_PaymentMethod" placeholder="Click to select" readonly style="width: 80%; border: none; outline: none; background: transparent; cursor: pointer; padding: 4px 6px;">
+                <input type="hidden" id="PB_PaymentMethod_coaId">
+              </td>
+              <td><input type="text" placeholder="PMT/26/1/0001" readonly/></td>
+              <td><input type="date" id="PB_PaymentDate" placeholder="____-__-__" /></td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="display: flex; margin-top: 12px; gap: 30px; align-items: stretch">
+      <div class="form-side" style="width: 210px;padding: 1%;">
+        <label style="font-weight: bold">Account Balance:</label><br />
+        <input
+          id="PB_SupplierBalance"
+          type="text"
+          class="amount-input"
+          value="0 Frs"
+          readonly
+          style="width: 100%; font-weight: bold; text-align: left; color: green;"
+        />
+      </div>
+      <div class="form-group" style="float: right">
+        <label style="font-weight: bold">Accounts Payable (A/P)</label>
+        <input
+          id="PB_SupplierAccount"
+          type="text"
+          placeholder="401100-Service Suppliers"
+          style="width: 180px; cursor: default;"
+          readonly
+        />
+      </div>
+    </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MIDDLE SECTION (Table) ================= -->
+  <div class="pb-middle-panel service-bill-table-wrapper">
+  <table
+    id="TABLE_PayBills"
+    class="wd-table"
+    style="margin-top: 12px; width: 100%; table-layout: fixed"
+  >
+    <colgroup>
+      <col style="width: 3%" />
+      <col style="width: 8%" />
+      <col style="width: 9%" />
+      <col style="width: 10%" />
+      <col style="width: 30%" />
+      <col style="width: 10%" />
+      <col style="width: 10%" />
+      <col style="width: 10%" />
+      <col style="width: 10%" />
+    </colgroup>
+    <thead>
+      <tr>
+        <th><input type="checkbox" id="PB_CheckAll" /></th>
+        <th>Ref</th>
+        <th>Due Date</th>
+        <th>Supplier</th>
+        <th>Description</th>
+        <th>Orig. Amt</th>
+        <th>Amt. Paid</th>
+        <th>Amt. Left</th>
+        <th>Amt. To Pay</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+  <!-- ================= BOTTOM SECTION ================= -->
+  <div class="pb-bottom-panel">
+    <table class="wd-table" style="table-layout: fixed; margin-top: 0%">
+  <colgroup>
+    <col style="width: 3%" />
+      <col style="width: 8%" />
+      <col style="width: 9%" />
+      <col style="width: 10%" />
+      <col style="width: 30%" />
+      <col style="width: 10%" />
+      <col style="width: 10%" />
+      <col style="width: 10%" />
+      <col style="width: 10%" />
+  </colgroup>
+  <tbody>
+    <tr style="background: #f0f0f0; font-weight: bold">
+      <td colspan="5" style="text-align: left;">TOTAL</td>
+      <td id="orig-amt" class="to-grey" style="text-align: right;">0</td>
+      <td id="paid-amt" class="to-grey" style="text-align: right;">0</td>
+      <td id="left-amt" class="to-grey" style="text-align: right;">0</td>
+      <td class="amount" id="amt-to-pay" style="text-align: right;">0</td>
+    </tr>
+  </tbody>
+</table>
+
+    <div style="display: flex; gap: 10px; margin-top: 0px; align-items: flex-start">
+      <div class="form-group">
+        <label style="font-weight: bold; color: #cd2027; margin-bottom: 0px">Comments/Special Instruction</label>
+        <textarea placeholder="Comments" style="margin-top: 0px"></textarea>
+      </div>
+      <div style="flex: 1.5">
+        <label style="font-weight: bold">Amount in Words:</label><br/>
+        <span id="amount-words" style="font-size: 16px; color: #2e3192"></span>
+      </div>
+      <div class="side-summary" style="width: auto; margin-top: 0px; padding: 0px">
+        <div class="net-amount">Amount Due:</div>
+        <div class="dynamical" id="bill">0 FCFA</div>
+        <br />
+        <div class="net-amount">Payments to apply:</div>
+        <div class="dynamical" id="net">0 FCFA</div>
+        <br />
+        <div
+        style="
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 0%;
+        align-items: center;
+        gap: 32px;
+        ">
+      <div class="form-actions">
+        <button class="btn-primary" id="BTN_PayBills_Validate">Validate Only</button>
+        <button class="btn-primary" id="BTN_PayBills_ValidatePrint">Validate & Print</button>
+        <button class="btn-secondary" onclick="loadScreen('home.html', this)">Close</button>
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,190 @@
+<!-- screens/setup/setup-company-profile.html -->
+<div class="page-header">
+    <h2 style="text-align: center; color: #2e3192;">Company Setup / Control Information</h2>
+</div>
+
+<div class="setup-shell">
+    <div class="main-tabs">
+        <div class="main-tab setup-tab active" onclick="switchCompanyTab('details', this)">Company Details</div>
+        <div class="main-tab setup-tab" onclick="switchCompanyTab('more-info', this)">More info</div>
+        <div class="main-tab setup-tab" onclick="switchCompanyTab('headers-footers', this)">Headers and Footers</div>
+    </div>
+
+    <div class="setup-body">
+        <!-- Tab 1: Company Details -->
+        <div id="details-content" class="setup-tab-content" style="display: block;">
+            <div class="logo-bar">Your Logo</div>
+            <div class="setup-grid">
+                <div class="setup-form-side">
+                    <div class="form-row-setup"><label>Company Name:</label><input type="text" id="CP_Name" class="wd-input-setup" value="BIAKA UNIVERSITY INSTITUTE OF BUEA"></div>
+                    <div class="form-row-setup"><label>More Detail:</label><input type="text" id="CP_Detail" class="wd-input-setup" value="PRIVATE UNIVERSITY"></div>
+                    <div class="form-row-setup"><label>Abbreviation:</label><input type="text" id="CP_Abbr" class="wd-input-setup" value="BUIB"></div>
+                    <div class="form-row-setup"><label>Phone No:</label><input type="text" id="CP_Phone" class="wd-input-setup" value="233 671 710 796 / 671 710 796"></div>
+                    <div class="form-row-setup"><label>Location:</label><input type="text" id="CP_Loc" class="wd-input-setup" value="BOKOKO - BUEA"></div>
+                    <div class="form-row-setup"><label>Email 1:</label><input type="text" id="CP_Email1" class="wd-input-setup" value="biakahospital@biakahc.org"></div>
+                    <div class="form-row-setup"><label>Email 2:</label><input type="text" id="CP_Email2" class="wd-input-setup"></div>
+                    <div class="form-row-setup"><label>P.O Box:</label><input type="text" id="CP_POBox" class="wd-input-setup" value="77, BOKOKO, BUEA"></div>
+                    <div class="form-row-setup"><label>Website:</label><input type="text" id="CP_Web" class="wd-input-setup" value="www.biakahc.org"></div>
+                    <div class="form-row-setup"><label>Account No:</label><input type="text" id="CP_Acc" class="wd-input-setup" value="8888"></div>
+                    <div class="form-row-setup"><label>Water Mark:</label><input type="text" id="CP_WM" class="wd-input-setup" value="BUIB"></div>
+                    <div class="form-row-setup"><label>Prefix:</label><input type="text" id="CP_Prefix" class="wd-input-setup" value="BUIB"></div>
+                </div>
+                <div class="setup-image-side">
+                    <div class="img-preview-box">
+                        <img id="LOGO_Preview" src="user.png" alt="Company Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="img-actions">
+                        <button class="wd-btn" onclick="document.getElementById('LOGO_Upload').click()"><i class="fa-solid fa-upload"></i> Change</button>
+                        <button class="wd-btn danger" onclick="document.getElementById('LOGO_Preview').src='user.png'"><i class="fa-solid fa-trash"></i> Delete</button>
+                        <input type="file" id="LOGO_Upload" style="display: none;" accept="image/*" onchange="previewSetupImage(this, 'LOGO_Preview')">
+                    </div>
+                </div>
+            </div>
+            <div class="update-bar">
+                <button class="update-btn">Update Changes <i class="fa-solid fa-circle-check"></i></button>
+            </div>
+        </div>
+
+        <!-- Tab 2: More Info -->
+        <div id="more-info-content" class="setup-tab-content" style="display: none;">
+            <div class="setup-grid">
+                <div class="setup-form-side">
+                    <div class="form-row-setup"><label>Tax Payers Number:</label><input type="text" class="wd-input-setup" value="rrrr"></div>
+                    <div class="form-row-setup"><label>Company Reg. No:</label><input type="text" class="wd-input-setup" value="8888"></div>
+                    <div class="form-row-setup align-start"><label>Address:</label><textarea class="wd-input-setup" style="height: 100px;">BOKOKO - BUEA77, BOKOKO</textarea></div>
+                    <div class="form-row-setup"><label>Slogan:</label><input type="text" class="wd-input-setup" value="The Audacity to be Different!"></div>
+                    <div class="form-row-setup"><label>Academic Year:</label>
+                        <select id="CP_AcademicYear" class="wd-input-setup" style="color: #333;"><option value="">-- Select Academic Year --</option></select>
+                    </div>
+                    <div class="form-row-setup align-start">
+                        <label>Name Options:</label>
+                        <div class="radio-group-setup">
+                            <label><input type="radio" name="name_opt" checked> Display Full Names</label>
+                            <label><input type="radio" name="name_opt"> Display 1st, Middle and Last Name</label>
+                        </div>
+                    </div>
+                    <div class="form-row-setup"><label>Payment Justification:</label>
+                        <select class="wd-input-setup"><option>Only Accountant Justifies Payments</option></select>
+                    </div>
+                    <div class="form-row-setup"><label>Budget Type:</label>
+                        <select class="wd-input-setup"><option>Apportion Evenly</option></select>
+                    </div>
+                    <div class="form-row-setup"><label>Receipt Numbering:</label>
+                        <select class="wd-input-setup"><option>Manual</option></select>
+                    </div>
+                    <div class="form-row-setup"><label>Payment Procedure:</label>
+                        <select class="wd-input-setup"><option>Formal Approval</option></select>
+                    </div>
+                    <div class="form-row-setup"><label>Inventory Tracking:</label>
+                        <select class="wd-input-setup"><option>Track Only Stock Units</option></select>
+                    </div>
+                    <div class="form-row-setup"><label>Student Submission:</label>
+                        <select class="wd-input-setup"><option></option></select>
+                    </div>
+                    <div class="form-row-setup"><label>Receipt Print Option:</label>
+                        <select class="wd-input-setup"><option>Use Dot Matrix Printer</option></select>
+                    </div>
+                </div>
+                <div class="setup-form-side">
+                    <div class="form-row-setup"><label>Use Funding Source</label>
+                        <select class="wd-input-setup" style="width: 150px;"><option>Yes</option><option>No</option></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Headers and Footers -->
+        <div id="headers-footers-content" class="setup-tab-content" style="display: none;">
+            <div class="hf-section" style="max-width: 800px;">
+                <div class="hf-header">
+                    <button class="wd-btn primary" onclick="document.getElementById('HEADER_Upload').click()">Upload Header</button>
+                    <button class="wd-btn danger" onclick="clearSetupImage('HEADER_Preview')"><i class="fa-solid fa-trash"></i> Delete</button>
+                    <input type="file" id="HEADER_Upload" style="display: none;" accept="image/*" onchange="previewSetupImage(this, 'HEADER_Preview')">
+                </div>
+                <div class="hf-preview-large">
+                    <img id="HEADER_Preview" src="user.png" style="max-height: 100%; max-width: 100%;">
+                </div>
+            </div>
+
+            <div class="hf-section" style="max-width: 800px;">
+                <div class="hf-header">
+                    <button class="wd-btn primary" onclick="document.getElementById('FOOTER_Upload').click()">Upload Footer</button>
+                    <button class="wd-btn danger" onclick="clearSetupImage('FOOTER_Preview')"><i class="fa-solid fa-trash"></i> Delete</button>
+                    <input type="file" id="FOOTER_Upload" style="display: none;" accept="image/*" onchange="previewSetupImage(this, 'FOOTER_Preview')">
+                </div>
+                <div class="hf-preview-large">
+                    <img id="FOOTER_Preview" src="user.png" style="max-height: 100%; max-width: 100%;">
+                </div>
+            </div>
+
+            <div class="hf-section" style="max-width: 800px;">
+                <div class="hf-header">
+                    <button class="wd-btn primary" onclick="document.getElementById('SIG_Upload').click()">Signature</button>
+                    <input type="file" id="SIG_Upload" style="display: none;" accept="image/*" onchange="previewSetupImage(this, 'SIG_Preview')">
+                </div>
+                <div style="display: flex; gap: 20px; align-items: center; padding: 10px; background: #fff;">
+                    <div class="img-preview-box" style="width: 250px; height: 100px;">
+                        <img id="SIG_Preview" src="user.png" style="max-height: 100%; max-width: 100%;">
+                    </div>
+                    <button class="wd-btn danger" onclick="clearSetupImage('SIG_Preview')"><i class="fa-solid fa-trash"></i> Delete</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .setup-shell { height: calc(100% - 60px); border: 1px solid #ccc; background: #fff; display: flex; flex-direction: column; font-family: 'Segoe UI', sans-serif; font-size: 13px; }
+    .setup-body { flex: 1; padding: 15px; overflow-y: auto; background: #fff; }
+    
+    .logo-bar { background: #2e3192; color: #fff; text-align: center; padding: 5px; font-weight: bold; font-size: 16px; margin-bottom: 20px; }
+    
+    .setup-grid { display: flex; gap: 30px; flex-wrap: wrap; }
+    .setup-form-side { flex: 1 1 450px; display: flex; flex-direction: column; gap: 6px; max-width: 600px; min-width: 300px; }
+    .setup-image-side { flex: 0 0 280px; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+
+    .form-row-setup { display: flex; align-items: center; gap: 10px; }
+    .form-row-setup label { width: 140px; text-align: right; font-weight: 500; color: #333; }
+    .form-row-setup.align-start { align-items: flex-start; }
+    .form-row-setup.align-start label { margin-top: 5px; }
+    
+    .wd-input-setup { flex: 1; padding: 4px 10px; border: 1px solid #ccc; border-radius: 2px; outline: none; font-size: 12px; }
+    .wd-input-setup:focus { border-color: #2e3192; }
+    
+    .radio-group-setup { border: 1px solid #ccc; padding: 8px; flex: 1; display: flex; flex-direction: column; gap: 5px; }
+    .radio-group-setup label { text-align: left; width: auto; font-weight: normal; }
+
+    .img-preview-box { width: 100%; height: 180px; border: 1px solid #2e3192; background: #fff; display: flex; align-items: center; justify-content: center; }
+    .img-actions { display: flex; gap: 5px; justify-content: center; }
+
+    .update-bar { margin: 20px 0 20px 150px; padding: 15px; border: 1px solid #ddd; background: #f9f9f9; display: flex; justify-content: center; max-width: 300px; }
+    .update-btn { background: #fff; border: 1px solid #ccc; padding: 15px 40px; font-size: 18px; color: #2e3192; cursor: pointer; display: flex; align-items: center; gap: 10px; border-radius: 4px; }
+    .update-btn i { font-size: 24px; color: #2e3192; }
+    .update-btn:hover { background: #f0f0f0; }
+
+    /* Header Footer Styles */
+    .hf-section { border: 1px solid #ccc; margin-bottom: 20px; border-radius: 4px; overflow: hidden; }
+    .hf-header { background: #f0f0f0; border-bottom: 1px solid #ccc; padding: 5px 15px; display: flex; justify-content: space-between; align-items: center; }
+    .hf-preview-large { min-height: 120px; background: #fff; padding: 10px; display: flex; align-items: center; justify-content: center; }
+    .hf-header .primary { background: #2e3192; color: #fff; }
+
+    /* Overrides for setup buttons */
+    .wd-btn { padding: 6px 15px; border-radius: 3px; font-size: 12px; }
+    .wd-btn.primary { background: #2e3192 !important; color: #fff !important; }
+    .wd-btn.danger { background: #cd2027 !important; color: #fff !important; }
+
+    .main-tabs { display: flex; background: #f0f0f0; border-bottom: 1px solid #ccc; padding-top: 6px; padding-left: 6px; align-items: flex-end; }
+    .main-tab { padding: 8px 20px; border: 1px solid #ccc; border-bottom: none; background: #e0e0e0; margin-right: 2px; cursor: pointer; border-radius: 4px 4px 0 0; color: #555; transition: none; }
+    .main-tab.active { background: #fff; font-weight: bold; color: #2e3192; border-bottom: 1px solid #fff; margin-bottom: -1px; z-index: 1; }
+
+    @media (max-width: 950px) {
+        .setup-grid { gap: 15px; }
+        .update-bar { margin-left: 0; max-width: 100%; }
+    }
+    @media (max-height: 800px) {
+        .setup-body { padding: 10px; }
+        .logo-bar { margin-bottom: 10px; }
+        .form-row-setup { gap: 5px; }
+    }
+</style>

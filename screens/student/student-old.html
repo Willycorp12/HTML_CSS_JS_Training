@@ -1,0 +1,239 @@
+<!-- screens/student/student-old.html -->
+<div class="student-old-page">
+    <div class="page-header">
+        <h2>Existing Student Records</h2>
+    </div>
+
+    <div class="search-section">
+        <input id="student-old-search" type="text" class="wd-input search-input" placeholder="Search by name, registration, program, or level..." />
+        <button type="button" class="wd-btn primary" id="student-old-search-btn"><i class="fa-solid fa-search"></i> Search</button>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="wd-table student-records" style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: #2e3192; color: #fff;">
+                    <th style="padding: 12px; border-bottom: 2px solid #2e3192; text-align: left; font-weight: bold; font-size: 12px;">Name</th>
+                    <th style="padding: 12px; border-bottom: 2px solid #2e3192; text-align: left; font-weight: bold; font-size: 12px;">Reg</th>
+                    <th style="padding: 12px; border-bottom: 2px solid #2e3192; text-align: left; font-weight: bold; font-size: 12px;">Program</th>
+                    <th style="padding: 12px; border-bottom: 2px solid #2e3192; text-align: left; font-weight: bold; font-size: 12px;">Level</th>
+                    <th style="padding: 12px; border-bottom: 2px solid #2e3192; text-align: center; font-weight: bold; font-size: 12px;">Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Detail Modal Overlay -->
+<div class="asset-overlay hidden" id="student-old-detail-overlay">
+    <div class="asset-modal" id="student-old-detail-modal">
+        <!-- Header -->
+        <div class="asset-header">
+            <div class="asset-title" id="student-old-selected-name">Student Details</div>
+            <div class="asset-close" onclick="document.getElementById('student-old-detail-overlay').classList.add('hidden');" title="Close">&times;</div>
+        </div>
+
+        <div class="asset-body">
+            <!-- Tabs Navigation -->
+            <div class="asset-tabs">
+                <div class="asset-tab active" onclick="switchStudentOldTab('TAB_OldBasicInfo', this)">
+                    <i class="fa-solid fa-user"></i> Basic Info
+                </div>
+                <div class="asset-tab" onclick="switchStudentOldTab('TAB_OldFeeDetails', this)">
+                    <i class="fa-solid fa-money-bill"></i> Fee Details
+                </div>
+            </div>
+
+            <!-- Tab Content: Basic Info -->
+            <div id="TAB_OldBasicInfo" class="asset-tab-content active">
+                <div class="asset-general-layout">
+                    <div class="asset-general-left">
+                        <div class="form-row">
+                            <label>Registration No:</label>
+                            <span id="old-student-reg" style="font-weight: bold;">STD-2024-012</span>
+                        </div>
+                        <div class="form-row">
+                            <label>Program:</label>
+                            <span id="old-student-program">Computer Science</span>
+                        </div>
+                        <div class="form-row">
+                            <label>Level:</label>
+                            <span id="old-student-level">Level 2</span>
+                        </div>
+                        <div class="form-row">
+                            <label>Intake:</label>
+                            <span id="old-student-intake">Sept 2024</span>
+                        </div>
+                        <div class="form-row">
+                            <label>Phone / Email:</label>
+                            <span id="old-student-contact">+221 77 123 4567 / student@example.com</span>
+                        </div>
+                    </div>
+                    <div class="asset-general-right">
+                        <div class="form-row">
+                            <label>Gender:</label>
+                            <span id="old-student-gender">Female</span>
+                        </div>
+                        <div class="form-row">
+                            <label>Date of Birth:</label>
+                            <span id="old-student-dob">15/03/2000</span>
+                        </div>
+                        <div class="form-row">
+                            <label>Nationality:</label>
+                            <span id="old-student-nationality">Senegalese</span>
+                        </div>
+                        <div class="form-row">
+                            <label>Address:</label>
+                            <span id="old-student-address" style="font-style: italic; color: #666;">123 Main Street, Dakar</span>
+                        </div>
+                        <div class="form-row">
+                            <label>Notes:</label>
+                            <span id="old-student-notes" style="font-style: italic; color: #666;">Student notes appear here</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Fee Details -->
+            <div id="TAB_OldFeeDetails" class="asset-tab-content">
+                <div class="asset-general-layout">
+                    <div class="asset-general-left">
+                        <fieldset class="asset-num-group">
+                            <legend>Outstanding Fees</legend>
+                            <div class="form-row">
+                                <label>Outstanding Balance:</label>
+                                <input id="old-student-balance" type="number" class="wd-input" value="3200" />
+                            </div>
+                            <div class="form-row">
+                                <label>Payment Method:</label>
+                                <select id="old-student-payment-method" class="wd-input">
+                                    <option>Cash</option>
+                                    <option>Bank Transfer</option>
+                                    <option>Mobile Money</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label>Discount (%):</label>
+                                <input type="text" class="wd-input" value="0%" />
+                            </div>
+                            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                                <button type="button" class="student-old-pay-enroll-btn" id="student-old-pay-enroll" style="background: #6bc85a; color: #fff; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: bold; flex: 1; justify-content: center;"><i class="fa-solid fa-money-bill"></i> Pay & Enroll</button>
+                                <button type="button" class="student-old-enroll-only-btn" id="student-old-enroll-only" style="background: #cd2027; color: #fff; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: bold; flex: 1; justify-content: center;"><i class="fa-solid fa-arrow-right"></i> Enroll Only</button>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="asset-general-right">
+                        <fieldset class="asset-num-group">
+                            <legend>Fee Summary</legend>
+                            <div class="form-row">
+                                <label>Student:</label>
+                                <span id="old-student-summary-name" style="flex:1; font-weight: bold;">Student Name</span>
+                            </div>
+                            <div class="form-row">
+                                <label>Program:</label>
+                                <span id="old-student-summary-program" style="flex:1;">Computer Science</span>
+                            </div>
+                            <div class="form-row">
+                                <label>Outstanding Amount:</label>
+                                <span id="old-student-summary-balance" style="flex:1; font-weight: bold; color: #cd2027;">3200 FCFA</span>
+                            </div>
+                            <div class="form-row">
+                                <label>Discount:</label>
+                                <span style="flex:1;">0 FCFA (0%)</span>
+                            </div>
+                            <div class="form-row">
+                                <label>Net Amount:</label>
+                                <span style="flex:1; font-weight: bold; color: #007acc;">3200 FCFA</span>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="po-modal-footer">
+            <button type="button" class="wd-btn" onclick="document.getElementById('student-old-detail-overlay').classList.add('hidden');"><i class="fa-solid fa-xmark"></i> Close</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Page Layout */
+    .student-old-page { padding: 15px; display: flex; flex-direction: column; height: 100%; background: #f9f9f9; }
+    .page-header { margin-bottom: 15px; }
+    .page-header h2 { margin: 0 0 10px 0; color: #2e3192; font-size: 18px; font-weight: bold; }
+
+    /* Search Section */
+    .search-section { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; }
+    .search-input { flex: 1; padding: 10px; border: 1px solid #999; font-size: 12px; border-radius: 4px; box-sizing: border-box; }
+    .search-input:focus { outline: none; border-color: #2e3192; box-shadow: 0 0 3px rgba(46, 49, 146, 0.3); }
+
+    /* Table Wrapper */
+    .table-wrapper { flex: 1; overflow: auto; border: 1px solid #ccc; border-radius: 4px; background: #fff; }
+
+    .wd-table tbody tr { border-bottom: 1px solid #e5e7eb; transition: background 0.2s; }
+    .wd-table tbody tr:hover { background: #f5f5f5; }
+    .wd-table tbody td { padding: 10px 12px; font-size: 12px; }
+
+    .wd-btn { padding: 8px 16px; border: 1px solid #999; background: #f0f0f0; cursor: pointer; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; justify-content: center; border-radius: 4px; }
+    .wd-btn.primary { border-color: #2e3192; background-color: #2e3192; color: #fff; font-weight: bold; }
+    .wd-btn.danger { border-color: #cd2027; background-color: #cd2027; color: #fff; font-weight: bold; }
+    .wd-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* Detail Modal Overlay - Using asset-modal pattern */
+    .asset-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(5px); z-index: 9999; display: flex; justify-content: center; align-items: center; }
+    .asset-overlay.hidden { display: none; }
+    .asset-modal { background: #fff; display: flex; flex-direction: column; border-radius: 8px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); overflow: hidden; font-family: "Segoe UI", Tahoma, sans-serif; font-size: 12px; animation: modalPop 0.3s ease-out; width: 75%; max-width: 980px; height: 82%; }
+    @keyframes modalPop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .asset-header { background: #2e3192; color: #fff; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 14px; cursor: move; }
+    .asset-title { flex: 1; }
+    .asset-close { cursor: pointer; font-size: 18px; opacity: 0.8; }
+    .asset-close:hover { opacity: 1; }
+    .asset-body { padding: 10px; flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: #f0f0f0; }
+    .asset-tabs { display: flex; border-bottom: 1px solid #ccc; margin-bottom: 5px; }
+    .asset-tab { padding: 6px 12px; background: #e0e0e0; border: 1px solid #ccc; border-bottom: none; margin-right: 2px; cursor: pointer; border-radius: 4px 4px 0 0; color: #555; display: flex; align-items: center; gap: 6px; }
+    .asset-tab.active { background: #fff; border-color: #ccc; border-bottom: 1px solid #fff; margin-bottom: -1px; color: #2e3192; font-weight: bold; }
+    .asset-tab-content { flex: 1; background: #fff; border: 1px solid #ccc; border-top: none; padding: 15px; display: none; overflow: auto; }
+    .asset-tab-content.active { display: block; }
+    .asset-general-layout { display: flex; gap: 20px; height: 100%; }
+    .asset-general-left { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .asset-general-right { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .form-row { margin-bottom: 4px; }
+    .form-row label { display: block; font-weight: bold; margin-bottom: 2px; color: #333; }
+    .wd-input { width: 100%; padding: 6px; border: 1px solid #999; font-size: 12px; border-radius: 4px; box-sizing: border-box; }
+    .asset-num-group { border: 1px solid #ccc; padding: 8px; background: #fff; margin-bottom: 10px; }
+    .asset-num-group legend { font-size: 11px; margin-left: 5px; padding: 0 3px; }
+    .po-modal-footer { padding: 10px; background: #f0f0f0; border-top: 1px solid #ddd; text-align: right; display: flex; justify-content: flex-end; gap: 10px; }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .student-old-page { padding: 12px; }
+        .page-header h2 { font-size: 16px; margin-bottom: 8px; }
+        .search-section { gap: 8px; }
+        .wd-table thead th { font-size: 11px; padding: 10px; }
+        .wd-table tbody td { padding: 8px 10px; font-size: 11px; }
+        .asset-modal { width: 90%; height: 85%; }
+        .asset-general-layout { flex-direction: column; gap: 15px; }
+    }
+    @media (max-width: 768px) {
+        .student-old-page { padding: 10px; }
+        .page-header h2 { font-size: 15px; margin-bottom: 10px; }
+        .search-section { flex-direction: column; }
+        .search-input { width: 100%; }
+        .wd-btn { width: 100%; justify-content: center; }
+        .table-wrapper { max-height: 300px; }
+        .wd-table { font-size: 11px; }
+        .wd-table thead th { padding: 8px 6px; font-size: 10px; }
+        .wd-table tbody td { padding: 6px 8px; font-size: 10px; }
+        .asset-modal { width: 95%; height: 90%; }
+        .asset-general-layout { flex-direction: column; gap: 10px; }
+        .po-modal-footer { flex-direction: column; }
+        .po-modal-footer .wd-btn { width: 100%; }
+        .asset-tabs { flex-direction: column; }
+        .asset-tab { padding: 10px; }
+        .asset-header { padding: 10px 12px; }
+        .asset-title { font-size: 14px; }
+    }
+</style>
+

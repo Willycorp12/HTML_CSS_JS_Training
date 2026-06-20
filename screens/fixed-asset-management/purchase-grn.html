@@ -1,0 +1,64 @@
+<!-- screens/purchase-grn.html -->
+<div class="page-header">
+    <h2>Create Goods Received Note (GRN)</h2>
+    <p class="page-subtitle">Confirm delivery of fixed assets and record received goods against purchase orders.</p>
+</div>
+
+<div class="form-shell">
+    <div class="form-section">
+        <div class="form-row">
+            <label>GRN Number:</label>
+            <input type="text" class="wd-input" value="GRN-2026-002">
+        </div>
+        <div class="form-row">
+            <label>PO Reference:</label>
+            <input type="text" class="wd-input" placeholder="Reference PO Number">
+        </div>
+        <div class="form-row">
+            <label>Received Date:</label>
+            <input type="date" class="wd-input">
+        </div>
+        <div class="form-row">
+            <label>Received By:</label>
+            <input type="text" class="wd-input" placeholder="Receiver Name">
+        </div>
+        <div class="form-row">
+            <label>Condition:</label>
+            <select class="wd-input"><option>Good</option><option>Damaged</option></select>
+        </div>
+        <div class="form-row full-width">
+            <label>Notes:</label>
+            <textarea class="wd-input" rows="4"></textarea>
+        </div>
+        <div class="form-actions">
+            <button class="wd-btn primary">Validate GRN</button>
+            <button class="wd-btn danger">Cancel</button>
+        </div>
+    </div>
+
+    <div class="grid-panel">
+        <div class="panel-header-blue">Received Items</div>
+        <table class="wd-table blue-header">
+            <thead>
+                <tr><th style="width: 40px;">#</th><th>Item</th><th>Qty</th><th>Unit Cost</th><th>Total</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>Dell Precision</td><td>1</td><td>1,200,000 FCFA</td><td>1,200,000 FCFA</td><td>Received</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .form-shell { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; height: calc(100% - 70px); }
+    .form-section, .grid-panel { padding: 18px; background: #fff; border: 1px solid #c8d1eb; }
+    .form-row { display: flex; flex-direction: column; margin-bottom: 14px; }
+    .form-row label { font-weight: 600; font-size: 13px; margin-bottom: 6px; }
+    .wd-input { padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    .full-width { grid-column: span 2; }
+    .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; }
+    .panel-header-blue { background: #2e3192; color: #fff; padding: 10px 12px; font-weight: 700; margin-bottom: 10px; }
+    .wd-table { width: 100%; border-collapse: collapse; }
+    .wd-table th, .wd-table td { border: 1px solid #d1d3e2; padding: 9px 8px; font-size: 12px; }
+    .wd-table th { background: #2e3192; color: #fff; }
+</style>

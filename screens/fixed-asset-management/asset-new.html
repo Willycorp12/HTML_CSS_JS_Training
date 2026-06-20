@@ -1,0 +1,395 @@
+<!-- screens/asset-new.html -->
+<div class="asset-overlay">
+    <div class="asset-modal" id="MODAL_NewAsset">
+        <!-- Header (Blue as requested) -->
+        <div class="asset-header" id="MODAL_NewAsset_Header">
+            <div class="asset-title" style="cursor: move;">Creating a New Asset</div>
+            <div class="asset-close" id="BTN_CloseAssetModal" title="Close"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+
+        <div class="asset-body">
+            <!-- Top Form Section (Always visible) -->
+            <div class="asset-top-form">
+                <div class="asset-top-left">
+                    <div class="form-row">
+                        <label>Asset Name:</label>
+                        <input type="text" class="wd-input" id="new-asset-name" placeholder="Enter Asset Name">
+                        <label>Asset Type:</label>
+                        <input type="text" class="wd-input picker-trigger" id="new-asset-type" readonly placeholder="Select Asset Type">
+                        <label>Location:</label>
+                        <input type="text" class="wd-input picker-trigger" id="new-asset-location" readonly placeholder="Select Location">
+                        <label>Manufacturer:</label>
+                        <input type="text" class="wd-input" id="new-asset-manufacturer" placeholder="Enter Manufacturer">
+                    </div>
+                </div>
+
+                <div class="asset-top-right">
+                    <fieldset class="asset-num-group">
+                        <legend>Asset Number</legend>
+                        <div class="asset-num-row">
+                            <i class="fa-solid fa-barcode fa-lg" style="color: #2e3192;"></i>
+                           <input type="text" value="ASS00 /29" class="wd-input highlight-yellow" id="new-asset-number">
+                        </div>
+                        <div class="asset-num-radios">
+                            <label><input type="radio" name="num_mode" value="automatic" checked> Automatic</label>
+                            <label><input type="radio" name="num_mode" value="manual"> Manual</label>
+                        </div>
+                    </fieldset>
+                    
+                    <div class="asset-checkboxes">
+                        <label><input type="checkbox" id="new-asset-single-entry"> Single Entry</label>
+                        <label><input type="checkbox" id="new-asset-no-depreciate"> Do not Depreciate Asset</label>
+                    </div>
+
+                    <div class="asset-actions">
+                        <div id="regen-sch-container" style="display: none; align-items: center; gap: 4px; margin-right: 10px;">
+                            <label for="new-asset-regenerate-sch" style="font-size: 10px; font-weight: normal; margin: 0; color: #333;">Regenerate sch.</label>
+                            <input type="checkbox" id="new-asset-regenerate-sch" style="width: auto; margin: 0; height: auto;">
+                        </div>
+                        <button class="wd-btn primary" id="new-asset-validate-btn">Validate <i class="fa-solid fa-circle-check"></i></button>
+                        <button class="wd-btn danger" id="BTN_CancelAssetModal">Close <i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="asset-tabs-container">
+                <div class="asset-tabs">
+                <div class="asset-tab active" data-tab-target="TAB_General">
+                    <i class="fa-solid fa-info"></i> General Info
+                </div>
+                <div class="asset-tab" data-tab-target="TAB_Financial">
+                    <i class="fa-solid fa-coins"></i> Financial Info
+                </div>
+                <div class="asset-tab" data-tab-target="TAB_Notes">
+                    <i class="fa-solid fa-pen-to-square"></i> Notes
+                </div>
+                </div>
+                <button class="wd-btn primary" id="btn-open-balance" style="margin-left: auto; height: 28px; display: none;"><i class="fa-solid fa-wallet"></i> Enter Asset Opening Balance</button>
+            </div>
+
+            <!-- Tab Content: General Info -->
+            <div id="TAB_General" class="asset-tab-content active">
+                <div class="asset-general-layout">
+                    <div class="asset-general-left">
+                        <div class="form-row">
+                            <label for="new-asset-status">Status:</label>
+                            <select class="wd-input" id="new-asset-status">
+                                <option value="1">IN USE</option>
+                                <option value="2">UNDER REPAIR</option>
+                                <option value="3">OUT OF SERVICE</option>
+                                <option value="4">DAMAGED</option>
+                                <option value="5">LOST</option>
+                                <option value="6">TRANSFERRED</option>
+                                <option value="7">DISPOSED</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <label for="new-asset-model">Model number:</label>
+                            <input type="text" class="wd-input" id="new-asset-model" placeholder="Enter Model Number">
+                        </div>
+                        <div class="form-row">
+                            <label for="new-asset-serial">Serial Number:</label>
+                            <input type="text" class="wd-input" id="new-asset-serial" placeholder="Enter Serial Number">
+                        </div>
+                        <div class="form-row">
+                            <label for="new-asset-brand">Brand:</label>
+                            <input type="text" class="wd-input" id="new-asset-brand" placeholder="Enter Brand">
+                        </div>
+                        <div class="form-row full-width">
+                            <label for="new-asset-description">Description:</label>
+                            <textarea class="wd-input" rows="2" id="new-asset-description" placeholder="Asset Description"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <label for="new-asset-po-number">PO Number:</label>
+                            <input type="text" class="wd-input" id="new-asset-po-number" placeholder="Purchase Order Number">
+                        </div>
+                        <div class="form-row">
+                            <label for="new-asset-supplier">Supplier:</label>
+                            <input type="text" class="wd-input picker-trigger" id="new-asset-supplier" readonly placeholder="Select Supplier">
+                        </div>
+                    </div>
+                    <div class="asset-general-right">
+                        <div class="asset-image-box" style="height: 120px;"></div>
+                        <div class="asset-image-btns">
+                            <button class="wd-btn">Clear</button>
+                            <button class="wd-btn">Browse...</button>
+                        </div>
+                        <div class="form-row">
+                            <label>End of Warranty:</label>
+                            <input type="date" class="wd-input" id="new-asset-warranty-end">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Financial Info -->
+            <div id="TAB_Financial" class="asset-tab-content">
+                <div class="asset-fin-top">
+                    <div class="fin-col">
+                        <div class="form-row"><label>Number of Units (Qty):</label><input type="number" class="wd-input" value="1" id="new-asset-qty"></div>
+                        <div class="form-row"><label>Original Cost:</label><input type="number" class="wd-input" value="0" id="new-asset-original-cost"></div>
+                        <div class="form-row"><label>Total Estimate:</label><input type="text" class="wd-input" id="new-asset-total-estimate" value="0 FCFA" readonly style="background:#eee; cursor: not-allowed;"></div>
+                        <div class="form-row"><label>Depreciation Start Date:</label><input type="date" class="wd-input" id="new-asset-depreciation-start-date"></div>
+                    </div>
+                    <div class="fin-col">
+                        <div class="form-row"><label>Acquisition Date:</label><input type="date" class="wd-input" id="new-asset-acquisition-date"></div>
+                        <div class="form-row"><label>Depreciation %:</label><div class="input-group"><input type="number" class="wd-input" style="width: 50%;" value="0.0" id="new-asset-depreciation-percent"> (In %)</div></div>
+                        <div class="form-row"><label>Life Cycle:</label><div class="input-group"><input type="number" class="wd-input" id="new-asset-life-cycle" style="width: 50%;" value="0" readonly style="background:#eee; cursor: not-allowed;"> (In Years)</div></div>
+                    </div>
+                    <div class="fin-col">
+                        <div class="form-row"><label>Accum.Dep:</label><input type="text" class="wd-input" id="new-asset-accum-dep" readonly placeholder="Select Account" style="cursor: pointer; background: #fff;"></div>
+                        <div class="form-row"><label>Account Name:</label><input type="text" class="wd-input" id="new-asset-account-name" readonly placeholder="Select Account" style="cursor: pointer; background: #fff;"></div>
+                        <div class="form-row"><label>Depreciation Method:</label>
+                            <select class="wd-input" id="new-asset-depreciation-method">
+                                <option value="Straight Line">Straight Line</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="asset-fin-bottom">
+                    <div class="fin-tabs-schedule">
+                        <div class="fin-tab-schedule active" data-tab-target="schedule-yearly">Yearly Schedule</div>
+                        <div class="fin-tab-schedule" data-tab-target="schedule-monthly">Monthly Schedule</div>
+                        <a href="#" class="fin-link">Get Depreciation Schedule</a>
+                    </div>
+                    <div class="fin-schedule-content">
+                        <div id="schedule-yearly" class="fin-table-wrap active">
+                        <table class="wd-table blue-header">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Year</th>
+                                    <th>Start Book value</th>
+                                    <th>Depreciation</th>
+                                    <th>Accum Depr.</th>
+                                    <th>End Book Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                            </tbody>
+                        </table>
+                        </div>
+
+                    <div id="schedule-monthly" class="fin-table-wrap">
+                        <table class="wd-table blue-header">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Month</th>
+                                    <th>Start Book val</th>
+                                    <th>Depreciation</th>
+                                    <th>Accum Depr.</th>
+                                    <th>End Book Val</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Notes -->
+            <div id="TAB_Notes" class="asset-tab-content">
+                <div class="form-row" style="height:100%; display:flex; flex-direction:column;">
+                    <label>Comments</label>
+                    <textarea class="wd-input" style="flex:1; resize:none;" rows="6" id="new-asset-notes"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Overlay to create the glass effect and center the modal */
+    .asset-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4); /* Dimmed background */
+        backdrop-filter: blur(5px); /* Glass blur effect */
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* The Modal Window */
+    .asset-modal {
+        width: 700px;
+        max-width: 95%;
+        max-height: 95vh;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        border-radius: 8px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        overflow: hidden;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        font-size: 12px;
+        animation: modalPop 0.3s ease-out;
+    }
+
+    @keyframes modalPop {
+        from { transform: scale(0.95); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    .asset-header {
+        background: #2e3192;
+        color: #fff;
+        padding: 8px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    .asset-close { cursor: pointer; font-size: 18px; opacity: 0.8; }
+    .asset-close:hover { opacity: 1; }
+    
+    .asset-body {
+        padding: 10px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto; /* Allow scrolling only if the content exceeds viewport height */
+        background: #f0f0f0;
+    }
+    .asset-top-form { /* Top section with Asset Name, Type, Location, Manufacturer, Asset Number */
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 10px;
+        background: #fff;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+    .asset-top-left { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .asset-top-right { flex: 1; display: flex; flex-direction: column; gap: 8px; justify-content: space-between; }
+    
+    .form-row { margin-bottom: 4px; flex: 1; }
+    .asset-general-left { /* General Info tab - Left column */
+        flex: 1; 
+        display: grid; 
+        grid-template-columns: 1fr 1fr; 
+        gap: 10px; 
+        align-content: start;
+    }
+    .form-row.full-width { grid-column: span 2; }
+    .form-row label { display: block; font-weight: bold; color: #333; }
+    .wd-input { width: 100%; padding: 5px 6px; border: 1px solid #999; font-size: 12px; border-radius: 4px; box-sizing: border-box; min-height: 28px; }
+    
+    .asset-num-group { border: 1px solid #ccc; padding: 8px; background: #fff; }
+    .asset-num-group legend { font-size: 11px; margin-left: 5px; padding: 0 3px; }
+    .asset-num-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .asset-num-row i { color: #333; }
+    .highlight-yellow { background: #ffffe0; }
+    .asset-num-radios { display: flex; gap: 15px; justify-content: flex-end; }
+    
+    .asset-checkboxes { display: flex; gap: 15px; margin-top: 5px; font-weight: bold; color: #007acc; }
+    .asset-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px; }
+    
+    /* Tabs */
+    .asset-tabs { display: flex; border-bottom: 1px solid #ccc; margin-top: 5px; }
+    .asset-tab {
+        padding: 6px 12px;
+        background: #e0e0e0;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        margin-right: 2px;
+        cursor: pointer;
+        border-radius: 4px 4px 0 0;
+        color: #555;
+        display: flex; align-items: center; gap: 6px;
+    }
+    .asset-tab.active {
+        background: #fff;
+        border-color: #ccc;
+        border-bottom: 1px solid #fff;
+        margin-bottom: -1px;
+        color: #2e3192;
+        font-weight: bold;
+    }
+    
+    .asset-tab-content {
+        flex: 1;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-top: none;
+        padding: 15px;
+        display: none;
+        overflow: auto;
+    }
+    .asset-tab-content.active { display: block; }
+    
+    /* General Tab */
+    .asset-general-layout { display: flex; gap: 20px; height: 100%; } /* Main layout for General Info tab */
+    .asset-general-left { flex: 1; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; align-content: start; }
+    .asset-general-left .form-row { margin-bottom: 0; width: 100%; } /* Reset margin as grid handles spacing */
+    .asset-general-left .form-row.full-width { grid-column: span 2; } /* Description spans both columns */
+    .asset-general-left .form-row input[type="date"] { width: auto; } /* Auto width for date inputs */
+    .asset-general-right { width: 200px; display: flex; flex-direction: column; gap: 10px; }
+    .asset-image-box { flex: 1; border: 1px solid #ccc; background: #fafafa; min-height: 100px; max-height: 120px; display: flex; align-items: center; justify-content: center; color: #aaa; }
+    .asset-image-btns { display: flex; gap: 10px; justify-content: flex-end; }
+    
+    /* Financial Tab */
+    .asset-fin-top { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px; }
+    .asset-fin-top .form-row { margin-bottom: 0; }
+    .asset-fin-top .wd-input { width: 100%; }
+    .asset-fin-top .wd-input[type="date"] { width: auto; }
+    .input-group { display: flex; align-items: center; gap: 5px; }
+    
+    /* Financial Tab Layout */
+    .asset-tabs-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ccc;
+        margin-top: 5px;
+        background: #f0f0f0; /* Match tab background */
+        padding-right: 5px; /* Padding for the button */
+    }
+    .asset-tabs-container .asset-tabs {
+        border-bottom: none; /* Remove redundant border */
+        margin-top: 0;
+    }
+    #btn-open-balance {
+        /* Style the button to fit the toolbar aesthetic */
+        padding: 6px 12px;
+        font-size: 12px;
+        border-radius: 4px;
+        white-space: nowrap; /* Prevent wrapping */
+    }
+
+    .asset-fin-bottom { display: flex; flex-direction: column; flex: 1; }
+    .fin-tabs-schedule { display: flex; gap: 5px; border-bottom: 1px solid #ccc; align-items: flex-end; }
+    .fin-tab-schedule { padding: 4px 10px; background: #e0e0e0; border: 1px solid #ccc; border-bottom: none; cursor: pointer; border-radius: 4px 4px 0 0; }
+    .fin-tab-schedule.active { background: #fff; font-weight: bold; border-bottom: 1px solid #fff; margin-bottom: -1px; }
+    .fin-link { margin-left: auto; font-size: 11px; color: blue; text-decoration: underline; cursor: pointer; margin-bottom: 4px; }
+    
+    .fin-schedule-content { height: 180px; display: flex; flex-direction: column; }
+    .fin-table-wrap { flex: 1; border: 1px solid #ccc; border-top: none; background: #fff; overflow: auto; display: none; } /* Hide by default */
+    .fin-table-wrap.active { display: block; } /* Show active table */
+    .wd-table.blue-header th { background: #2e3192; color: #fff; padding: 6px; text-align: left; }
+    .wd-table td { padding: 4px 6px; border-bottom: 1px solid #eee; }
+    
+    /* Buttons */
+    .wd-btn { padding: 6px 12px; border: 1px solid #999; background: #f0f0f0; cursor: pointer; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; justify-content: center; border-radius: 4px; }
+    .wd-btn:hover { opacity: 0.9; }
+    .wd-btn.primary { border-color: #2e3192; background-color: #2e3192; color: #fff; font-weight: bold; }
+    .wd-btn.danger { border-color: #cd2027; background-color: #cd2027; color: #fff; font-weight: bold; }
+</style>

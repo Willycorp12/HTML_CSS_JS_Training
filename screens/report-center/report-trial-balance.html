@@ -1,0 +1,190 @@
+<div class="report-screen-wrapper">
+    <!-- Header Section (Custom layout for reports) -->
+    <!-- Modeled after paylist-cnps.html header style for consistency -->
+    <div class="report-header-section">
+        <!-- Left: Date Controls -->
+        <div class="report-header-left">
+            <div class="form-row compact">
+                <label>From:</label>
+                <input type="date" id="TB_DateFrom" class="wd-input date-small" value="2025-10-01" onchange="syncTbDates()">
+                <span class="label-sub">Batch/Year:</span>
+            </div>
+            <div class="form-row compact">
+                <label>To:</label>
+                <input type="date" id="TB_DateTo" class="wd-input date-small" value="2026-09-30" onchange="syncTbDates()">
+                <select class="wd-input"><option>Finance Year 2026</option></select>
+            </div>
+        </div>
+
+        <!-- Center: Title -->
+        <div class="report-header-center">
+            <div class="company-title">BIAKA HOSPITAL</div>
+            <div class="report-main-title">Trial Balance for the Period <span id="TB_Label" style="color: #666; font-size: 0.65em;">(2-Columns)</span></div>
+            <div class="report-separator-line"></div>
+            <div class="report-sub-title" id="TB_Subtitle">Loading dates...</div>
+        </div>
+
+        <!-- Right: Actions & Format -->
+        <div class="report-header-right">
+            <button class="wd-btn primary print-action-btn" onclick="printTrialBalanceReport()">Print Report <i class="fa-solid fa-print"></i></button>
+            <fieldset class="report-format-group">
+                <legend>Trial.Bal.Formats</legend>
+                <label><input type="radio" name="tb_fmt" value="2" checked onchange="changeTbFormat(2)"> 2 Columns T.B</label>
+                <label><input type="radio" name="tb_fmt" value="4" onchange="changeTbFormat(4)"> 4 Columns T.B</label>
+                <label><input type="radio" name="tb_fmt" value="6" onchange="changeTbFormat(6)"> 6 Columns T.B</label>
+                <label><input type="radio" name="tb_fmt" value="8" onchange="changeTbFormat(8)"> 8 Columns T.B</label>
+            </fieldset>
+        </div>
+    </div>
+
+    <!-- Toolbar/Filter -->
+    <div class="report-toolbar">
+        <select class="wd-input" style="width: 160px;"><option>This Academic Year</option></select>
+        <input type="text" class="global-search" placeholder="Search by Account Name...">
+    </div>
+
+    <!-- Table -->
+    <div class="table-scroll-wrapper">
+        <table class="wd-table blue-header" id="TB_Table">
+            <colgroup id="TB_Colgroup_Main"></colgroup>
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- Fixed Footer for Totals -->
+    <div class="report-footer">
+        <table class="wd-table footer-table">
+            <colgroup id="TB_Colgroup_Footer"></colgroup>
+            <tfoot id="TB_Tfoot"></tfoot>
+        </table>
+    </div>
+</div>
+
+<style>
+    /* Scoped styles for this report screen to keep it contained but using shared classes logic */
+    .report-screen-wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background-color: #fdfdfd;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        font-size: 13px; /* Increased base font size */
+    }
+    
+    .report-header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 5px 15px;
+        background: #fdfdfd; /* Lighter background like paylist-cnps 
+        border-bottom: 1px solid #ccc;*/
+    }
+
+    .report-header-left { display: flex; flex-direction: column; gap: 5px; min-width: 260px; }
+    .form-row.compact { display: flex; align-items: center; gap: 8px; }
+    .form-row.compact label { font-weight: bold; width: 40px; text-align: right; color: #333; }
+    .wd-input.date-small { width: auto;}
+    .label-sub { color: #333; font-size: 12px; font-weight: bold; margin-left: 2px; }
+    .compact-btn { padding: 2px 8px; font-size: 11px; }
+    .print-action-btn {
+        padding: 6px 15px;
+        font-weight: bold;
+    }
+
+    .report-header-center { 
+        text-align: center; 
+        flex: 1; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center;
+    }
+    .company-title { color: #005a9e; font-weight: bold; text-transform: uppercase; font-size: 16px; margin-bottom: 2px; }
+    .report-main-title { color: #2e3192; font-size: 24px; font-weight: bold; margin: 2px 0; }
+    .report-separator-line { width: 90%; height: 1px; background: #cd2027; margin: 4px 0; }
+    .report-sub-title { color: #cd2027; font-size: 13px; font-weight: 500; }
+
+    .report-header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; min-width: 150px; }
+    .report-format-group { border: 1px solid #aaa; padding: 4px 8px; background: #fff; margin: 0; border-radius: 2px; }
+    .report-format-group legend { font-size: 10px; font-weight: bold; color: #2e3192; padding: 0 2px; margin-left: 4px; }
+    .report-format-group label { display: block; font-size: 10px; cursor: pointer; margin-bottom: 1px; }
+
+    .report-toolbar {
+        padding: 3px 12px;
+        background: #fdfdfd;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        max-width: 80%;
+        margin-top: -45px;
+    }
+
+    #TB_Table { table-layout: fixed; width: 100%; }
+
+    .report-footer {
+        flex: 0 0 auto;
+        background: #f0f0f0;
+        z-index: 20;
+        overflow: hidden; /* Allows scroll sync without visible scrollbar */
+        scrollbar-gutter: stable;
+    }
+    .footer-table { margin-top: 0 !important; width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .footer-table td { font-weight: bold; background: #f0f0f0 !important; }
+
+    /* Reuse table-scroll-wrapper from cash-journal context logic */
+    .table-scroll-wrapper {
+        flex: 1;
+        overflow-y: scroll;
+        background: #fff;
+        position: relative;
+        border-top: 1px solid #ccc;
+    }
+
+    /* Specific table overrides for the Blue Header look from asset-master */
+    .wd-table.blue-header thead th {
+        background-color: #2e3192;
+        color: white;
+        border-color: #1a1d63;
+        text-align: center;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        padding: 8px 4px;
+        font-weight: normal;
+        border-right: 1px solid #ccc;
+    }
+    /* Sub-header row styling */
+    .wd-table.blue-header thead tr:nth-child(2) th {
+        background-color: #2e3192; /* Keep blue but maybe lighter or distinct if needed */
+        top: 32px; /* Adjusted for larger font */
+        font-size: 12px;
+    }
+
+    .wd-table td {
+        padding: 6px 8px;
+        border: 1px solid #ccc;
+        font-size: 12px;
+        cursor: pointer;
+    }
+    .wd-table tbody tr:nth-child(even) { background-color: #f9f9f9; }
+    .wd-table tbody tr:hover { background-color: #eef2ff; color: #000000; }
+    
+    /* Standard Red Selector used across the system */
+    .wd-table tbody tr.row-selected td {
+        background-color: #cd2027 !important;
+        color: white !important;
+    }
+    .wd-table tbody tr.row-selected td:hover {
+        background-color: #cd2027 !important;
+        color: #000000 !important;
+    }
+
+    .text-right { text-align: right; }
+    .text-center { text-align: center; }
+    .bg-yellow { background-color: #ffff99; }
+    .bg-red { background-color: #cd2027 !important; color: white; }
+    .font-bold { font-weight: bold; }
+    
+    /* Column width utilities if needed, but using colgroup now */
+</style>

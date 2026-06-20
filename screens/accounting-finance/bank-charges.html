@@ -1,0 +1,91 @@
+<style>
+    .order-date-box {
+        width: 100%;
+    }
+
+    .order-date-title {
+        background: #2e3192;
+        color: #fff;
+        padding: 2px 1px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .order-date-input {
+        width: 100%;
+        padding: 6px;
+        border: 1px solid #e0e0e0;
+        border-top: none;
+    }
+</style>
+
+<div class="form-wrapper">
+
+    <!-- ===== FORM HEADER ===== -->
+    <div class="form-header">
+        <div class="page-header">
+            <h2>Bank Charges</h2>
+        </div>
+        <div class="form-subtitle">Enter the Figure for Bank Charges below and Validate</div>
+    </div>
+
+    <!-- ===== FORM BODY ===== -->
+    <div class="form-body">
+
+        <!-- LEFT MAIN FORM -->
+        <div class="form-main">
+
+            <!-- AMOUNT SECTION -->
+            <div class="amount-section" style="margin-top: 10%;">
+                <label>Amount</label>
+                <div class="amount-editable">
+                    <input type="text" id="amount-input" class="amount-input" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="0" />
+                    <span class="fcfa-label">FCFA</span>
+                </div>
+                <div class="amount-words" style="font-size: large; margin-top: 20px;" id="amount-words">Amount in words</div>
+            </div>
+
+            <!-- INPUT FIELDS -->
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea placeholder="Description of the bank charges..."></textarea>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE PANEL -->
+        <div class="form-side" style="max-width: 350px;">
+
+            <div class="side-group">
+                <div class="order-date-box">
+                    <div class="order-date-title">Reference #:</div>
+                    <input type="text" value="Banking_44" style="border-radius: 0%;" class="order-date-input">
+                </div>
+            </div>
+
+            <div class="side-group">
+                <div class="order-date-box">
+                    <div class="order-date-title">Transac. Date</div>
+                    <input type="date" style="border-radius: 0%;" class="order-date-input">
+                </div>
+            </div>
+
+            <div class="side-group">
+                <div class="order-date-box">
+                    <div class="order-date-title">Destination Account</div>
+                    <select type="text" value="Bank Account" style="border-radius: 0%;" class="order-date-input">
+                        <option value="Bank Account">Bank Account</option>
+                        <option value="Cash Account">Cash Account</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FORM ACTIONS ===== -->
+    <div class="form-actions">
+        <button class="btn-primary" id="BTN_BankCharges_ValidateOnly">Validate Only</button>
+        <button class="btn-primary" id="BTN_BankCharges_ValidatePrint">Validate & Print</button>
+        <button class="btn-secondary">Close</button>
+    </div>
+</div>

@@ -1,0 +1,406 @@
+<!-- screens/asset-new.html -->
+<div class="page-header">
+    <h2>Asset Master Data</h2>
+</div>
+
+<div class="asset-master-wrapper">
+    <!-- LEFT PANEL: Asset Types -->
+    <div class="asset-left-panel">
+        <div class="panel-header-blue">
+            <span>Assets</span>
+        </div>
+        <div class="panel-toolbar">
+            <button class="wd-btn" id="new-type-location-btn"><i class="fa-solid fa-file-circle-plus"></i> New Type</button>
+            <button class="wd-btn" id="modify-type-location-btn"><i class="fa-solid fa-pen"></i> Modify</button>
+            <button class="wd-btn danger" id="delete-type-location-btn"><i class="fa-solid fa-trash"></i> Delete</button>
+        </div>
+        <div class="panel-tabs-row">
+            <div class="panel-tab active" data-tab-name="asset-type" onclick="switchAssetMasterTab('left', 'asset-type', this)">Asset Type</div>
+            <div class="panel-tab" data-tab-name="location" onclick="switchAssetMasterTab('left', 'location', this)">Location</div>
+        </div>
+        <div id="asset-type-content" class="asset-type-list">
+            <table class="wd-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">ID No.</th>
+                        <th>Asset Type Name</th>
+                    </tr>
+                </thead>
+                <tbody id="TBODY_AssetTypes">
+                    <!-- Dynamic Data -->
+                </tbody>
+            </table>
+        </div>
+        <div id="location-content" class="asset-type-list" style="display: none;">
+            <table class="wd-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">ID No.</th>
+                        <th>Location Name</th>
+                    </tr>
+                </thead>
+                <tbody id="TBODY_Locations">
+                    <!-- Dynamic Data -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- RIGHT PANEL: Asset List -->
+    <div class="asset-right-panel">
+        <div class="panel-header-blue flex-between">
+            <span>CAMPUS</span>
+            <div class="header-actions">
+                <button class="wd-btn excel-btn"><i class="fa-solid fa-file-excel"></i> Export</button>
+                <input type="text"
+            id="EDT_GlobalSearch"
+            class="global-search"
+            style="margin-left: 0%;"
+            placeholder="Search by Asset Name >>>">
+            </div>
+        </div>
+        
+        <div class="main-toolbar">
+            <div class="toolbar-group">
+                <button class="wd-btn primary" id="btn-new-asset"><i class="fa-solid fa-file-circle-plus"></i> New Asset</button>
+                <button class="wd-btn" id="btn-edit-asset"><i class="fa-solid fa-pen"></i> Edit Asset</button>
+                <button class="wd-btn danger" id="btn-delete-asset"><i class="fa-solid fa-trash"></i> Delete</button>
+            </div>
+            
+            <div class="toolbar-separator"></div>
+            
+            <div class="toolbar-group">
+                <button class="wd-btn" id="btn-refresh-assets"><i class="fa-solid fa-list-check"></i> Display All</button>
+                <button class="wd-btn"><i class="fa-solid fa-circle-question"></i> Help?</button>
+            </div>
+
+            <div class="toolbar-spacer"></div>
+
+            <div class="toolbar-group">
+                <button class="wd-btn" id="btn-audit-asset"><i class="fa-solid fa-check-double"></i> Audit</button>
+                <button class="wd-btn" onclick="loadScreen('asset-in.html', null, 'Asset Check-In')"><i class="fa-solid fa-arrow-right-to-bracket"></i> Check-In</button>
+                <button class="wd-btn" onclick="loadScreen('asset-out.html', null, 'Asset Check-Out')"><i class="fa-solid fa-arrow-right-from-bracket"></i> Check-Out</button>
+            </div>
+        </div>
+
+        <div class="main-tabs">
+            <div class="main-tab active" onclick="switchAssetMasterTab('right', 'approved', this)">Approved Assets</div>
+            <div class="main-tab" onclick="switchAssetMasterTab('right', 'unapproved', this)">Assets NOT Approved/Received</div>
+            <div class="print-btn-container">
+                <button class="wd-btn">Print <i class="fa-solid fa-print"></i></button>
+            </div>
+        </div>
+
+        <div id="approved-assets-content" class="asset-table-container">
+            <table class="wd-table blue-header">
+                <thead>
+                    <tr>
+                        <th style="width: 30px;">SN</th>
+                        <th>Asset Name</th>
+                        <th>Asset Type</th>
+                        <th style="text-align: right;">Qty</th>
+                        <th>Acquisition Date</th>
+                        <th style="text-align: right;">Total Cost</th>
+                        <th>Status</th>
+                        <th style="text-align: right;">Opening Balance</th>
+                        <th>Approved Status</th>
+                    </tr>
+                </thead>
+                <tbody id="approved-assets-tbody">
+                    <!-- Dynamic content will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+        <div id="unapproved-assets-content" class="asset-table-container" style="display: none;">
+            <table class="wd-table blue-header">
+                <thead>
+                    <tr>
+                        <th style="width: 30px;">SN</th>
+                        <th>Asset Name</th>
+                        <th>Asset Type</th>
+                        <th style="text-align: right;">Qty</th>
+                        <th>Acquisition Date</th>
+                        <th style="text-align: right;">Total Cost</th>
+                        <th>Status</th>
+                        <th style="text-align: right;">Opening Balance</th>
+                        <th>Approved Status</th>
+                    </tr>
+                </thead>
+                <tbody id="unapproved-assets-tbody">
+                    <!-- Dynamic content will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL for New Asset Type/Location -->
+<div id="MODAL_AssetGeneric" class="coa-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 10005; align-items: center; justify-content: center;">
+    <div class="coa-modal" style="width: 450px; background: #f0f0f0; border-radius: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column;">
+        <div class="coa-modal-header" id="MAG_Header" style="background: #2e3192; color: white; padding: 10px 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move;">
+            <div id="MAG_Title">New Asset Detail</div>
+            <div style="font-size: 22px; color: #fff; opacity: 0.8; cursor: pointer;" onclick="AssetMasterModalManager.closeModal()">&times;</div>
+        </div>
+        <div class="coa-modal-body" style="padding: 20px; background: #fff;">
+            <form id="MAG_Form" onsubmit="event.preventDefault();">
+                <div class="form-group">
+                    <label id="MAG_Label" style="font-weight:bold; display:block; margin-bottom:8px;">Name</label>
+                    <input type="text" id="MAG_InputName" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" required>
+                </div>
+            </form>
+        </div>
+        <div class="coa-modal-footer" style="padding: 12px 20px; background: #f0f0f0; border-top: 1px solid #ddd; text-align: right; display: flex; justify-content: flex-end; gap: 10px;">
+            <button class="wd-btn primary" id="MAG_SaveBtn" onclick="AssetMasterModalManager.handleSave()">
+                <i class="fa-solid fa-plus"></i> Create
+            </button>
+            <button class="wd-btn danger" onclick="AssetMasterModalManager.closeModal()">
+                <i class="fa-solid fa-xmark"></i> Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL for Asset Audit -->
+<div id="MODAL_AssetAudit" class="coa-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 10005; align-items: center; justify-content: center; backdrop-filter: blur(2px);">
+    <div class="coa-modal" style="width: 480px; background: #fff; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); overflow: hidden; border: 1px solid #888;">
+        <!-- WinDev Header Style -->
+        <div class="coa-modal-header" style="background: #2e3192; color: white; padding: 10px 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move;">
+            <div id="AUDIT_ModalTitle">Asset Audit</div>
+            <div style="font-size: 22px; color: #fff; opacity: 0.8; cursor: pointer;" onclick="AssetMasterModalManager.closeAuditModal()">&times;</div>
+        </div>
+        
+        <div class="coa-modal-body" style="padding: 15px; background: #fff;">
+            <div class="asset-name-display" id="AUDIT_AssetName">ASSET NAME HERE</div>
+            <div class="audit-red-line"></div>
+
+            <form id="AUDIT_Form" class="audit-grid-form" onsubmit="event.preventDefault();">
+                <div class="audit-form-row">
+                    <label>Date Audited:</label>
+                    <div class="audit-input-wrap">
+                        <input type="date" id="audit-date" class="wd-input">
+                    </div>
+                </div>
+                <div class="audit-form-row">
+                    <label>Set Location:</label>
+                    <div class="audit-input-wrap">
+                        <input type="text" id="audit-location" class="wd-input picker-trigger" readonly placeholder="Select Location">
+                    </div>
+                </div>
+                <div class="audit-form-row">
+                    <label>Status:</label>
+                    <div class="audit-input-wrap">
+                        <select id="audit-status" class="wd-input">
+                            <option value="1">IN USE</option>
+                            <option value="2">UNDER REPAIR</option>
+                            <option value="3">OUT OF SERVICE</option>
+                            <option value="4">DAMAGED</option>
+                            <option value="5">LOST</option>
+                            <option value="6">TRANSFERRED</option>
+                            <option value="7">DISPOSED</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="audit-form-row align-start">
+                    <label>Comments:</label>
+                    <textarea id="audit-comments" class="wd-input" rows="3" placeholder="Enter audit remarks..."></textarea>
+                </div>
+                <div class="audit-form-row">
+                    <label>Approve Reception:</label>
+                    <select id="audit-approve-status" class="wd-input"></select>
+                </div>
+            </form>
+        </div>
+        <div class="coa-modal-footer" style="padding: 10px 15px; background: #f5f5f5; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; gap: 8px;">
+            <button class="wd-btn primary" id="AUDIT_SaveBtn">Validate <i class="fa-solid fa-check" style="color: #2e3192;"></i></button>
+            <button class="wd-btn danger" onclick="AssetMasterModalManager.closeAuditModal()">Cancel <i class="fa-solid fa-xmark" style="color: #cd2027;"></i></button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .asset-master-wrapper {
+        display: flex;
+        gap: 10px;
+        height: calc(100% - 45px); /* Adjust for page header */
+        padding-top: 5px;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        font-size: 12px;
+    }
+
+    /* Left Panel */
+    .asset-left-panel {
+        width: 280px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ccc;
+        background: #fff;
+    }
+
+    .panel-header-blue {
+        background: #2e3192;
+        color: #fff;
+        padding: 6px 10px;
+        font-weight: bold;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+    }
+    .flex-between { justify-content: space-between; }
+
+    .panel-toolbar {
+        padding: 5px;
+        background: #f0f0f0;
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        gap: 5px;
+    }
+
+    .panel-tabs-row {
+        display: flex;
+        background: #f9f9f9;
+        border-bottom: 1px solid #ccc;
+    }
+    .panel-tab {
+        padding: 6px 12px;
+        cursor: pointer;
+        border-right: 1px solid #ccc;
+        color: #555;
+    }
+    .panel-tab.active {
+        background: #fff;
+        font-weight: bold;
+        color: #2e3192;
+        border-bottom: 2px solid #fff; /* Blend with list */
+        margin-bottom: -1px;
+    }
+
+    .asset-type-list {
+        flex: 1;
+        overflow-y: auto;
+        background: #fff;
+    }
+    .asset-type-list .wd-table th {
+        background: #005a9e; /* Slightly different blue for sub-headers if needed, or stick to standard */
+        color: #fff;
+        padding: 4px;
+    }
+    .asset-type-list .wd-table tr.selected td {
+        background: #e0e0e0; /* Light grey selection for left panel usually */
+        color: #000;
+    }
+
+    /* Right Panel */
+    .asset-right-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ccc;
+        background: #fff;
+        overflow: hidden;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+    .excel-btn {
+        background: #217346; /* Excel Green */
+        color: #fff;
+        border-color: #1e6b40;
+        padding: 2px 8px;
+        font-size: 13px;
+    }
+    .excel-btn:hover { background: #1e6b40; }
+    
+    .main-toolbar {
+        padding: 6px 10px;
+        background: #e3e6f0; /* Light blue-grey tint */
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .toolbar-group { display: flex; gap: 5px; }
+    .toolbar-separator { width: 1px; background: #999; height: 24px; margin: 0 5px; }
+    .toolbar-spacer { flex: 1; }
+
+    .main-tabs {
+        display: flex;
+        background: #f0f0f0;
+        border-bottom: 1px solid #ccc;
+        padding-top: 6px;
+        padding-left: 6px;
+        align-items: flex-end;
+    }
+    .main-tab {
+        padding: 6px 15px;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        background: #e0e0e0;
+        margin-right: 2px;
+        cursor: pointer;
+        border-radius: 4px 4px 0 0;
+        color: #555;
+    }
+    .main-tab.active {
+        background: #fff;
+        font-weight: bold;
+        color: #2e3192;
+        border-bottom: 1px solid #fff;
+        margin-bottom: -1px;
+        z-index: 1;
+    }
+    .print-btn-container {
+        margin-left: auto;
+        padding-right: 10px;
+        padding-bottom: 4px;
+    }
+
+    .asset-table-container {
+        flex: 1;
+        overflow: auto;
+        background: #fff;
+        position: relative;
+    }
+
+    /* Table Specifics */
+    .wd-table.blue-header th {
+        background: #2e3192;
+        color: #fff;
+        padding: 6px;
+        border-right: 1px solid #1f226f;
+        white-space: nowrap;
+    }
+    .wd-table td {
+        padding: 4px 6px;
+        border-bottom: 1px dotted #ccc;
+        border-right: 1px solid #eee;
+        white-space: nowrap;
+    }
+    .wd-table td.amount {
+        text-align: right;
+    }
+
+    /* --- Audit Modal Specific Styles (WinDev Look) --- */
+   
+    .audit-window-controls span { margin-left: 8px; font-weight: bold; color: #555; }
+    .audit-title-bar-blue { background: #2e3192; color: #fff; text-align: center; padding: 5px; font-weight: bold; font-size: 14px; }
+    .asset-name-title { font-size: 24px; color: #4a4e8c; text-align: center; margin: 10px 0 5px 0; font-family: 'Segoe UI Light', Arial; }
+    .audit-red-line { height: 1px; background: #cd2027; width: 80%; margin: 0 auto 15px auto; }
+    
+    .audit-grid-form { display: flex; flex-direction: column; gap: 10px; padding: 0 10px; }
+    .audit-form-row { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: 10px; }
+    .audit-form-row.align-start { align-items: flex-start; }
+    .audit-form-row label { font-size: 12px; color: #2e3192; font-weight: normal; text-align: left; }
+    .audit-input-wrap { display: flex; align-items: center; position: relative; }
+    
+    #audit-comments { resize: none; }
+    .asset-name-display { font-size: 24px; color: #32367d; text-align: center; margin: 10px 0 2px 0; font-weight: 300; }
+
+    /* Responsive adjustments for Lenovo X270 (1366x768) */
+    @media (max-height: 768px) {
+        .coa-modal { transform: scale(0.9); }
+        .asset-name-display { font-size: 20px; }
+    }
+</style>

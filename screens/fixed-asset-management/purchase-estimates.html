@@ -1,0 +1,72 @@
+<!-- screens/purchase-estimates.html -->
+<div class="page-header">
+    <h2>Create Purchase Estimates</h2>
+    <p class="page-subtitle">Capture estimated fixed asset purchases and prepare approval requests.</p>
+</div>
+
+<div class="form-shell">
+    <div class="form-section">
+        <div class="form-row">
+            <label>Estimate Number:</label>
+            <input type="text" class="wd-input" value="PE-2026-001">
+        </div>
+        <div class="form-row">
+            <label>Supplier:</label>
+            <select class="wd-input"><option>Select Supplier</option></select>
+        </div>
+        <div class="form-row">
+            <label>Estimate Date:</label>
+            <input type="date" class="wd-input">
+        </div>
+        <div class="form-row">
+            <label>Asset Type:</label>
+            <select class="wd-input"><option>Equipment</option><option>Vehicle</option></select>
+        </div>
+        <div class="form-row">
+            <label>Quantity:</label>
+            <input type="number" class="wd-input" value="0">
+        </div>
+        <div class="form-row">
+            <label>Unit Price:</label>
+            <input type="number" class="wd-input" value="0">
+        </div>
+        <div class="form-row">
+            <label>Total Estimate:</label>
+            <input type="text" class="wd-input" value="0 FCFA" readonly>
+        </div>
+        <div class="form-row full-width">
+            <label>Comments:</label>
+            <textarea class="wd-input" rows="4"></textarea>
+        </div>
+        <div class="form-actions">
+            <button class="wd-btn primary">Save Estimate</button>
+            <button class="wd-btn danger">Cancel</button>
+        </div>
+    </div>
+
+    <div class="grid-panel">
+        <div class="panel-header-blue">Estimate Summary</div>
+        <table class="wd-table blue-header">
+            <thead>
+                <tr><th style="width: 60px;">No</th><th>Asset</th><th>Qty</th><th>Unit Price</th><th>Total</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>Dell Precision</td><td>2</td><td>1,200,000 FCFA</td><td>2,400,000 FCFA</td><td>Draft</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .form-shell { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; height: calc(100% - 70px); }
+    .form-section, .grid-panel { padding: 18px; background: #fff; border: 1px solid #c8d1eb; }
+    .form-row { display: flex; flex-direction: column; margin-bottom: 14px; }
+    .form-row label { font-weight: 600; font-size: 13px; margin-bottom: 6px; }
+    .wd-input { padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    .full-width { grid-column: span 2; }
+    .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; }
+    .panel-header-blue { background: #2e3192; color: #fff; padding: 10px 12px; font-weight: 700; margin-bottom: 10px; }
+    .wd-table { width: 100%; border-collapse: collapse; }
+    .wd-table th, .wd-table td { border: 1px solid #d1d3e2; padding: 9px 8px; font-size: 12px; }
+    .wd-table th { background: #2e3192; color: #fff; }
+</style>

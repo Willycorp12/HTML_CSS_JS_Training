@@ -1,0 +1,792 @@
+<script src="js/auth.js"></script>
+<script>
+    async function loadNotificationCounts() {
+        const rs = await apiFetch('/api/v1/paymentOrders/getTransactionNotificationCounts', { method: 'GET' });
+        if(rs && rs.success){
+            const reject = rs.rejectedTransactions;
+            const approve = rs.awaitingApproval;
+            const pending = rs.pendingPayment;
+        //console.log("Notification counts:", { reject, approve, pending });
+         const total = parseInt(reject) + parseInt(approve) + parseInt(pending);
+         const badge = document.getElementById('NOTIF_BADGE');
+         if (badge) {
+            badge.textContent = total > 0 ? total : '';
+        }
+        document.getElementById('pendCount').textContent = pending;
+        document.getElementById('apprCount').textContent = approve;
+        document.getElementById('rejCount').textContent = reject;
+    }}
+    loadNotificationCounts();
+</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Enterprise System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="css/cash-bank-journals.css">
+    <link rel="stylesheet" href="windev-table.css">
+    <link rel="stylesheet" href="windev-forms.css">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* --- Custom Alert Styles (Embedded) --- */
+        #alert-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10005; /* Higher than modals */
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-width: 250px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateX(100%); /* Slide-in from right */
+            animation: slideIn 0.5s forwards;
+        }
+
+        .alert-success { background-color: #4caf50; }
+        .alert-error { background-color: #f44336; }
+
+        .close-btn {
+            margin-left: 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideOut { to { opacity: 0; transform: translateX(100%); } }
+    </style>
+</head>
+
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<header class="app-topbar">
+    <div class="topbar-left">
+        <span id="PAGE_TITLE">Home</span>
+    </div>
+
+
+    <nav class="topbar-menu">
+          <ul id="TOP_MENU_CONTAINER"></ul>
+        </nav>
+
+    <div class="topbar-right">
+
+        <!-- Notifications -->
+    <!-- Notifications -->
+        <div class="notif-wrapper" onclick="toggleNotif(event)">
+            <span class="notif-icon">🔔</span>
+            <span class="notif-badge" id="NOTIF_BADGE">12</span>
+
+            <div class="notif-dropdown" id="NOTIF_DROPDOWN">
+                <div onclick="loadScreen('pending-payments.html', null, 'Pending Payments')">
+                    Pending Payments <span id="pendCount"></span>
+                </div>
+                <div onclick="loadScreen('payments-pending-approvals.html', null, 'Pending Approvals')">
+                    Pending Approvals <span id="apprCount"></span>
+                </div>
+                <div onclick="loadScreen('rejected-payments.html', null, 'Rejected Payments')">
+                    Rejected Payments <span id="rejCount"></span>
+                </div>
+            </div>
+        </div>
+
+
+                 <!-- User Menu -->
+        <div class="user-wrapper" onclick="toggleUser(event)">
+            <img src="user.png" class="user-avatar" id="USER_AVATAR" alt="User Avatar">
+            <span class="user-name" id="USER_NAME">John Doe</span>
+
+            <div class="user-dropdown" id="USER_DROPDOWN">
+                <div>My Profile</div>
+                <div>Change Password</div>
+                <div class="danger" onclick="logout()">Logout</div>
+            </div>
+        </div>
+
+
+
+    </div>
+</header>
+
+<!-- ===== APP BODY ===== -->
+<div class="app-body">
+
+    <!-- ===== MAIN MENU ===== -->
+    <aside class="app-menu">
+       <nav class="menu">
+
+    <div class="menu-item">
+        <div class="menu-title" onclick="loadScreen('home.html', this)">Home</div>
+    </div>
+
+    <div class="menu-item">
+        <div class="menu-title" onclick="loadScreen('dashboard.html', this)">Dashboard</div>
+    </div>
+
+    <div class="menu-item has-sub">
+        <div class="menu-title">Accounting & Finance</div>
+
+        <div class="submenu">
+            <div class="submenu-item" onclick="loadScreen('chart-of-accounts.html', this, 'Chart of Accounts')">Chart of Accounts</div>
+            <div class="submenu-item" onclick="loadScreen('payment-order-form.html', this, 'Create a Payment Order')">Create a Payment Order</div>
+            <div class="submenu-item" onclick="loadScreen('payments-pending-approvals.html', this, 'Pending Approvals')">Pending Approvals</div>
+            <div class="submenu-item" onclick="loadScreen('pending-payments.html', this, 'Pending Payments')">Pending Payments</div>
+            <div class="submenu-item" onclick="loadScreen('rejected-payments.html', this, 'Rejected Payments')">Rejected Payments</div>
+            <div class="submenu-item">Reports</div>
+        </div>
+    </div>
+    <div class="menu-item has-sub">
+        <div class="menu-title">Students</div>
+
+        <div class="submenu">
+            <div class="submenu-item" onclick="loadScreen('student-master-data.html', this, 'Student Master Data')">Student List</div>
+            <div class="menu-title has-sub">Student Registration
+                <div class="submenu-item" onclick="loadScreen('student-new.html', this, 'New Student')">New Student</div>
+                <div class="submenu-item" onclick="loadScreen('student-old.html', this, 'Old Student')">Old Student</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <div class="menu-title">Administration</div>
+    </div>
+
+</nav>
+
+    </aside>
+
+    <!-- ===== CONTENT HOST ===== -->
+    <main class="app-content">
+        <div id="content-area"></div>
+    </main>
+
+    <!-- Alert container for custom notifications -->
+    <div id="alert-container"></div>
+
+</div>
+
+
+<script>
+    document.querySelectorAll(".has-sub .menu-title").forEach(title => {
+        title.addEventListener("click", () => {
+            title.parentElement.classList.toggle("open");
+        });
+    });
+
+
+
+function resolveScreenPath(file) {
+    if (!file) return file;
+    if (file.startsWith('screens/')) return file;
+
+    window.screenPathMap = window.screenPathMap || {
+        "approved-supplier-bills.html": "screens/accounting-finance/approved-supplier-bills.html",
+        "attestation.html": "screens/accounting-finance/attestation.html",
+        "bank-charges.html": "screens/accounting-finance/bank-charges.html",
+        "bank-deposits.html": "screens/accounting-finance/bank-deposits.html",
+        "bank-interest.html": "screens/accounting-finance/bank-interest.html",
+        "bank-journal.html": "screens/accounting-finance/bank-journal.html",
+        "bank-withdrawals.html": "screens/accounting-finance/bank-withdrawals.html",
+        "cash-journal.html": "screens/accounting-finance/cash-journal.html",
+        "chart-of-accounts.html": "screens/accounting-finance/chart-of-accounts.html",
+        "collect-fees.html": "screens/accounting-finance/collect-fees.html",
+        "create-service-bills.html": "screens/accounting-finance/create-service-bills.html",
+        "fixed-asset-estimate.html": "screens/accounting-finance/fixed-asset-estimate.html",
+        "fixed-asset-grn.html": "screens/accounting-finance/fixed-asset-grn.html",
+        "fixed-asset-po.html": "screens/accounting-finance/fixed-asset-po.html",
+        "give-discount.html": "screens/accounting-finance/give-discount.html",
+        "internal-transfer.html": "screens/accounting-finance/internal-transfer.html",
+        "internal-transfers-dashboard.html": "screens/accounting-finance/internal-transfers-dashboard.html",
+        "inventory-estimate.html": "screens/accounting-finance/inventory-estimate.html",
+        "inventory-grn.html": "screens/accounting-finance/inventory-grn.html",
+        "inventory-po.html": "screens/accounting-finance/inventory-po.html",
+        "journal-entries.html": "screens/accounting-finance/journal-entries.html",
+        "other-income.html": "screens/accounting-finance/other-income.html",
+        "pay-bills.html": "screens/accounting-finance/pay-bills.html",
+        "payment-order-form.html": "screens/accounting-finance/payment-order-form.html",
+        "payments-pending-approvals.html": "screens/accounting-finance/payments-pending-approvals.html",
+        "pending-payments.html": "screens/accounting-finance/pending-payments.html",
+        "recover-old-debts.html": "screens/accounting-finance/recover-old-debts.html",
+        "refund-fees.html": "screens/accounting-finance/refund-fees.html",
+        "rejected-payments.html": "screens/accounting-finance/rejected-payments.html",
+        "rejected-transfers.html": "screens/accounting-finance/rejected-transfers.html",
+        "suppliers.html": "screens/accounting-finance/suppliers.html",
+        "transcripts.html": "screens/accounting-finance/transcripts.html",
+        "transfers-pending.html": "screens/accounting-finance/transfers-pending.html",
+        "dashboard.html": "screens/dashboard.html",
+        "asset-depreciation.html": "screens/fixed-asset-management/asset-depreciation.html",
+        "asset-in.html": "screens/fixed-asset-management/asset-in.html",
+        "asset-master.html": "screens/fixed-asset-management/asset-master.html",
+        "asset-new.html": "screens/fixed-asset-management/asset-new.html",
+        "asset-out.html": "screens/fixed-asset-management/asset-out.html",
+        "asset-reports.html": "screens/fixed-asset-management/asset-reports.html",
+        "personnel-master.html": "screens/fixed-asset-management/personnel-master.html",
+        "purchase-estimates.html": "screens/fixed-asset-management/purchase-estimates.html",
+        "purchase-grn.html": "screens/fixed-asset-management/purchase-grn.html",
+        "purchase-po.html": "screens/fixed-asset-management/purchase-po.html",
+        "supplier-master.html": "screens/fixed-asset-management/supplier-master.html",
+        "supplier-new.html": "screens/fixed-asset-management/supplier-new.html",
+        "home.html": "screens/home.html",
+        "advance-approve.html": "screens/hr-payroll/advance-approve.html",
+        "advance-details.html": "screens/hr-payroll/advance-details.html",
+        "advance-new.html": "screens/hr-payroll/advance-new.html",
+        "advance-pay.html": "screens/hr-payroll/advance-pay.html",
+        "batch-edit.html": "screens/hr-payroll/batch-edit.html",
+        "bio-permanent.html": "screens/hr-payroll/bio-permanent.html",
+        "bio-report-details.html": "screens/hr-payroll/bio-report-details.html",
+        "bio-report-payroll.html": "screens/hr-payroll/bio-report-payroll.html",
+        "bio-report-summary.html": "screens/hr-payroll/bio-report-summary.html",
+        "bio-temporal.html": "screens/hr-payroll/bio-temporal.html",
+        "employee-create.html": "screens/hr-payroll/employee-create.html",
+        "employee-master.html": "screens/hr-payroll/employee-master.html",
+        "hcm-permission.html": "screens/hr-payroll/hcm-permission.html",
+        "hcm-status-change.html": "screens/hr-payroll/hcm-status-change.html",
+        "help-guiding-principles.html": "screens/hr-payroll/help-guiding-principles.html",
+        "help-how-to.html": "screens/hr-payroll/help-how-to.html",
+        "student-new.html": "screens/student/student-new.html",
+        "student-old.html": "screens/student/student-old.html",
+        "student-write-off-debts.html": "screens/student/student-write-off-debts.html",
+        "student-incomplete-admission-list.html": "screens/student/student-incomplete-admission-list.html",
+        "student-master-data.html": "screens/student/student-master-data.html",
+        "letter-holiday.html": "screens/hr-payroll/letter-holiday.html",
+        "letter-mission.html": "screens/hr-payroll/letter-mission.html",
+        "letter-permission.html": "screens/hr-payroll/letter-permission.html",
+        "letter-rent.html": "screens/hr-payroll/letter-rent.html",
+        "letter-suspension.html": "screens/hr-payroll/letter-suspension.html",
+        "salary-approvals.html": "screens/hr-payroll/salary-approvals.html",
+        "loan-approve.html": "screens/hr-payroll/loan-approve.html",
+        "loan-details.html": "screens/hr-payroll/loan-details.html",
+        "loan-new.html": "screens/hr-payroll/loan-new.html",
+        "loan-pay.html": "screens/hr-payroll/loan-pay.html",
+        "loan-repayments.html": "screens/hr-payroll/loan-repayments.html",
+        "longevity-bonus.html": "screens/hr-payroll/longevity-bonus.html",
+        "ot-list.html": "screens/hr-payroll/ot-list.html",
+        "ot-new.html": "screens/hr-payroll/ot-new.html",
+        "paylist-cnps.html": "screens/hr-payroll/paylist-cnps.html",
+        "paylist-generate.html": "screens/hr-payroll/paylist-generate.html",
+        "paylist-journal.html": "screens/hr-payroll/paylist-journal.html",
+        "paylist-tax.html": "screens/hr-payroll/paylist-tax.html",
+        "quinzaine-approve.html": "screens/hr-payroll/quinzaine-approve.html",
+        "quinzaine-details.html": "screens/hr-payroll/quinzaine-details.html",
+        "quinzaine-new.html": "screens/hr-payroll/quinzaine-new.html",
+        "quinzaine-pay.html": "screens/hr-payroll/quinzaine-pay.html",
+        "quinzaine-reports.html": "screens/hr-payroll/quinzaine-reports.html",
+        "report-asset-checked-in.html": "screens/report-center/report-asset-checked-in.html",
+        "report-asset-checked-out.html": "screens/report-center/report-asset-checked-out.html",
+        "report-asset-depreciation.html": "screens/report-center/report-asset-depreciation.html",
+        "report-asset-due-dates.html": "screens/report-center/report-asset-due-dates.html",
+        "report-asset-list.html": "screens/report-center/report-asset-list.html",
+        "report-assets-received.html": "screens/report-center/report-assets-received.html",
+        "report-statement-of-accounts.html": "screens/report-center/report-statement-of-accounts.html",
+        "report-fee-summary.html": "screens/report-center/report-fee-summary.html",
+        "report-fee-rubic-program.html": "screens/report-center/report-fee-rubic-program.html",
+        "report-class-list.html": "screens/report-center/report-class-list.html",
+        "report-admission-list.html": "screens/report-center/report-admission-list.html",
+        "report-new-students.html": "screens/report-center/report-new-students.html",
+        "report-old-students.html": "screens/report-center/report-old-students.html",
+        "report-balance-sheet.html": "screens/report-center/report-balance-sheet.html",
+        "report-budget-details.html": "screens/report-center/report-budget-details.html",
+        "report-budget-summary.html": "screens/report-center/report-budget-summary.html",
+        "report-capital-ledger.html": "screens/report-center/report-capital-ledger.html",
+        "report-fixed-asset-list.html": "screens/report-center/report-fixed-asset-list.html",
+        "report-general-ledger.html": "screens/report-center/report-general-ledger.html",
+        "report-income-statement.html": "screens/report-center/report-income-statement.html",
+        "report-stock-list.html": "screens/report-center/report-stock-list.html",
+        "report-stock-movements.html": "screens/report-center/report-stock-movements.html",
+        "report-stock-wastage.html": "screens/report-center/report-stock-wastage.html",
+        "report-supplier-bills.html": "screens/report-center/report-supplier-bills.html",
+        "report-supplier-list.html": "screens/report-center/report-supplier-list.html",
+        "report-trial-balance.html": "screens/report-center/report-trial-balance.html",
+        "bio-assign-courses.html": "screens/setup/bio-assign-courses.html",
+        "bio-course-setup.html": "screens/setup/bio-course-setup.html",
+        "bio-payrate-category.html": "screens/setup/bio-payrate-category.html",
+        "bio-school-programs.html": "screens/setup/bio-school-programs.html",
+        "bio-school-types.html": "screens/setup/bio-school-types.html",
+        "bio-time-table.html": "screens/setup/bio-time-table.html",
+        "finance-annual-fee.html": "screens/setup/finance-annual-fee.html",
+        "finance-api-consumption.html": "screens/setup/finance-api-consumption.html",
+        "finance-budget-setup.html": "screens/setup/finance-budget-setup.html",
+        "finance-budget-titles.html": "screens/setup/finance-budget-titles.html",
+        "finance-chart-accounts.html": "screens/setup/finance-chart-accounts.html",
+        "finance-configure-accounts.html": "screens/setup/finance-configure-accounts.html",
+        "finance-fee-category.html": "screens/setup/finance-fee-category.html",
+        "finance-fee-schedule.html": "screens/setup/finance-fee-schedule.html",
+        "finance-fee-types.html": "screens/setup/finance-fee-types.html",
+        "finance-income-exp.html": "screens/setup/finance-income-exp.html",
+        "finance-open-balances.html": "screens/setup/finance-open-balances.html",
+        "finance-other-income.html": "screens/setup/finance-other-income.html",
+        "hcm-batch-import.html": "screens/setup/hcm-batch-import.html",
+        "hcm-batch-salary.html": "screens/setup/hcm-batch-salary.html",
+        "hcm-category-setup.html": "screens/setup/hcm-category-setup.html",
+        "hcm-default-accounts.html": "screens/setup/hcm-default-accounts.html",
+        "hcm-employee-import.html": "screens/setup/hcm-employee-import.html",
+        "hcm-letterhead.html": "screens/setup/hcm-letterhead.html",
+        "hcm-system-company.html": "screens/setup/hcm-system-company.html",
+        "hcm-user-rights.html": "screens/setup/hcm-user-rights.html",
+        "inventory-import-assets.html": "screens/setup/inventory-import-assets.html",
+        "inventory-import-excel.html": "screens/setup/inventory-import-excel.html",
+        "inventory-list.html": "screens/setup/inventory-list.html",
+        "inventory-main-category.html": "screens/setup/inventory-main-category.html",
+        "inventory-sub-category.html": "screens/setup/inventory-sub-category.html",
+        "inventory-suppliers.html": "screens/setup/inventory-suppliers.html",
+        "security-access-levels.html": "screens/setup/security-access-levels.html",
+        "security-global-import.html": "screens/setup/security-global-import.html",
+        "security-import-center.html": "screens/setup/security-import-center.html",
+        "setup-academic-year.html": "screens/setup/setup-academic-year.html",
+        "setup-change-year.html": "screens/setup/setup-change-year.html",
+        "setup-company-profile.html": "screens/setup/setup-company-profile.html",
+        "setup-requisition.html": "screens/setup/setup-requisition.html",
+        "setup-sms.html": "screens/setup/setup-sms.html",
+        "setup-system-users.html": "screens/setup/setup-system-users.html",
+        "inventory-adjust.html": "screens/stock-management/inventory-adjust.html",
+        "inventory-supplier-master.html": "screens/stock-management/inventory-supplier-master.html",
+        "inventory-supplier-new.html": "screens/stock-management/inventory-supplier-new.html",
+        "inventory-track.html": "screens/stock-management/inventory-track.html",
+        "stock-master.html": "screens/stock-management/stock-master.html",
+        "stock-new.html": "screens/stock-management/stock-new.html",
+        "stock-pos.html": "screens/stock-management/stock-pos.html",
+        "stock-purchase-estimates.html": "screens/stock-management/stock-purchase-estimates.html",
+        "stock-purchase-grn.html": "screens/stock-management/stock-purchase-grn.html",
+        "stock-purchase-po.html": "screens/stock-management/stock-purchase-po.html"
+    };
+
+    if (!window.screenPathMapInitialized && window.topMenus) {
+        const walk = items => {
+            items.forEach(item => {
+                if (item.file && typeof item.file === 'string') {
+                    const fileName = item.file.split('/').pop();
+                    if (fileName && !window.screenPathMap[fileName]) {
+                        window.screenPathMap[fileName] = 'screens/' + item.file;
+                    }
+                }
+                if (item.children) walk(item.children);
+            });
+        };
+        walk(window.topMenus);
+        window.screenPathMapInitialized = true;
+    }
+
+    return window.screenPathMap[file] || `screens/${file}`;
+}
+
+function loadScreen(file, menuElement = null, title = '') {
+    const normalizedFile = file.split('/').pop();
+
+    fetch(resolveScreenPath(file))
+        .then(response => response.text())
+        .then(html => {
+
+            // Load screen
+            document.getElementById("content-area").innerHTML = html;
+            
+            // Set page title
+              if (title) {
+                document.getElementById("PAGE_TITLE").innerText = title;
+            }
+
+
+            // Set active menu
+            if (menuElement) {
+                  // Clear active states
+                document.querySelectorAll(".menu-title, .submenu-item")
+                    .forEach(el => el.classList.remove("active"));
+
+                menuElement.classList.add("active");
+
+                const parentMenu = menuElement.closest(".has-sub");
+                if (parentMenu) {
+                    parentMenu.classList.add("open");
+                }
+            }
+
+            // 🔥 CALL SCREEN INIT AFTER LOAD
+            if (normalizedFile === "pending-payments.html") {
+                initPendingPayments();
+            }
+              if (normalizedFile === "rejected-payments.html") {
+                initRejectedPayments();
+            }
+              if (normalizedFile === "payments-pending-approvals.html") {
+                initPendingApproval();
+            }
+            if (normalizedFile === "approved-supplier-bills.html") {
+                initApprovedSupplierBills();
+            }
+            if (normalizedFile === "payment-order-form.html") {
+            attachAmountWordsListener();
+            summaryValue();
+            paymentOrderInit();
+            }
+            if (normalizedFile === "create-service-bills.html") {
+                initCreateServiceBills();
+                initSuppliers();
+            }
+            if (normalizedFile === "journal-entries.html") {
+                initCreateJournalEntries();
+            }
+            if(normalizedFile === "bank-deposits.html"){
+                attachBankingAmountWordsListener();
+                initBankDeposit();
+            }
+            if(normalizedFile === "bank-withdrawals.html"){
+                initBankWithdrawal();
+            }
+            if(normalizedFile === "bank-interest.html"){
+                initBankInterest();
+            }
+            if(normalizedFile === "bank-charges.html"){
+                initBankCharges();
+            }
+            if(normalizedFile === "internal-transfer.html"){
+                initInternalTransfer();
+            }
+            if(normalizedFile === "transfers-pending.html"){
+                initTransfersPending();
+            }
+            if(normalizedFile === "rejected-transfers.html"){
+                initRejectedTransfers();
+            }
+            if(normalizedFile === "internal-transfers-dashboard.html"){
+                initInternalTransfersDashboard();
+            }
+            if (normalizedFile === "home.html") {
+                //initHome && initHome();
+            }
+            if (normalizedFile === "suppliers.html") {
+                initSuppliers();
+            }
+            if (normalizedFile === "dashboard.html") {
+                initDashboard && initDashboard();
+            }
+            if (normalizedFile === "chart-of-accounts.html") {
+                initChartOfAccounts();
+            }
+            if (normalizedFile === "setup-company-profile.html") {
+                initCompanyProfile();
+            }
+            if (normalizedFile === "setup-academic-year.html") {
+                initAcademicYearSetup();
+            }
+            if (normalizedFile === "setup-sms.html") {
+                initSmsSetting();
+            }
+            if (normalizedFile === "setup-requisition.html") {
+                initSetupRequisition();
+            }
+            if (normalizedFile === "inventory-list.html") {
+                initInventoryList();
+            }
+            if (normalizedFile === "stock-new.html") {
+                initStockNew(); // This will now trigger the modal
+            }
+            if (normalizedFile === "stock-master.html") {
+                initStockMaster();
+            }
+            if (normalizedFile === "asset-master.html") {
+                initAssetMaster();
+            }
+            if (normalizedFile === "asset-reports.html") {
+                initAssetReports();
+            }
+            // Initialize asset-new.html specific logic
+            // This function is defined in js/asset-new.js
+            // It handles modal setup, tab switching, and picker integrations
+            if (normalizedFile === "asset-new.html") {
+                initAssetNew();
+            }
+            if (normalizedFile === "asset-depreciation.html") {
+                initAssetDepreciation();
+            }
+            if (normalizedFile === "asset-in.html") {
+                initAssetIn();
+            }
+            if (normalizedFile === "asset-out.html") {
+                initAssetOut();
+            }
+            if (normalizedFile === "salary-approvals.html") {
+                initSalaryApprovals();
+            }
+            if (normalizedFile === "pay-bills.html") {
+                initPayBills();
+            }
+            if (normalizedFile === "employee-master.html") {
+                initEmployeeMaster();
+            }
+            if (normalizedFile === "employee-create.html") {
+                initEmployeeCreate();
+            }
+            if (normalizedFile === "student-new.html") {
+                initStudentNew && initStudentNew();
+            }
+            if (normalizedFile === "student-old.html") {
+                initStudentOld && initStudentOld();
+            }
+            if (normalizedFile === "student-write-off-debts.html") {
+                initStudentWriteOff && initStudentWriteOff();
+            }
+            if (normalizedFile === "collect-fees.html") {
+                initCollectFees && initCollectFees();
+            }
+            if (normalizedFile === "student-master-data.html") {
+                initStudentMasterData && initStudentMasterData();
+            }
+            if (normalizedFile === "student-incomplete-admission-list.html") {
+                initIncompleteAdmissionList && initIncompleteAdmissionList();
+            }
+            if (normalizedFile === "report-trial-balance.html") {
+                initReportTrialBalance();
+            }
+            if (normalizedFile === "report-income-statement.html") {
+                const basis = (title && title.toLowerCase().includes('accrual')) ? 'accrual' : 'cash';
+                initReportIncomeStatement(basis);
+            }
+            if (normalizedFile === "report-balance-sheet.html") {
+                initReportBalanceSheet();
+            }
+            if (normalizedFile === "report-general-ledger.html") {
+                initReportGeneralLedger();
+            }
+            if (normalizedFile === "report-budget-details.html") {
+                initReportBudgetDetails();
+            }
+            if (normalizedFile === "report-capital-ledger.html") {
+                initReportCapitalLedger();
+            }
+            // Pay Master Module Initializers
+            if (normalizedFile === "paylist-generate.html") initPaylistGenerate();
+            if (normalizedFile === "paylist-cnps.html") initPaylistCNPS();
+            if (normalizedFile === "paylist-tax.html") initPaylistTax();
+            if (normalizedFile === "paylist-journal.html") initPaylistJournal();
+
+            // Journal Initializers
+            if (normalizedFile === "cash-journal.html") initCashJournal();
+            if (normalizedFile === "bank-journal.html") initBankJournal();
+
+            // Initialize sticky columns logic for any loaded screen (PayMaster modules)
+            if (typeof updateStickyColumns === 'function') {
+                setTimeout(updateStickyColumns, 50);
+            }
+
+            const search = document.getElementById('EDT_GlobalSearch');
+            if (search) search.focus();
+            });
+}
+           
+  
+  window.onload = function () {
+
+    const homeMenu = document.querySelector(
+        ".menu-title[onclick*='home.html']"
+    );
+
+    loadScreen("home.html", homeMenu);
+}
+
+function numberToWords(n) {
+    if (n === 0) return "Zero";
+    const a = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+    const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+    if (n < 20) return a[n];
+    if (n < 100) return b[Math.floor(n/10)] + (n%10 ? " " + a[n%10] : "");
+    if (n < 1000) return a[Math.floor(n/100)] + " Hundred" + (n%100 ? " " + numberToWords(n%100) : "");
+    if (n < 1000000) return numberToWords(Math.floor(n/1000)) + " Thousand" + (n%1000 ? " " + numberToWords(n%1000) : "");
+    if (n < 1000000000) return numberToWords(Math.floor(n/1000000)) + " Million" + (n%1000000 ? " " + numberToWords(n%1000000) : "");
+    return "";
+}
+
+function attachAmountWordsListener() {
+    var input = document.getElementsByClassName('amount-input');
+    var words = document.getElementsByClassName('amount-words');
+    if (input && words){
+        for (let i = 0; i < input.length; i++) {
+            input[i].addEventListener('input', function() {
+                let val = parseInt(this.value.replace(/[^0-9]/g, '')) || 0;
+                words[i].textContent = val ? numberToWords(val) + " FCFA" : "Amount in words";
+            });
+        }
+    }
+    const amountInput = document.getElementById('amount-input');
+    if (amountInput) {
+        amountInput.addEventListener('input', function() {
+            this.style.width = '60px'; // reset to min
+            this.style.width = (this.value.length * 24 + 40) + 'px';
+        });
+    }
+}
+
+function switchAssetTab(tabId, tabElement) {
+    // Hide all contents
+    document.querySelectorAll('.asset-tab-content').forEach(el => el.classList.remove('active'));
+    // Deactivate all tabs
+    document.querySelectorAll('.asset-tab').forEach(el => el.classList.remove('active'));
+    
+    // Show target
+    const target = document.getElementById(tabId);
+    if (target) target.classList.add('active');
+    // Activate tab
+    if (tabElement) tabElement.classList.add('active');
+}
+
+function summaryValue(){
+    var incAit = document.getElementById('inc-ait');
+    var amountInput = document.getElementById('amount-input');
+    var bill = document.getElementById('bill');
+    var ait = document.getElementById('ait');
+    var net = document.getElementById('net');
+
+    function recalc() {
+        const value = Math.round(parseFloat(amountInput.value) || 0);
+        bill.textContent = value.toLocaleString("en-US") + " FCFA";
+        const aitValue = incAit.checked ? Math.round(value * 0.055) : 0;
+        ait.textContent = aitValue.toLocaleString("en-US") + " FCFA";
+        const netValue = value - aitValue;
+        net.textContent = netValue.toLocaleString("en-US") + " FCFA";
+    }
+
+    amountInput.addEventListener("input", recalc);
+    incAit.addEventListener("change", recalc);
+    // Initial calculation
+    recalc();
+}
+
+function loadUserProfile(user) {
+    const avatar = document.getElementById("USER_AVATAR");
+    const name = document.getElementById("USER_NAME");
+
+    name.textContent = localStorage.getItem("username");
+
+    // Use uploaded profile photo if exists, otherwise default
+    if (user.profilePhoto && user.profilePhoto !== "") {
+        avatar.src = user.profilePhoto;
+    } else {
+        avatar.src = "user.png"; // default image
+    }
+}
+
+// Example usage
+loadUserProfile({
+    name: localStorage.getItem("username"),
+    profilePhoto: ""  // leave empty to use default
+});
+
+async function testPrint() {
+    // Ensure company details are loaded from the API
+    if (!window.companyDetails || Object.keys(window.companyDetails).length === 0) {
+        if (typeof loadCompanyDetails === 'function') {
+            await loadCompanyDetails();
+        }
+    }
+
+    const sampleData = {
+        amount: '1,200,000 FCFA',
+        amountInWords: 'One Million Two Hundred Thousand FCFA',
+        to: 'Mr Yanken',
+        position: 'Accountant',
+        justification: 'Payment for Staff Salaries for the month of February 2026. This includes bonuses and overtime payments for the clinical department.',
+        date: '26/02/2026',
+        paymentOrderNo: '034',
+        payee: 'Mr Yanken',
+        paidBy: 'Administration'
+    };
+
+    // Call the template function without the second argument to use the global window.companyDetails
+    const html = generatePaymentOrderTemplate(sampleData);
+    const win = window.open('', '_blank');
+    win.document.write(`<html><body>${html}</body></html>`);
+    win.document.close();
+}
+
+</script>
+<script src="./alljs/app.js"></script>
+<script src="./alljs/notif_topbar.js"></script>
+<script src="./alljs/tooltip.js"></script>
+<script src="./alljs/journal_entry.js"></script>
+<script src="./alljs/create_bills.js"></script>
+<script src="js/chart-of-accounts.js"></script>
+<script src="js/asset-master.js"></script>
+<script src="js/asset-new.js"></script>
+<script src="js/asset-reports.js"></script>
+<script src="js/asset-in-out.js"></script>
+<script src="js/asset-depreciation.js"></script>
+<script src="js/payment-order.js"></script>
+<script src="js/suppliers.js"></script>
+<script src="js/salary-approvals.js"></script>
+<script src="js/student-new.js"></script>
+<script src="js/student-old.js"></script>
+<script src="js/student-write-off.js"></script>
+<script src="js/collect-fees.js"></script>
+<script src="js/student-master-data.js"></script>
+<script src="js/student-incomplete-admission-list.js"></script>
+<script src="js/employee_data.js"></script>
+<script src="js/inventory-data.js"></script>
+<script src="js/paylist-data.js"></script>
+<script src="js/setup-company-profile.js"></script>
+<script src="js/setup-academic-year.js"></script>
+<script src="js/setup-sms.js"></script>
+<script src="js/setup-requisition.js"></script>
+<script src="js/sticky-columns.js"></script>
+<script src="js/report-trial-balance.js"></script>
+<script src="js/cash-bank-journals.js"></script>
+<script src="js/report-income-statement.js"></script>
+<script src="js/report-balance-sheet.js"></script>
+<script src="js/report-general-ledger.js"></script>
+<script src="js/report-capital-ledger.js"></script>
+<script src="js/report-budget-details.js"></script>
+<script src="js/approved-supplier-bills.js"></script>
+<script src="js/banking-operations.js"></script>
+
+<script>
+    // --- Custom Alert Script (Embedded) ---
+    /**
+     * Displays a custom slide-in alert.
+     * @param {string} message The message to display.
+     * @param {string} type The type of alert ('success' or 'error'). Defaults to 'success'.
+     * @param {number} duration The duration in ms before the alert auto-closes. Defaults to 4000.
+     */
+    function showAlert(message, type = 'success', duration = 4000) {
+        const container = document.getElementById('alert-container');
+        if (!container) {
+            console.error('Alert container not found.');
+            return;
+        }
+
+        const alertEl = document.createElement('div');
+        alertEl.className = `alert alert-${type}`;
+        alertEl.textContent = message;
+
+        const closeBtn = document.createElement('span');
+        closeBtn.className = 'close-btn';
+        closeBtn.innerHTML = '&times;';
+        closeBtn.onclick = () => closeAlert(alertEl);
+        alertEl.appendChild(closeBtn);
+
+        container.appendChild(alertEl);
+        setTimeout(() => closeAlert(alertEl), duration);
+    }
+
+    function closeAlert(alertEl) {
+        alertEl.style.animation = 'slideOut 0.5s forwards';
+        alertEl.addEventListener('animationend', () => alertEl.remove());
+    }
+    // Make it globally available
+    window.showAlert = showAlert;
+</script>
+</body>
+</html>

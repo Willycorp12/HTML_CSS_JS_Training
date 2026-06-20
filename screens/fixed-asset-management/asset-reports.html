@@ -1,0 +1,123 @@
+<!-- screens/asset-reports.html -->
+<div class="page-header">
+    <h2 style="text-align: center; font-family: 'Segoe UI Light', Arial; color: #2e3192;">FIXED ASSETS REPORTS</h2>
+</div>
+
+<div class="asset-report-shell">
+    <!-- TABS: Matching Asset Master Data Style -->
+    <div class="main-tabs">
+        <div class="main-tab active" onclick="switchAssetReportTab('checked-out', this)">Checked-Out Assets</div>
+        <div class="main-tab" onclick="switchAssetReportTab('checked-in', this)">Checked In Assets</div>
+        <div class="main-tab" onclick="switchAssetReportTab('due-dates', this)">Due Dates</div>
+        <div class="main-tab" onclick="switchAssetReportTab('depreciation', this)">Depreciation</div>
+    </div>
+
+    <!-- TOOLBAR: Dynamic content based on tab -->
+    <div class="asset-report-toolbar">
+        <!-- Group for Checked-Out/In -->
+        <div id="filter-standard" class="toolbar-row">
+            <div class="toolbar-group">
+                <label>From:</label>
+                <input type="date" id="report-from-date" class="wd-input date-input">
+                <label>To:</label>
+                <input type="date" id="report-to-date" class="wd-input date-input">
+                <label>Search</label>
+                <button class="search-icon-btn" id="btn-report-search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+            <div class="toolbar-group" style="margin-left: 30px;">
+                <label>Filter by Personnel Name:</label>
+                <select class="wd-input" style="width: 220px;">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Group for Due Dates -->
+        <div id="filter-due" class="toolbar-row" style="display: none;">
+            <fieldset class="report-fieldset">
+                <legend>Filter By:</legend>
+                <label><input type="radio" id="due-radio-approaching" name="due-filter" value="approaching" checked> Approaching Due Dates</label>
+                <label style="margin-left: 20px;"><input type="radio" id="due-radio-overdue" name="due-filter" value="overdue"> Assets Overdue</label>
+            </fieldset>
+        </div>
+
+        <!-- Group for Depreciation -->
+        <div id="filter-dep" class="toolbar-row" style="display: none;">
+            <div class="toolbar-group">
+                <label>Depreciation Date:</label>
+                <input type="date" id="report-dep-date" class="wd-input date-input" style="width: auto;">
+                <label style="margin-left: 30px;">Filter by Asset Name:</label>
+                <select id="report-dep-asset-filter" class="wd-input asset-name-select" style="background: #fff !important; color: #333 !important;">
+                    <option value="">-- All Assets --</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div class="report-main-container">
+        <div class="report-header-labels">
+            <h2 id="report-title-label">List of Assets Checked-Out</h2>
+            <h4 id="report-subtitle-label" style="display: none;">Individual Asset Depreciation Schedules</h4>
+        </div>
+
+        <div class="report-table-wrapper">
+            <table class="wd-table blue-header" id="report-table">
+                <thead id="report-thead"></thead>
+                <tbody id="report-tbody"></tbody>
+            </table>
+        </div>
+
+        <!-- Footers -->
+        <div id="depreciation-footer" class="dep-footer" style="display: none;">
+            <span>TOTAL DEPRECIATION EXPENSE RECORDED:</span>
+            <span class="total-val" style="color: #2e3192;">0 FCFA</span>
+        </div>
+    </div>
+</div>
+
+<style>
+    .asset-report-shell { display: flex; flex-direction: column; height: calc(100% - 50px); background: #f8f9fc; border: 1px solid #ccc; font-family: "Segoe UI", Tahoma, sans-serif; font-size: 12px; }
+    
+    /* Toolbar Styles */
+    .asset-report-toolbar { padding: 12px; border-bottom: 1px solid #ddd; background: #f4f6f9; }
+    .toolbar-row { display: flex; align-items: center; }
+    .toolbar-group { display: flex; align-items: center; gap: 8px; }
+    .date-input { width: auto; text-align: center; }
+    .search-icon-btn { background: none; border: none; cursor: pointer; color: #2e3192; font-size: 14px; }
+    .report-fieldset { border: 1px solid #aaa; padding: 5px 15px; border-radius: 4px; display: inline-flex; align-items: center; gap: 5px; }
+    .report-fieldset legend { font-size: 11px; padding: 0 5px; font-weight: bold; color: #2e3192; }
+    .asset-name-select { background: transparent; color: #333 !important; width: 220px; font-weight: bold; }
+
+    /* Content Layout */
+    .report-main-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #fff; }
+    .report-header-labels { text-align: center; padding: 5px 0 5px 0; }
+    .report-header-labels h2 { font-size: 24px; color: #2e3192; margin: 0; font-family: 'Segoe UI Light', Arial; }
+    .report-header-labels h4 { font-size: 14px; color: #cd2027; margin: 2px 0 0 0; font-weight: normal; }
+    
+    .report-table-wrapper { flex: 1; overflow: auto; border-top: 1px solid #ddd; }
+    .wd-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .wd-table th, .wd-table td { border: 1px solid #ddd; padding: 6px 8px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; }
+    .wd-table.blue-header th { background: #2e3192; color: #fff; font-weight: bold; position: sticky; top: 0; z-index: 5; border-right: 1px solid #1f226f; }
+    
+    /* Selection Styles (from Checked-Out image) */
+    .wd-table tbody tr.selected td { background: #cd2027 !important; color: #fff !important; }
+    
+    /* Footer Styles (from Depreciation image) */
+    .dep-footer { background: #f0f0f0; border-top: 1px solid #ccc; padding: 10px 20px; display: flex; justify-content: flex-end; align-items: center; gap: 20px; font-weight: bold; }
+    .dep-footer .total-val { font-size: 16px; color: #000; }
+
+    /* Reuse Master Tabs */
+    .main-tabs { display: flex; background: #f0f0f0; border-bottom: 1px solid #ccc; padding-top: 6px; padding-left: 6px; align-items: flex-end; }
+    .main-tab { padding: 6px 15px; border: 1px solid #ccc; border-bottom: none; background: #e0e0e0; margin-right: 2px; cursor: pointer; border-radius: 4px 4px 0 0; color: #555; }
+    .main-tab.active { background: #fff; font-weight: bold; color: #2e3192; border-bottom: 1px solid #fff; margin-bottom: -1px; z-index: 1; }
+    
+    /* Scrollbar */
+    .report-table-wrapper::-webkit-scrollbar { width: 8px; height: 8px; }
+    .report-table-wrapper::-webkit-scrollbar-track { background: #f1f1f1; }
+    .report-table-wrapper::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+    .report-table-wrapper::-webkit-scrollbar-thumb:hover { background: #555; }
+
+    /* Image-specific Depreciation Red Cell */
+    .dep-expense-cell { background: #cd2027 !important; color: #fff !important; text-align: right !important; }
+</style>

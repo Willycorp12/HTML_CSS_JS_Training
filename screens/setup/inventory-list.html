@@ -1,0 +1,257 @@
+<!-- screens/setup/inventory-list.html -->
+<div class="page-header">
+    <h2 style="text-align: center; color: #2e3192;">INVENTORY MASTER DATA</h2>
+</div>
+
+<div class="inv-master-wrapper">
+    <!-- LEFT PANEL: Inventory Categories -->
+    <div class="inv-left-panel">
+        <div class="panel-header-blue">
+            <span>Inventory Groups</span>
+        </div>
+        <div class="panel-toolbar">
+            <button class="wd-btn primary"><i class="fa-solid fa-plus-circle"></i> New</button>
+            <button class="wd-btn primary"><i class="fa-solid fa-pen"></i> Modify</button>
+            <button class="wd-btn danger"><i class="fa-solid fa-trash"></i> Delete</button>
+        </div>
+        <div class="panel-tabs-row">
+            <div class="panel-tab active" data-tab-name="main-category" onclick="switchInventoryTab('left', 'main-category', this)">Main Category</div>
+            <div class="panel-tab" data-tab-name="sub-category" onclick="switchInventoryTab('left', 'sub-category', this)">Sub Category</div>
+        </div>
+        <div id="main-category-content" class="inv-category-list">
+            <table class="wd-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">ID No.</th>
+                        <th>Main Category Name</th>
+                    </tr>
+                </thead>
+                <tbody id="TBODY_InvMainCategories">
+                    <!-- Populated by inventory-data.js -->
+                </tbody>
+            </table>
+        </div>
+        <div id="sub-category-content" class="inv-category-list" style="display: none;">
+            <table class="wd-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">ID No.</th>
+                        <th>Sub Category Name</th>
+                    </tr>
+                </thead>
+                <tbody id="TBODY_InvSubCategories">
+                    <!-- Populated by inventory-data.js -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- RIGHT PANEL: Inventory Item List -->
+    <div class="inv-right-panel">
+        <div class="inv-main-toolbar">
+            <div class="toolbar-filters">
+                <div class="search-row">
+                    <input type="text" id="INV_GlobalSearch" class="global-search" placeholder="Search by Name OR Barcode...">
+                </div>
+            </div>
+
+            <div class="toolbar-actions">
+                <button class="wd-btn primary" id="btn-new-item"><i class="fa-solid fa-plus-circle"></i> New</button>
+                <button class="wd-btn primary" id="btn-edit-item"><i class="fa-solid fa-pen"></i> Modify</button>
+                <button class="wd-btn danger" id="btn-delete-item"><i class="fa-solid fa-circle-minus"></i> Delete</button>
+                <button class="wd-btn excel-btn"><i class="fa-solid fa-file-excel"></i> Export</button>
+                <button class="wd-btn" onclick="InventoryModalManager.handleRefresh()" title="Clear Category Filters"><i class="fa-solid fa-sync"></i> Refresh</button>
+            </div>
+        </div>
+
+        <div class="inv-table-container">
+            <table class="wd-table blue-header inv-list-table">
+                <thead>
+                    <tr>
+                        <th style="width: auto;">Item</th>
+                        <th style="width: 80px;"><i class="fa-solid fa-barcode"></i> Barcode</th>
+                        <th style="width: 100px;">Sub Category</th>
+                        <th style="width: 50px; text-align: right;">Total Qty</th>
+                        <th style="width: 75px; text-align: right;">Selling Price</th>
+                        <th style="width: 75px; text-align: right;">Purchase Price</th>
+                        <th style="width: 45px; text-align: right;">Min Qty1</th>
+                        <th style="width: 75px; text-align: right;">Min Price 1</th>
+                        <th style="width: 45px; text-align: right;">Min Qty2</th>
+                        <th style="width: 75px; text-align: right;">Min Price 2</th>
+                        <th style="width: 80px; text-align: right;">Opening Balance</th>
+                    </tr>
+                </thead>
+                <tbody id="inventory-items-tbody">
+                    <!-- Populated by inventory-data.js -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL for New/Modify Main & Sub Category -->
+<div id="MODAL_InvGeneric" class="coa-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 10006; align-items: center; justify-content: center;">
+    <div class="coa-modal" style="width: 450px; background: #f0f0f0; border-radius: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column;">
+        <div class="coa-modal-header" id="MIG_Header" style="background: #2e3192; color: white; padding: 10px 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move;">
+            <div id="MIG_Title">New Category</div>
+            <div style="font-size: 22px; color: #fff; opacity: 0.8; cursor: pointer;" onclick="InventoryModalManager.closeModal()">&times;</div>
+        </div>
+        <div class="coa-modal-body" style="padding: 20px; background: #fff;">
+            <form id="MIG_Form" onsubmit="event.preventDefault();">
+                <div class="form-group" id="MIG_ParentGroup" style="display: none; margin-bottom: 15px;">
+                    <label style="font-weight:bold; display:block; margin-bottom:8px;">Select Main Category</label>
+                    <select id="MIG_ParentSelect" class="wd-input" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></select>
+                </div>
+                <div class="form-group">
+                    <label id="MIG_Label" style="font-weight:bold; display:block; margin-bottom:8px;">Category Name</label>
+                    <input type="text" id="MIG_InputName" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" required>
+                </div>
+            </form>
+        </div>
+        <div class="coa-modal-footer" style="padding: 12px 20px; background: #f0f0f0; border-top: 1px solid #ddd; text-align: right; display: flex; justify-content: flex-end; gap: 10px;">
+            <button class="wd-btn primary" id="MIG_SaveBtn" onclick="InventoryModalManager.handleSave()">
+                <i class="fa-solid fa-plus"></i> Create
+            </button>
+            <button class="wd-btn danger" onclick="InventoryModalManager.closeModal()">
+                <i class="fa-solid fa-xmark"></i> Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL for New/Modify Inventory Item -->
+<div id="MODAL_InvItemGeneric" class="coa-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 10005; align-items: center; justify-content: center;">
+    <div class="coa-modal" style="width: 650px; background: #f0f0f0; border-radius: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column;">
+        <div class="coa-modal-header" id="MIG_ItemHeader" style="background: #2e3192; color: white; padding: 10px 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move;">
+            <div id="MIG_ItemTitle">New Inventory Item</div>
+            <div style="font-size: 22px; color: #fff; opacity: 0.8; cursor: pointer;" onclick="InventoryItemModalManager.closeModal()">&times;</div>
+        </div>
+        <div class="coa-modal-body" style="padding: 20px; background: #fff;">
+            <form id="MIG_ItemForm" onsubmit="event.preventDefault();">
+                <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                    <div class="form-group" style="flex: 1 1 100%;">
+                        <label style="font-weight:bold; display:block; margin-bottom:8px;">Item Name</label>
+                        <input type="text" id="MIG_ItemName" class="wd-input" style="width: 100%;" required>
+                    </div>
+                    <div class="form-group" style="flex: 1 1 48%;">
+                        <label style="font-weight:bold; display:block; margin-bottom:8px;">Barcode</label>
+                        <input type="text" id="MIG_ItemBarcode" class="wd-input" style="width: 100%;">
+                    </div>
+                    <div class="form-group" style="flex: 1 1 48%;">
+                        <label style="font-weight:bold; display:block; margin-bottom:8px;">Total Quantity</label>
+                        <input type="number" id="MIG_ItemQty" class="wd-input" style="width: 100%; text-align: right;" value="0" min="0">
+                    </div>
+                    <div class="form-group" style="flex: 1 1 48%;">
+                        <label style="font-weight:bold; display:block; margin-bottom:8px;">Selling Price</label>
+                        <input type="number" id="MIG_ItemSellPrice" class="wd-input" style="width: 100%; text-align: right;" value="0" min="0">
+                    </div>
+                    <div class="form-group" style="flex: 1 1 48%;">
+                        <label style="font-weight:bold; display:block; margin-bottom:8px;">Purchase Price</label>
+                        <input type="number" id="MIG_ItemBuyPrice" class="wd-input" style="width: 100%; text-align: right;" value="0" min="0">
+                    </div>
+                    <div class="form-group" style="flex: 1 1 48%;">
+                        <label style="font-weight:bold; display:block; margin-bottom:8px;">Min Stock Level</label>
+                        <input type="number" id="MIG_ItemMinStock" class="wd-input" style="width: 100%; text-align: right;" value="0" min="0">
+                    </div>
+                    <div class="form-group" style="flex: 1 1 48%;">
+                        <label style="font-weight:bold; display:block; margin-bottom:8px;">Min Qty 1</label>
+                        <input type="number" id="MIG_ItemMinQty1" class="wd-input" style="width: 100%; text-align: right;" value="0" min="0">
+                    </div>
+                    <div class="form-group" style="flex: 1 1 48%;">
+                        <label style="font-weight:bold; display:block; margin-bottom:8px;">Min Price 1</label>
+                        <input type="number" id="MIG_ItemMinPrice1" class="wd-input" style="width: 100%; text-align: right;" value="0" min="0">
+                    </div>
+                    <div class="form-group" style="flex: 1 1 48%;">
+                        <label style="font-weight:bold; display:block; margin-bottom:8px;">Min Qty 2</label>
+                        <input type="number" id="MIG_ItemMinQty2" class="wd-input" style="width: 100%; text-align: right;" value="0" min="0">
+                    </div>
+                    <div class="form-group" style="flex: 1 1 48%;">
+                        <label style="font-weight:bold; display:block; margin-bottom:8px;">Min Price 2</label>
+                        <input type="number" id="MIG_ItemMinPrice2" class="wd-input" style="width: 100%; text-align: right;" value="0" min="0">
+                    </div>
+                    <div class="form-group" style="flex: 1 1 48%;">
+                        <label style="font-weight:bold; display:block; margin-bottom:8px;">Main Category</label>
+                        <div style="display: flex; gap: 5px;">
+                            <select id="MIG_ItemMainCat" class="wd-input" style="flex: 1;"></select>
+                            <button type="button" class="wd-btn primary" onclick="InventoryModalManager.handleNewCategory('main-category')"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="form-group" style="flex: 1 1 48%;">
+                        <label style="font-weight:bold; display:block; margin-bottom:8px;">Sub Category</label>
+                        <div style="display: flex; gap: 5px;">
+                            <select id="MIG_ItemSubCat" class="wd-input" style="flex: 1;"></select>
+                            <button type="button" class="wd-btn primary" onclick="InventoryModalManager.handleNewCategory('sub-category')"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="coa-modal-footer" style="padding: 12px 20px; background: #f0f0f0; border-top: 1px solid #ddd; text-align: right; display: flex; justify-content: flex-end; gap: 10px;">
+            <button class="wd-btn primary" id="MIG_ItemSaveBtn" onclick="InventoryItemModalManager.handleSave()">
+                <i class="fa-solid fa-plus"></i> Create
+            </button>
+            <button class="wd-btn danger" onclick="InventoryItemModalManager.closeModal()">
+                <i class="fa-solid fa-xmark"></i> Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .inv-master-wrapper { display: flex; gap: 10px; height: calc(100% - 60px); padding-top: 5px; font-family: "Segoe UI", Tahoma, sans-serif; font-size: 12px; }
+
+    /* Layout Styles */
+    .inv-left-panel { width: 300px; display: flex; flex-direction: column; border: 1px solid #ccc; background: #fff; }
+    .inv-right-panel { flex: 1; display: flex; flex-direction: column; border: 1px solid #ccc; background: #fff; overflow: hidden; }
+    
+    .panel-header-blue { background: #2e3192; color: #fff; padding: 6px 10px; font-weight: bold; font-size: 13px; display: flex; align-items: center; }
+    .flex-between { justify-content: space-between; }
+
+    /* Left Panel Components */
+    .panel-toolbar { padding: 5px; background: #f0f0f0; border-bottom: 1px solid #ccc; display: flex; gap: 5px; }
+    .panel-tabs-row { display: flex; background: #f9f9f9; border-bottom: 1px solid #ccc; }
+    .panel-tab { padding: 8px 12px; cursor: pointer; border-right: 1px solid #ccc; color: #555; background: #e0e0e0; flex: 1; text-align: center; transition: 0.2s; }
+    .panel-tab.active { background: #fff; font-weight: bold; color: #2e3192; border-bottom: 2px solid #fff; margin-bottom: -1px; }
+    .inv-category-list { flex: 1; overflow-y: auto; background: #fff; }
+    .inv-category-list .wd-table th { background: #005a9e; color: #fff; padding: 4px; font-size: 13px; }
+
+    /* Right Panel Toolbar */
+    .inv-main-toolbar { padding: 10px; background: #f8f9fc; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; align-items: flex-end; }
+    .toolbar-filters { display: flex; flex-direction: column; gap: 2px; flex: 1; margin-right: 10px; }
+    .filter-row { display: flex; align-items: center; gap: 20px; }
+    .filter-group { display: flex; align-items: center; gap: 8px; }
+    .filter-group label { font-weight: bold; color: #333; }
+    .search-row { width: 100%; max-width: 400px; }
+    .global-search { width: 100%; padding: 6px 10px; border: 1px solid #999; border-radius: 4px; font-size: 12px; }
+    
+    .toolbar-actions { display: flex; gap: 8px; }
+
+    /* Table Responsive Customization */
+    .inv-table-container { flex: 1; overflow: auto; background: #fff; }
+    .inv-list-table { border-collapse: collapse; width: 100%; table-layout: auto; }
+    .inv-list-table td:first-child, .inv-list-table th:first-child { min-width: 180px; }
+
+    .wd-table.blue-header th { background: #2e3192; color: #fff; padding: 8px 6px; border-right: 1px solid #1f226f; font-size: 13px; position: sticky; top: 0; z-index: 5; }
+    .wd-table td { padding: 5px 8px; border-bottom: 1px dotted #ccc; border-right: 1px solid #eee; white-space: nowrap; font-size: 12px; max-width: 250px; overflow: hidden; text-overflow: ellipsis; }
+    
+    /* Row Selection States */
+    .wd-table tr:hover td { background: #f0f4ff; cursor: pointer; }
+    .wd-table tr.selected td { background: #cd2027 !important; color: #fff !important; font-weight: bold; }
+    .wd-table tr.selected-grey td { background: #e0e0e0; color: #000; }
+
+    /* Button Overrides for inventory */
+    .excel-btn { background: #217346 !important; color: #fff !important; border-color: #1e6b40 !important; }
+    .wd-btn { padding: 5px 12px; border: 1px solid #bbb; background: #f8f8f8; cursor: pointer; border-radius: 4px; display: inline-flex; align-items: center; gap: 5px; font-size: 12px; }
+    .wd-btn.primary { background: #2e3192 !important; color: #fff !important; border-color: #2e3192 !important; font-weight: bold; }
+    .wd-btn.danger { background: #cd2027 !important; color: #fff !important; border-color: #cd2027 !important; font-weight: bold; }
+    .wd-btn:hover { opacity: 0.9; }
+
+    /* Layout for specific table alignment */
+    .text-right { text-align: right !important; }
+    .form-group label { display: block; font-size: 12px; margin-bottom: 5px; color: #333; }
+    @media (max-width: 1366px) {
+        .inv-left-panel { width: 250px; }
+        .filter-row { gap: 10px; }
+        .inv-list-table { font-size: 11px; }
+    }
+</style>

@@ -1,0 +1,88 @@
+<!-- screens/personnel-master.html -->
+<div class="page-header">
+    <h2>Personnel Master Data</h2>
+    <p class="page-subtitle">Manage personnel groups, employee assets, attachments, notes and history.</p>
+</div>
+
+<div class="asset-page-shell">
+    <div class="asset-toolbar">
+        <button class="wd-btn primary">New Personnel</button>
+        <button class="wd-btn">Edit</button>
+        <button class="wd-btn danger">Delete</button>
+        <button class="wd-btn">Refresh</button>
+        <div class="toolbar-spacer"></div>
+        <input type="text" class="wd-input" placeholder="Search by Personnel Name >>>">
+    </div>
+
+    <div class="asset-content-row">
+        <div class="asset-panel asset-panel-left">
+            <div class="panel-header-blue">Personnel Groups</div>
+            <table class="wd-table blue-header">
+                <thead>
+                    <tr><th style="width: 60px;">No.</th><th>Group Name</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="selected"><td>1</td><td>Administration</td></tr>
+                    <tr><td>2</td><td>Operations</td></tr>
+                    <tr><td>3</td><td>Maintenance</td></tr>
+                    <tr><td>4</td><td>IT Support</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="asset-panel asset-panel-right">
+            <div class="panel-header-blue flex-between">
+                <span>Personnel</span>
+                <div class="header-actions">
+                    <button class="wd-btn"><i class="fa-solid fa-print"></i> Print</button>
+                </div>
+            </div>
+            <table class="wd-table blue-header">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">No</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Telephone</th>
+                        <th>Address</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="selected">
+                        <td>1</td>
+                        <td>Tchoffo Sokpa Lefils</td>
+                        <td>tsokpa@example.com</td>
+                        <td>+237 6 1234 5678</td>
+                        <td>Yaounde</td>
+                        <td>Centre</td>
+                        <td>Yaounde</td>
+                        <td>Married</td>
+                    </tr>
+                    <tr><td>2</td><td>Jane Nwana</td><td>j.nwana@example.com</td><td>+237 6 8765 4321</td><td>Buea</td><td>South West</td><td>Buea</td><td>Single</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .asset-page-shell { display: flex; flex-direction: column; height: calc(100% - 70px); gap: 12px; }
+    .asset-toolbar { display: flex; align-items: center; gap: 8px; padding: 8px; background: #f8f9fc; border: 1px solid #d1d3e2; }
+    .asset-toolbar .toolbar-spacer { flex: 1; }
+    .asset-toolbar .wd-input { width: 260px; }
+    .asset-content-row { display: flex; gap: 12px; flex: 1; }
+    .asset-panel { background: #fff; border: 1px solid #c8d1eb; display: flex; flex-direction: column; }
+    .asset-panel-left { flex: 0 0 280px; }
+    .asset-panel-right { flex: 1; }
+    .panel-header-blue { background: #2e3192; color: #fff; padding: 10px 12px; font-weight: 600; }
+    .panel-header-blue.flex-between { display: flex; align-items: center; justify-content: space-between; }
+    .header-actions button { margin-left: 6px; }
+    .wd-table { width: 100%; border-collapse: collapse; }
+    .wd-table th, .wd-table td { border: 1px solid #d1d3e2; padding: 8px; font-size: 12px; }
+    .wd-table th { background: #2e3192; color: #fff; text-align: left; }
+    .wd-table tbody tr.selected { background: #ff4d4d22; }
+    .wd-table tbody tr:hover { background: #f4f6ff; }
+</style>

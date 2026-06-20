@@ -1,0 +1,496 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    overflow: hidden; /* ✅ stops the browser (whole page) scrollbar */
+}
+
+/* ===== TOP BAR ===== */
+.app-topbar {
+    height: 48px;
+    background: #2e3192;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ===== BODY ===== */
+.app-body {
+    display: flex;
+    height: calc(100vh - 48px);
+    margin-top: 48px;
+    overflow: hidden;
+}
+
+/* ===== MENU ===== */
+.app-menu {
+    width: 230px;
+    background: #f3f3f3;
+    border-right: 1px solid #d0d0d0;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+/* ===== CONTENT ===== */
+.app-content {
+    flex: 1;
+    background: #ffffff;
+    overflow: hidden;
+    padding: 10px;
+    min-height: 0; 
+}
+
+#content-area {
+    height: 100%;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* ===== SIDE MENU ===== */
+.menu {
+    font-size: 12px;
+}
+
+.menu-item {
+    border-bottom: 1px solid #ddd;
+}
+
+.menu-title {
+    padding: 8px 12px;
+    cursor: pointer;
+    color: #333;
+}
+
+.menu-title:hover {
+    background: #e6e6e6;
+}
+
+.menu-item.active > .menu-title {
+    background: #2e3192;
+    color: #fff;
+}
+
+/* Submenus */
+.has-sub .submenu {
+    display: none;
+    background: #fafafa;
+}
+
+.has-sub.open .submenu {
+    display: block;
+}
+
+.submenu-item {
+    padding: 5px 20px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #333;
+}
+
+.submenu-item:hover {
+    background: #ddd;
+}
+
+.submenu-item.active {
+    background: #cd2027;
+    color: #fff;
+}
+
+/* ===== SCREENS ===== */
+.screen {
+    padding: 12px;
+}
+
+.screen h2 {
+    margin-top: 0;
+    font-size: 16px;
+}
+
+/* ===== NOTIFICATION & USER DROPDOWN ===== */
+.notif-dropdown div span {
+    display: inline-block;
+    background-color: #ffc83d;
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 12px;
+    margin-left: 8px;
+}
+
+.notif-dropdown,
+.user-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    border: 1px solid #ddd;
+    width: 230px;
+    box-shadow: 0 4px 8px rgba(0,0,0,.15);
+    z-index: 1000;
+    border-radius: 4px;
+    top: 100%;
+    margin-top: 4px;
+}
+
+.notif-dropdown div,
+.user-dropdown div {
+    padding: 8px 12px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.notif-dropdown div:hover,
+.user-dropdown div:hover {
+    background-color: #eee;
+}
+
+.user-dropdown .danger {
+    color: #cd2027;
+    font-weight: bold;
+}
+
+.user-dropdown .danger:hover {
+    background-color: #cd2027;
+    color: #fff;
+}
+
+/* ===== USER AVATAR ===== */
+.user-wrapper {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.notif-wrapper {
+    cursor: pointer;
+    position: relative;
+}
+
+.user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #2e3192;
+    color: #fff;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.user-name {
+    margin-left: 6px;
+    color: #fff;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+/* ===== TOPBAR MENU ===== */
+.topbar-menu > ul {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+}
+
+.topbar-menu > li {
+    display: flex;
+    align-items: center;
+    height: 48px;
+}
+
+.top-menu-item {
+    color: #fff;
+    padding: 0 5px;
+    cursor: pointer;
+    position: relative;
+    line-height: 15px;
+}
+
+.top-submenu li {
+    position: relative;
+}
+
+/* Nested submenu positioning */
+.top-submenu li > .top-submenu {
+    top: 0;
+    left: 100%;
+}
+
+/* Hover effects */
+.top-menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ===== SUBMENU WITH TRANSITION (lightweight) ===== */
+.top-submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 220px;
+    background: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    z-index: 100;
+    flex-direction: column;
+
+    /* transition effect */
+    opacity: 0;
+    transform: translateY(-5px);
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    margin-top: 0;
+    padding-top: 2px;
+
+    list-style: none; /* 👈 add this to remove bullets */
+}
+
+
+.top-menu-item:hover > .top-submenu,
+.top-submenu:hover {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Submenu item styling */
+.top-submenu li {
+    padding: 5px 20px;
+    cursor: pointer;
+    color: #333;
+}
+
+.top-submenu li:hover {
+    background: #f0f0f0;
+    color: #000;
+}
+
+/* ===== ARROWS FOR SUBMENUS ===== */
+.top-menu-item:has(> .top-submenu)::after {
+    content: "▼";
+    font-size: 10px;
+    margin-left: 6px;
+    color: #2e3192;
+    opacity: 0.9;
+}
+
+.top-submenu li:has(> .top-submenu)::after {
+    content: "▶";
+    float: right;
+    font-size: 11px;
+    color: #2e3192;
+    opacity: 0.85;
+}
+
+
+
+
+/* ===== DASHBOARD ===== */
+.dashboard {
+    padding: 10px;
+}
+
+/* KPI cards */
+.dashboard-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.kpi-card {
+    background: #fff;
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,.12);
+}
+
+.kpi-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+.kpi-icon.blue { background: #2e3192; }
+.kpi-icon.red { background: #cd2027; }
+.kpi-icon.green { background: #2e8b57; }
+.kpi-icon.orange { background: #ff9800; }
+
+.kpi-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.kpi-label {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Panels */
+.dashboard-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.dashboard-panel {
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.12);
+    padding: 10px;
+}
+
+.panel-header {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #2e3192;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Lists */
+.panel-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.panel-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 13px;
+    border-bottom: 1px solid #eee;
+}
+
+.panel-list li:last-child {
+    border-bottom: none;
+}
+
+/* Badges */
+.badge {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    color: #fff;
+}
+
+.badge.red { background: #cd2027; }
+.badge.orange { background: #ff9800; }
+.badge.blue { background: #2e3192; }
+
+/* Activity table */
+.activity-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.activity-table th,
+.activity-table td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+.activity-table th {
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+
+/* ===== BAR CHART ===== */
+.bar-chart {
+    display: flex;
+    align-items: flex-end;
+    height: 160px;
+    gap: 10px;
+    padding: 10px;
+}
+
+.bar {
+    flex: 1;
+    background: #2e3192;
+    height: var(--h);
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    transition: height 0.3s ease;
+}
+
+.bar span {
+    position: absolute;
+    bottom: -18px;
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    color: #555;
+}
+
+/* ===== PROGRESS CHART ===== */
+.progress-chart {
+    padding: 8px 0;
+}
+
+.progress-item {
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+.progress-bar {
+    background: #eee;
+    border-radius: 10px;
+    height: 10px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.progress-fill.blue {
+    background: #2e3192;
+}
+
+.progress-fill.red {
+    background: #cd2027;
+}

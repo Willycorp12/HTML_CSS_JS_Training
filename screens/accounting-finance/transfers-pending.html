@@ -1,0 +1,47 @@
+<!-- ===== PAGE HEADER ===== -->
+<div class="page-header">
+    <h2>Internal Funds Transfer Pending Approval</h2>
+</div>
+
+<!-- ===== GLOBAL SEARCH ===== -->
+<div class="page-toolbar">
+    <input
+        type="text"
+        id="EDT_GlobalSearch"
+        class="global-search"
+        placeholder="Search transfers (any column)..."
+    />
+</div>
+
+<!-- ===== FILTER SECTION ===== -->
+<div style="padding: 12px; background: #f8f9fa; border-bottom: 1px solid #e0e0e0; display: flex; gap: 12px; align-items: center;">
+    <label style="margin: 0; font-weight: bold; min-width: 120px;">Filter by Status:</label>
+    <select id="FILTER_TransferStatus" style="padding: 6px; border: 1px solid #ccc; border-radius: 3px;">
+        <option value="">All</option>
+        <option value="Unapproved">Unapproved</option>
+        <option value="Approved">Approved</option>
+        <option value="Rejected">Rejected</option>
+    </select>
+</div>
+
+<!-- ===== STANDARD WINDEV TABLE ===== -->
+<div class="table-scroll-wrapper">
+    <table id="TABLE_TransfersPending" class="wd-table">
+        <thead>
+            <tr>
+                <th>SN</th>
+                <th>Ref No</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Transfer from</th>
+                <th>Transfer to</th>
+                <th>Amount</th>
+                <th>Send By</th>
+                <th>Received By</th>
+                <th>Status</th>
+                <th>Take Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>

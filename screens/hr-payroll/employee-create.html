@@ -1,0 +1,414 @@
+<!-- screens/employee-create.html -->
+<div class="asset-overlay" id="create-employee-overlay">
+    <div class="asset-modal" id="create-employee-modal">
+        <!-- Header -->
+        <div class="asset-header">
+            <div class="asset-title">Creating a New Employee</div>
+            <div class="asset-close" onclick="closeCreateEmployeeModal()" title="Close">&times;</div>
+        </div>
+
+        <div class="asset-body">
+            <!-- Status and S/N Row -->
+            <div class="form-row" style="display: flex; gap: 20px; align-items: center; margin-bottom: 10px; padding: 5px 10px; background: #f9f9f9; border: 1px solid #eee;">
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <label style="margin-bottom: 0; font-weight: bold;">Status:</label>
+                    <select id="EMP_STATUS" class="wd-input" style="width: 120px;"></select>
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <label style="margin-bottom: 0; font-weight: bold;">S/N:</label>
+                    <input id="EMP_SN" type="text" class="wd-input" style="width: 80px;">
+                </div>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="asset-tabs">
+                <div class="asset-tab active" onclick="switchEmployeeCreateTab('TAB_BasicInfo', this)">
+                    <i class="fa-solid fa-user"></i> Basic Info
+                </div>
+                <div class="asset-tab" onclick="switchEmployeeCreateTab('TAB_MoreInfo1', this)">
+                    <i class="fa-solid fa-info-circle"></i> More Info 1
+                </div>
+                <div class="asset-tab" onclick="switchEmployeeCreateTab('TAB_MoreInfo2', this)">
+                    <i class="fa-solid fa-dollar-sign"></i> More Info 2
+                </div>
+            </div>
+
+            <!-- Tab Content: Basic Info -->
+            <div id="TAB_BasicInfo" class="asset-tab-content active">
+                <div class="asset-general-layout">
+                    <div class="asset-general-left">
+                        <div class="form-row">
+                            <label>No Of Children:</label>
+                            <input id="EMP_CHILDREN" type="number" class="wd-input" value="0">
+                        </div>
+                        <div class="form-row">
+                            <label>Employment Date:</label>
+                            <input id="EMP_EMP_DATE" type="date" class="wd-input">
+                        </div>
+                        <div class="form-row">
+                            <label>No Of Legal Days:</label>
+                            <input id="EMP_LEGAL_DAYS" type="number" class="wd-input" value="0">
+                        </div>
+                    </div>
+                    <div class="asset-general-right">
+                        <div class="form-row">
+                            <label>Longevity/Seniority:</label>
+                            <input id="EMP_LONGEVITY" type="text" class="wd-input" value="0 Years">
+                        </div>
+                        <div class="form-row">
+                            <label>Address:</label>
+                            <textarea id="EMP_ADDRESS" class="wd-input" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <!-- Top Form Section (Always visible) -->
+        <div class="asset-top-form">
+            <div class="asset-top-left">
+                <div class="form-row">
+                    <label>Matricule:</label>
+                    <input id="EMP_MATRICULE" type="text" class="wd-input">
+                </div>
+                <div class="form-row">
+                    <label>Title:</label>
+                    <select id="EMP_TITLE" class="wd-input"></select>
+                </div>
+                <div class="form-row">
+                    <label>First Name:</label>
+                    <input id="EMP_FIRST_NAME" type="text" class="wd-input">
+                </div>
+                <div class="form-row">
+                    <label>Middle Name:</label>
+                    <input id="EMP_MIDDLE_NAME" type="text" class="wd-input">
+                </div>
+                <div class="form-row">
+                    <label>Last Name:</label>
+                    <input id="EMP_LAST_NAME" type="text" class="wd-input">
+                </div>
+                <div class="form-row">
+                    <label>Full Name:</label>
+                    <input id="EMP_FULL_NAME" type="text" class="wd-input" readonly style="background:#eee;">
+                </div>
+                <div class="form-row">
+                    <label>Telephone:</label>
+                    <input id="EMP_TELEPHONE" type="text" class="wd-input">
+                </div>
+                <div class="form-row">
+                    <label>Gender:</label>
+                    <select id="EMP_GENDER" class="wd-input"></select>
+                </div>
+                <div class="form-row">
+                    <label>Civil Status:</label>
+                    <select id="EMP_CIVIL_STATUS" class="wd-input"></select>
+                </div>
+            </div>
+
+            <div class="asset-top-right">
+                <fieldset class="asset-num-group">
+                    <legend>Company Info</legend>
+                    <div class="form-row">
+                        <label>Category:</label>
+                        <select id="EMP_CATEGORY" class="wd-input"></select>
+                    </div>
+                    <div class="form-row">
+                        <label>Echelon:</label>
+                        <select id="EMP_ECHELON" class="wd-input"></select>
+                    </div>
+                    <div class="form-row">
+                        <label>Branch:</label>
+                        <select id="EMP_BRANCH" class="wd-input"></select>
+                    </div>
+                    <div class="form-row">
+                        <label>Department:</label>
+                        <select id="EMP_DEPARTMENT" class="wd-input"></select>
+                    </div>
+                    <div class="form-row">
+                        <label>Post:</label>
+                        <select id="EMP_POST" class="wd-input"></select>
+                    </div>
+                    <div class="form-row">
+                        <label>Nationality:</label>
+                        <select id="EMP_NATIONALITY" class="wd-input"></select>
+                    </div>
+                    <div class="form-row">
+                        <label>Denomination:</label>
+                        <select id="EMP_DENOMINATION" class="wd-input"></select>
+                    </div>
+                    <div class="form-row">
+                        <label>Employee Type:</label>
+                        <select id="EMP_EMPLOYEE_TYPE" class="wd-input"></select>
+                    </div>
+                    <button id="BTN_SETUP_PAYSLIP" class="wd-btn primary" onclick="openPayslipSetupModal()" style="width:100%; margin-top:10px;">Setup Payslip Details <i class="fa-solid fa-arrow-right"></i></button>
+                </fieldset>
+            </div>
+        </div>
+
+            </div>
+
+            <!-- Tab Content: More Info 1 -->
+            <div id="TAB_MoreInfo1" class="asset-tab-content">
+                <div class="asset-general-layout" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+                    <!-- Column 1 -->
+                    <div>
+                        <fieldset class="asset-num-group">
+                            <legend>Emergency Contacts</legend>
+                            <div class="form-row"><label>Emergency Name 1:</label><input id="EMP_EMERGENCY_NAME_1" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>Emergency Num 1:</label><input id="EMP_EMERGENCY_PHONE_1" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>Emergency Name 2:</label><input id="EMP_EMERGENCY_NAME_2" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>Emergency Num 2:</label><input id="EMP_EMERGENCY_PHONE_2" type="text" class="wd-input"></div>
+                        </fieldset>
+                        <fieldset class="asset-num-group">
+                            <legend>Birth & National ID</legend>
+                            <div class="form-row"><label>Date Of Birth (DOB):</label><input id="EMP_DOB" type="date" class="wd-input"></div>
+                            <div class="form-row"><label>NID (National ID):</label><input id="EMP_NID" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>CPNS No:</label><input id="EMP_CPNS" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>Place Of Birth:</label><input id="EMP_BIRTH_PLACE" type="text" class="wd-input"></div>
+                        </fieldset>
+                    </div>
+                     <!-- Column 2 -->
+                    <div>
+                        <fieldset class="asset-num-group">
+                            <legend>ID Card Info</legend>
+                            <div class="form-row"><label>Identification Type:</label><input id="EMP_ID_TYPE" type="text" class="wd-input" value="ID Card"></div>
+                            <div class="form-row"><label>Identification Num:</label><input id="EMP_ID_NUMBER" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>Place of Issue:</label><input id="EMP_ID_PLACE_OF_ISSUE" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>Date of Issue:</label><input id="EMP_ID_ISSUE_DATE" type="date" class="wd-input"></div>
+                            <div class="form-row"><label>Expiry Date:</label><input id="EMP_ID_EXPIRY_DATE" type="date" class="wd-input"></div>
+                        </fieldset>
+                        <fieldset class="asset-num-group">
+                            <legend>Passport Info</legend>
+                            <div class="form-row"><label>Passport Identification:</label><input id="EMP_PASSPORT_ID_TYPE" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>Passport ID Num:</label><input id="EMP_PASSPORT_NUMBER" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>Passport Place Of Issue:</label><input id="EMP_PASSPORT_PLACE_ISSUE" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>Passport StartDate:</label><input id="EMP_PASSPORT_ISSUE_DATE" type="date" class="wd-input"></div>
+                            <div class="form-row"><label>Passport EndDate:</label><input id="EMP_PASSPORT_EXPIRY_DATE" type="date" class="wd-input"></div>
+                        </fieldset>
+                    </div>
+                    <!-- Column 3 -->
+                    <div>
+                        <fieldset class="asset-num-group">
+                            <legend>Previous Job Info</legend>
+                            <div class="form-row"><label>Last Diploma:</label><input id="EMP_LAST_DIPLOMA" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>Last Job:</label><input id="EMP_LAST_JOB" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>Last Employer:</label><input id="EMP_LAST_EMPLOYER" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>Last Job StartDate:</label><input id="EMP_LAST_JOB_START_DATE" type="date" class="wd-input"></div>
+                            <div class="form-row"><label>Last Job EndDate:</label><input id="EMP_LAST_JOB_END_DATE" type="date" class="wd-input"></div>
+                        </fieldset>
+                        <fieldset class="asset-num-group">
+                            <legend>Social Security & Other</legend>
+                            <div class="form-row"><label>CNPS Y/N:</label><input id="EMP_CNPS_YN" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>NIU (Tax Payer's ID):</label><input id="EMP_NIU" type="text" class="wd-input"></div>
+                            <div class="form-row"><label>Email:</label><input id="EMP_EMAIL" type="email" class="wd-input"></div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: More Info 2 -->
+            <div id="TAB_MoreInfo2" class="asset-tab-content">
+                <div class="asset-general-layout">
+                    <div class="asset-general-left">
+                        <fieldset class="asset-num-group">
+                            <legend>Payment Account Info</legend>
+                            <div class="form-row">
+                                <label>Payment Mode:</label>
+                                <select id="EMP_PAYMENT_MODE" class="wd-input">
+                                    <option value="1">Cash</option>
+                                    <option value="2">Bank</option>
+                                    <option value="3">Prepaid Card</option>
+                                </select>
+                            </div>
+                            <div id="EMP_BANK_DETAILS" style="display: none;">
+                                <div class="form-row">
+                                    <label>Account First Name:</label>
+                                    <input id="EMP_BANK_FIRST_NAME" type="text" class="wd-input">
+                                </div>
+                                <div class="form-row">
+                                    <label>Account Last Name:</label>
+                                    <input id="EMP_BANK_LAST_NAME" type="text" class="wd-input">
+                                </div>
+                                <div class="form-row">
+                                    <label>Bank Name:</label>
+                                    <input id="EMP_BANK_NAME" type="text" class="wd-input">
+                                </div>
+                                <div class="form-row">
+                                    <label>Bank Acc. No.:</label>
+                                    <input id="EMP_BANK_ACCOUNT_NUMBER" type="text" class="wd-input">
+                                </div>
+                                <div class="form-row">
+                                    <label>Bank Code:</label>
+                                    <input id="EMP_BANK_CODE" type="text" class="wd-input">
+                                </div>
+                                <div class="form-row">
+                                    <label>Branch Code:</label>
+                                    <input id="EMP_BANK_BRANCH_CODE" type="text" class="wd-input">
+                                </div>
+                                <div class="form-row">
+                                    <label>Account Key:</label>
+                                    <input id="EMP_BANK_ACCOUNT_KEY" type="text" class="wd-input">
+                                </div>
+                                <div class="form-row">
+                                    <label>Account Creation Date:</label>
+                                    <input id="EMP_BANK_CREATION_DATE" type="date" class="wd-input">
+                                </div>
+                            </div>
+                            <div id="EMP_PREPAID_DETAILS" style="display: none;">
+                                <div class="form-row">
+                                    <label>Prepaid Card Expiry Date:</label>
+                                    <input id="EMP_PREPAID_EXPIRY_DATE" type="date" class="wd-input">
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 20px;">
+                                <label>Payrate:</label>
+                                <input id="EMP_PAYRATE" type="text" class="wd-input" value="0 FCFA">
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="asset-general-right">
+                        <!-- Empty for now, as per image -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="po-modal-footer">
+            <button class="wd-btn primary" onclick="submitCreateEmployeeForm()">Save Employee <i class="fa-solid fa-floppy-disk"></i></button>
+            <button class="wd-btn danger" onclick="closeCreateEmployeeModal()">Close <i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Base styles copied from asset-new.html to ensure modal works standalone */
+    .asset-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(5px);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .asset-modal {
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        border-radius: 8px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        overflow: hidden;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        font-size: 12px;
+        animation: modalPop 0.3s ease-out;
+    }
+    @keyframes modalPop {
+        from { transform: scale(0.95); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+    .asset-header {
+        background: #2e3192;
+        color: #fff;
+        padding: 8px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+        font-size: 14px;
+        cursor: move;
+    }
+    .asset-close { cursor: pointer; font-size: 18px; opacity: 0.8; }
+    .asset-close:hover { opacity: 1; }
+    .asset-body {
+        padding: 10px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        background: #f0f0f0;
+    }
+    .asset-top-form {
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+    }
+    .asset-top-left { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+    .asset-top-right { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .form-row { margin-bottom: 2px; display: flex; align-items: center; }
+    .form-row label { display: inline-block; font-weight: bold; width: 130px; min-width: 130px; margin-right: 10px; color: #333; text-align: right; }
+    .wd-input { flex: 1; padding: 6px; border: 1px solid #999; font-size: 12px; border-radius: 4px; box-sizing: border-box; width: auto; }
+    .wd-input:focus, select:focus, textarea:focus { outline: none !important; }
+    .asset-num-group { border: 1px solid #ccc; padding: 8px; background: #fff; }
+    .asset-num-group legend { font-size: 11px; margin-left: 5px; padding: 0 3px; font-weight: bold; color: #2e3192; }
+    .asset-tabs { display: flex; border-bottom: 1px solid #ccc; margin-top: 5px; }
+    .asset-tab {
+        padding: 6px 12px;
+        background: #e0e0e0;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        margin-right: 2px;
+        cursor: pointer;
+        border-radius: 4px 4px 0 0;
+        color: #555;
+        display: flex; align-items: center; gap: 6px;
+    }
+    .asset-tab.active {
+        background: #fff;
+        border-color: #ccc;
+        border-bottom: 1px solid #fff;
+        margin-bottom: -1px;
+        color: #2e3192;
+        font-weight: bold;
+    }
+    .asset-tab-content {
+        flex: 1;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-top: none;
+        padding: 10px;
+        display: none;
+        overflow: auto;
+    }
+    .asset-tab-content.active { display: block; }
+    .asset-general-layout { display: flex; gap: 20px; height: auto; }
+    .wd-btn { padding: 6px 12px; border: 1px solid #999; background: #f0f0f0; cursor: pointer; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; justify-content: center; border-radius: 4px; }
+    .wd-btn.primary { border-color: #2e3192; background-color: #2e3192; color: #fff; font-weight: bold; }
+    .wd-btn.danger { border-color: #cd2027; background-color: #cd2027; color: #fff; font-weight: bold; }
+    .wd-btn:hover { opacity: 0.9; }
+
+    /* Specific adjustments for employee-create modal if needed */
+    #create-employee-modal {
+        width: 85%;
+        height: 88%;
+        max-width: 1200px;
+        max-height: 680px;
+    }
+    #create-employee-modal .asset-top-form {
+        flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    }
+    #create-employee-modal .asset-top-left,
+    #create-employee-modal .asset-top-right {
+        flex: 1 1 45%; /* Allow them to grow but also shrink */
+        min-width: 300px; /* Minimum width to prevent squishing */
+    }
+    #create-employee-modal .asset-general-layout {
+        flex-wrap: wrap;
+    }
+    #create-employee-modal .asset-general-left,
+    #create-employee-modal .asset-general-right {
+        flex: 1 1 45%;
+        min-width: 300px;
+    }
+    #create-employee-modal .po-modal-footer {
+        padding: 10px;
+        background: #f0f0f0;
+        border-top: 1px solid #ddd;
+        text-align: right;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+</style>

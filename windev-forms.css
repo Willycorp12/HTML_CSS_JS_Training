@@ -1,0 +1,381 @@
+/* ================================
+   FORM BASE (Option B - No Scroll)
+================================ */
+.form-wrapper {
+  background: #fff;
+  border: 1px solid #e6e8ee;
+  border-radius: 8px;
+  padding: 25px;
+  max-width: 1000px;
+  margin: 0 auto;
+
+  /* IMPORTANT: fill the content area, not the whole viewport */
+  height: 100%;
+  max-height: 630px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================================
+   FORM HEADER
+================================ */
+.form-header {
+  text-align: center;
+  padding-bottom: 14px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #eef0f5;
+}
+
+.form-header h2 {
+  font-size: 24px;
+  color: #1f3c88;
+  margin: 0 0 6px 0;
+  letter-spacing: 0.2px;
+}
+
+.form-subtitle {
+  font-size: 12px;
+  color: #888;
+  text-transform: uppercase;
+}
+
+/* ================================
+   FORM BODY LAYOUT
+================================ */
+.form-body {
+  display: flex;
+  gap: 26px;
+  flex: 1;
+  overflow: visible; /* key: no inner scroll */
+  align-items: stretch;
+}
+
+/* ================================
+   MAIN FORM (LEFT)
+================================ */
+.form-main {
+  flex: 2;
+  overflow: hidden; /* prevent inner scroll */
+}
+
+/* Amount block (make it feel official) */
+.amount-section {
+  background: #fbfbfd;
+  border: 1px solid #eef0f5;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+
+.amount-section label {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 3px;
+  font-size: 13px;
+  color: #111;
+}
+
+.amount-words {
+  font-size: 13px;
+  color: #777;
+  margin-top: 6px;
+}
+
+.amount-editable {
+  display: flex;
+  align-items: baseline;
+  font-size: 45px;
+  font-weight: 800;
+  color: #000;
+  line-height: 1;
+}
+
+.amount-input {
+  max-width: 70%;
+  width: 50%;
+  font-size: 100%;
+  font-weight: 800;
+  color: #000;
+  border: none;
+  outline: none;
+  background: transparent;
+  text-align: left;
+  padding: 0 8px 0 0;
+  transition: width 0.2s;
+}
+.amount-input::placeholder {
+  color: black; /* make it black */
+  opacity: 100; /* ensure full visibility */
+}
+.amount-input:focus {
+  outline: none;
+}
+
+.fcfa-label {
+  font-size: 45px;
+  color: #000;
+  margin-left: 3px;
+  user-select: none;
+}
+/* ================================
+   FORM FIELDS
+================================ */
+.form-group {
+  margin-bottom: 1px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 1px;
+  color: #222;
+}
+
+.form-group input,
+.form-group textarea,
+.form-side select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #cfd3dd;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-side select:focus {
+  outline: none;
+  border-color: #1f3c88;
+}
+
+/* Prevent resize (stops scroll) */
+.form-group textarea {
+  height: 80px;
+  resize: none;
+}
+
+/* ================================
+   SIDE PANEL (RIGHT)
+================================ */
+.form-side {
+  flex: 1;
+  background: #f7f8fa;
+  border: 1px solid #eef0f5;
+  padding: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.side-group {
+  margin-bottom: 12px;
+}
+
+.side-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #222;
+}
+
+.side-group input,
+.side-group select {
+  width: 100%;
+  padding: 9px 10px;
+  font-size: 13px;
+  border: 1px solid #cfd3dd;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.side-group label input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.side-summary {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #e6e8ee;
+}
+
+.side-summary div {
+  display: inline-block;
+  justify-content: space-around;
+  margin-bottom: 8px;
+}
+.side-summary .dynamical {
+  font-weight: 700;
+  float: right;
+}
+
+.side-summary .net-amount {
+  font-weight: 800;
+  color: #000;
+}
+.side-summary #bill {
+  color: #008300;
+}
+.side-summary #ait {
+  color: #ff0d0d;
+}
+/* ================================
+   FORM ACTIONS (always visible)
+================================ */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  padding-top: 10px;
+  border-top: 1px solid #eef0f5;
+}
+
+.btn-primary {
+  padding: 10px 18px;
+  background: #1f3c88;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  padding: 10px 18px;
+  background: #ff0d0d;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+/* ===== BOTTOM ACTION BAR ===== */
+.wd-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 8px;
+}
+.wd-action-btn {
+  min-width: 140px;
+  height: 34px;
+  border: 1px solid #bbb;
+  background: linear-gradient(#ffffff, #e9e9e9);
+  cursor: pointer;
+  font-size: 13px;
+}
+.wd-action-btn.primary {
+  border-color: #2e3192;
+  color: #2e3192;
+  font-weight: 700;
+}
+.wd-action-btn.danger {
+  border-color: #cd2027;
+  color: #cd2027;
+  font-weight: 700;
+}
+.wd-action-btn:hover {
+  background: linear-gradient(#f8f8f8, #dcdcdc);
+}
+.page-header-wrapper {
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2e3192;
+  margin: 0;
+}
+
+.order-date-box {
+  width: 115px;
+  outline: none;
+}
+
+.order-date-title {
+  background: #2e3192;
+  color: #fff;
+  padding: 2px 1px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.order-date-input {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #e0e0e0;
+  border-top: none;
+  outline: none;
+}
+
+/* ===== LAYOUT ===== */
+.form-body {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.side-summary {
+  margin-left: auto;
+}
+
+.amount {
+  text-align: right;
+  font-weight: bold;
+}
+
+/* Editable Cells (ContentEditable) */
+.wd-table td[contenteditable="true"] {
+  background-color: #fcfcfc; /* Subtle indication it is editable */
+  cursor: text;
+  transition:
+    background-color 0.2s,
+    outline 0.2s;
+}
+
+.wd-table td[contenteditable="true"]:focus {
+  background-color: #fff;
+  outline: 2px solid #2e3192; /* WinDev Blue highlight */
+  z-index: 1;
+  position: relative;
+}
+
+/* For the scrolling table */
+.service-bill-table-wrap {
+  max-height: 450px; /* Increased height to prevent early scrolling */
+  overflow-y: auto;
+  border-bottom: 1px solid #e0e0e0;
+  position: relative;
+}
+
+/* Search results dropdown */
+.search-results-container {
+  position: relative;
+}
+#account-search-results {
+  position: absolute;
+  background: #fff;
+  width: 300px; /* Same as global-search */
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.search-result-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.search-result-item:hover {
+  background: #f0f0f0;
+}
+.search-result-item .code {
+  color: #888;
+  margin-right: 8px;
+}
