@@ -499,6 +499,9 @@ function loadScreen(file, menuElement = null, title = '') {
             if (normalizedFile === "stock-master.html") {
                 initStockMaster();
             }
+            if (normalizedFile === "stock-purchase-grn.html") {
+                initStockPurchaseGrn();
+            }
             if (normalizedFile === "asset-master.html") {
                 initAssetMaster();
             }
@@ -736,6 +739,7 @@ async function testPrint() {
 <script src="js/student-incomplete-admission-list.js"></script>
 <script src="js/employee_data.js"></script>
 <script src="js/inventory-data.js"></script>
+<script src="js/stock-purchase-grn.js"></script>
 <script src="js/paylist-data.js"></script>
 <script src="js/setup-company-profile.js"></script>
 <script src="js/setup-academic-year.js"></script>

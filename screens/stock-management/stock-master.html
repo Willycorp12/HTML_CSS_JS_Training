@@ -50,18 +50,165 @@
             </div>
         </div>
 
-        <!-- TAB 2: ISSUE ITEMS (Placeholder) -->
-        <div id="issue-items-content" class="stk-tab-panel" style="display: none; padding: 40px; text-align: center; color: #888;">
-            <i class="fa-solid fa-box-open" style="font-size: 48px; margin-bottom: 15px;"></i>
-            <h3>Issue Items Interface</h3>
-            <p>This module is under development.</p>
+        <!-- TAB 2: ISSUE ITEMS -->
+        <div id="issue-items-content" class="stk-tab-panel" style="display: none; flex-direction: column; height: 100%;">
+            <div class="coa-toolbar" style="padding: 10px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; margin-bottom: 5px;">
+                <div class="coa-left-tools" style="display: flex; gap: 10px; align-items: center; font-size: 13px;">
+                    <label>From:</label>
+                    <input type="date" id="ISSUE_DATE_FROM" class="global-search" style="width: 130px; padding: 4px;">
+                    <label>To:</label>
+                    <input type="date" id="ISSUE_DATE_TO" class="global-search" style="width: 130px; padding: 4px;">
+                    <button class="wd-action-btn" style="padding: 4px 10px;">Search</button>
+                    <select class="global-search" style="padding: 4px; width: 120px;">
+                        <option>This Year</option>
+                        <option>Last Year</option>
+                    </select>
+                </div>
+                <div class="coa-right-tools" style="display: flex; gap: 8px;">
+                    <button class="wd-action-btn primary" id="BTN_ISSUE_New">
+                        New <i class="fa-solid fa-plus-circle"></i>
+                    </button>
+                    <button class="wd-action-btn primary" id="BTN_ISSUE_Modify">
+                        Modify <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button class="wd-action-btn danger" id="BTN_ISSUE_Delete">
+                        Delete <i class="fa-solid fa-circle-minus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TOP TABLE: Master -->
+            <div class="table-scroll-wrapper" style="flex: 1; background: #fff; border: 1px solid #ccc; overflow-y: auto; margin-bottom: 5px;">
+                <table class="wd-table stock-table" id="TABLE_IssueItems_Master">
+                    <thead>
+                        <tr>
+                            <th style="width: 60px;">ID</th>
+                            <th style="width: auto;">Description</th>
+                            <th style="width: 120px;">Issued Date</th>
+                            <th style="width: 100px;">Time</th>
+                            <th style="width: 120px;">Done By</th>
+                            <th style="width: 150px;">Department</th>
+                            <th style="width: 150px;">Receivers Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ISSUE_MASTER_TBODY">
+                        <tr class="selected" data-id="48">
+                            <td>48</td>
+                            <td>Stock collected by Wilfred for the IT</td>
+                            <td>6/13/2026</td>
+                            <td>2:39:00 PM</td>
+                            <td>Admin</td>
+                            <td>IT</td>
+                            <td>Wilfred</td>
+                        </tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="text-align: center; font-size: 13px; font-weight: bold; text-decoration: underline; margin: 5px 0;">Item Issue Details</div>
+
+            <!-- BOTTOM TABLE: Details -->
+            <div class="table-scroll-wrapper" style="flex: 1; background: #fff; border: 1px solid #ccc; overflow-y: auto;">
+                <table class="wd-table stock-table" id="TABLE_IssueItems_Details">
+                    <thead>
+                        <tr>
+                            <th style="width: 60px;">No</th>
+                            <th style="width: auto;">Item Name</th>
+                            <th style="width: 250px;">Sub Category</th>
+                            <th style="width: 100px; text-align: right;">Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ISSUE_DETAILS_TBODY">
+                        <tr class="selected">
+                            <td>1</td>
+                            <td>05A HP Toner</td>
+                            <td>ALL STATIONERIES.</td>
+                            <td style="text-align: right;">1</td>
+                        </tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- TAB 3: RECEIVE ITEMS (Placeholder) -->
-        <div id="receive-items-content" class="stk-tab-panel" style="display: none; padding: 40px; text-align: center; color: #888;">
-            <i class="fa-solid fa-truck-ramp-box" style="font-size: 48px; margin-bottom: 15px;"></i>
-            <h3>Receive Items Interface</h3>
-            <p>This module is under development.</p>
+        <!-- TAB 3: RECEIVE ITEMS -->
+        <div id="receive-items-content" class="stk-tab-panel" style="display: none; flex-direction: column; height: 100%;">
+            <div class="coa-toolbar" style="padding: 10px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; margin-bottom: 5px;">
+                <div class="coa-left-tools" style="display: flex; gap: 10px; align-items: center; font-size: 13px;">
+                    <label>From:</label>
+                    <input type="date" id="RECEIVE_DATE_FROM" class="global-search" style="width: 130px; padding: 4px;">
+                    <label>To:</label>
+                    <input type="date" id="RECEIVE_DATE_TO" class="global-search" style="width: 130px; padding: 4px;">
+                    <button class="wd-action-btn" style="padding: 4px 10px;">Search</button>
+                </div>
+                <div class="coa-right-tools" style="display: flex; gap: 8px;">
+                    <button class="wd-action-btn primary" id="BTN_REC_New">
+                        New Entry <i class="fa-solid fa-plus-circle"></i>
+                    </button>
+                    <button class="wd-action-btn primary" id="BTN_REC_Modify">
+                        View/Modify Entry <i class="fa-solid fa-pen"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TOP TABLE: Master -->
+            <div class="table-scroll-wrapper" style="flex: 1; background: #fff; border: 1px solid #ccc; overflow-y: auto; margin-bottom: 5px;">
+                <table class="wd-table stock-table" id="TABLE_ReceiveItems_Master">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px;">Ref</th>
+                            <th style="width: 120px;">Date</th>
+                            <th style="width: 100px;">Time</th>
+                            <th style="width: auto;">Description</th>
+                            <th style="width: 150px;">Done By</th>
+                        </tr>
+                    </thead>
+                    <tbody id="RECEIVE_MASTER_TBODY">
+                        <tr class="selected">
+                            <td>Office_Supplies_19</td>
+                            <td>6/13/2026</td>
+                            <td>04:18 PM</td>
+                            <td>Supplies Received from Procurement</td>
+                            <td>Admin</td>
+                        </tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="text-align: center; font-size: 13px; font-weight: bold; text-decoration: underline; margin: 5px 0;">Item Receive Details</div>
+
+            <!-- BOTTOM TABLE: Details -->
+            <div class="table-scroll-wrapper" style="flex: 1; background: #fff; border: 1px solid #ccc; overflow-y: auto;">
+                <table class="wd-table stock-table" id="TABLE_ReceiveItems_Details">
+                    <thead>
+                        <tr>
+                            <th style="width: 60px;">No</th>
+                            <th style="width: auto;">Item Name</th>
+                            <th style="width: 250px;">Sub Category</th>
+                            <th style="width: 100px; text-align: right;">Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody id="RECEIVE_DETAILS_TBODY">
+                        <tr class="selected">
+                            <td>1</td>
+                            <td>05A HP Toner</td>
+                            <td>ALL STATIONERIES.</td>
+                            <td style="text-align: right;">1</td>
+                        </tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
