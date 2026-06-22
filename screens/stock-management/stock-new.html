@@ -9,14 +9,27 @@
             <form id="MIG_ItemForm" onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 4px;">
                 <div class="form-row-setup"><label>Item Name:</label><input type="text" id="MIG_ItemName" class="wd-input-setup" placeholder="e.g. Printer Paper A4" required></div>
                 <div class="form-row-setup"><label>Barcode:</label><input type="text" id="MIG_ItemBarcode" class="wd-input-setup"></div>
-                <div class="form-row-setup"><label>Total Quantity:</label><input type="number" id="MIG_ItemQty" class="wd-input-setup text-right" value="0" min="0"></div>
-                <div class="form-row-setup"><label>Selling Price:</label><input type="number" id="MIG_ItemSellPrice" class="wd-input-setup text-right" value="0" min="0"></div>
-                <div class="form-row-setup"><label>Purchase Price:</label><input type="number" id="MIG_ItemBuyPrice" class="wd-input-setup text-right" value="0" min="0"></div>
-                <div class="form-row-setup"><label>Min Stock Level:</label><input type="number" id="MIG_ItemMinStock" class="wd-input-setup text-right" value="0" min="0"></div>
-                <div class="form-row-setup"><label>Min Qty 1:</label><input type="number" id="MIG_ItemMinQty1" class="wd-input-setup text-right" value="0" min="0"></div>
-                <div class="form-row-setup"><label>Min Price 1:</label><input type="number" id="MIG_ItemMinPrice1" class="wd-input-setup text-right" value="0" min="0"></div>
-                <div class="form-row-setup"><label>Min Qty 2:</label><input type="number" id="MIG_ItemMinQty2" class="wd-input-setup text-right" value="0" min="0"></div>
-                <div class="form-row-setup"><label>Min Price 2:</label><input type="number" id="MIG_ItemMinPrice2" class="wd-input-setup text-right" value="0" min="0"></div>
+                
+                <div class="form-row-pair">
+                    <div class="form-row-setup"><label>Total Quantity:</label><input type="number" id="MIG_ItemQty" class="wd-input-setup text-right" value="0" min="0"></div>
+                    <div class="form-row-setup"><label>Selling Price:</label><input type="number" id="MIG_ItemSellPrice" class="wd-input-setup text-right" value="0" min="0"></div>
+                </div>
+                
+                <div class="form-row-pair">
+                    <div class="form-row-setup"><label>Purchase Price:</label><input type="number" id="MIG_ItemBuyPrice" class="wd-input-setup text-right" value="0" min="0"></div>
+                    <div class="form-row-setup"><label>Min Stock Level:</label><input type="number" id="MIG_ItemMinStock" class="wd-input-setup text-right" value="0" min="0"></div>
+                </div>
+
+                <div class="form-row-pair">
+                    <div class="form-row-setup"><label>Min Qty 1:</label><input type="number" id="MIG_ItemMinQty1" class="wd-input-setup text-right" value="0" min="0"></div>
+                    <div class="form-row-setup"><label>Min Price 1:</label><input type="number" id="MIG_ItemMinPrice1" class="wd-input-setup text-right" value="0" min="0"></div>
+                </div>
+                
+                <div class="form-row-pair">
+                    <div class="form-row-setup"><label>Min Qty 2:</label><input type="number" id="MIG_ItemMinQty2" class="wd-input-setup text-right" value="0" min="0"></div>
+                    <div class="form-row-setup"><label>Min Price 2:</label><input type="number" id="MIG_ItemMinPrice2" class="wd-input-setup text-right" value="0" min="0"></div>
+                </div>
+
                 <div class="form-row-setup">
                     <label>Main Category:</label>
                     <div style="display: flex; gap: 5px; flex: 1;">
@@ -41,10 +54,14 @@
 </div>
 <style>
     .form-row-setup { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
-    .form-row-setup label { width: 130px; text-align: right; font-weight: 500; color: #333; font-size: 12px; }
-    .wd-input-setup { flex: 1; padding: 4px 8px; border: 1px solid #ccc; border-radius: 2px; outline: none; font-size: 12px; }
+    .form-row-setup label { width: 100px; text-align: right; font-weight: 500; color: #333; font-size: 12px; }
+    .wd-input-setup { flex: 1; padding: 4px 8px; border: 1px solid #ccc; border-radius: 2px; outline: none; font-size: 12px; min-width: 0; }
     .wd-input-setup:focus { border-color: #2e3192; background-color: #fcfdff; }
     .text-right { text-align: right; }
+
+    .form-row-pair { display: flex; gap: 10px; align-items: center; }
+    .form-row-pair .form-row-setup { flex: 1; margin-bottom: 4px; }
+    .form-row-pair .form-row-setup label { width: 90px; }
 
     .wd-btn { padding: 4px 10px; border: 1px solid #999; background: #f0f0f0; cursor: pointer; font-size: 11px; display: inline-flex; align-items: center; gap: 4px; border-radius: 2px; }
     .wd-btn.primary { background: #2e3192 !important; color: #fff !important; border-color: #2e3192; font-weight: bold; }

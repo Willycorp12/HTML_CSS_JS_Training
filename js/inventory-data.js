@@ -162,13 +162,14 @@ window.InventoryItemModalManager = {
 window.InventoryModalManager = {
     config: { mode: 'main-category', action: 'create', editingId: null },
 
-    handleNewCategory(modeOverride) {
+    async handleNewCategory(modeOverride) {
         const activeTab = document.querySelector('.inv-left-panel .panel-tab.active');
         const mode = modeOverride || (activeTab ? (activeTab.dataset.tabName || 'main-category') : 'main-category');
-        this.openModal(mode, 'create');
+        await this.openModal(mode, 'create');
     },
 
-    openModal(mode, action = 'create', initialValue = "") {
+    async openModal(mode, action = 'create', initialValue = "") {
+        await ensureCategoryModalLoaded();
         this.config.mode = mode;
         this.config.action = action;
 
@@ -227,7 +228,7 @@ window.InventoryModalManager = {
         const item = list.find(x => String(x.id) === String(selectedId));
         
         this.config.editingId = selectedId;
-        this.openModal(mode, 'modify', item ? item.name : "");
+        await this.openModal(mode, 'modify', item ? item.name : "");
     },
 
     closeModal() {
@@ -520,6 +521,30 @@ async function ensureInventoryItemModalLoaded() {
         }
     } catch (error) {
         console.error("Error injecting Inventory Item Modal:", error);
+    }
+}
+
+async function ensureCategoryModalLoaded() {
+    if (document.getElementById('MODAL_InvGeneric')) {
+        return; // Already loaded
+    }
+
+    try {
+        const response = await fetch('screens/setup/inventory-category-modal.html');
+        if (response.ok) {
+            const html = await response.text();
+            document.body.insertAdjacentHTML('beforeend', html);
+            // Re-attach draggable after injection
+            const modalOverlay = document.getElementById('MODAL_InvGeneric');
+            if (modalOverlay && typeof makeElementDraggable === 'function' && !modalOverlay.dataset.draggableInitialized) {
+                makeElementDraggable(modalOverlay.querySelector('.coa-modal'), document.getElementById('MIG_Header'));
+                modalOverlay.dataset.draggableInitialized = "true";
+            }
+        } else {
+            console.error("Failed to load inventory-category-modal.html for modal injection.");
+        }
+    } catch (error) {
+        console.error("Error injecting Category Modal:", error);
     }
 }
 
