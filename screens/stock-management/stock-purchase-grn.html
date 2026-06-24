@@ -9,7 +9,7 @@
         background: #fff;
         font-family: Tahoma, Arial, sans-serif;
     }
-    
+
     .grn-screen input[type="text"]:focus,
     .grn-screen textarea:focus {
         border-color: #2e3192;
@@ -50,7 +50,7 @@
         background-color: #cd2027 !important;
         color: #ffffff !important;
     }
-    
+
     .stock-table tr.selected td input {
         color: #ffffff !important;
     }
@@ -76,11 +76,12 @@
         font-size: 13px;
         border-bottom: 1px solid #eee;
     }
+
     .search-result-item:hover {
         background: #f0f4ff;
         color: #2e3192;
     }
-    
+
     .grn-qty-input {
         width: 80px;
         text-align: right;
@@ -92,7 +93,7 @@
         outline: none;
         background: #fff;
     }
-    
+
     .stock-table tr.selected td .grn-qty-input {
         border-color: #ff9999;
         background: rgba(255, 255, 255, 0.2);
@@ -102,35 +103,47 @@
 <div class="grn-screen">
     <!-- Centered Header Title -->
     <div class="page-header" style="margin-bottom: 15px;">
-        <h2 style="text-align: center; color: #2e3192; border-bottom: 2px solid #cd2027; padding-bottom: 8px; margin: 5px 0; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 800; font-size: 22px; text-transform: uppercase;">
+        <h2
+            style="text-align: center; color: #2e3192; border-bottom: 2px solid #cd2027; padding-bottom: 8px; margin: 5px 0; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 800; font-size: 22px; text-transform: uppercase;">
             Entry into Stock
         </h2>
     </div>
 
     <!-- Top Autocomplete & Date Section -->
-    <div class="grn-top-bar" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px;">
+    <div class="grn-top-bar"
+        style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px;">
         <!-- Left: Search autocomplete input -->
         <div class="search-autocomplete-wrapper" style="position: relative; width: 350px;">
-            <input type="text" id="GRN_ItemSearch" class="global-search" placeholder="Search item name here..." style="width: 100%; margin: 0; padding: 6px 10px; font-size: 13px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
-            <div id="GRN_SearchSuggestions" class="search-results-container" style="position: absolute; left: 0; top: 100%; width: 100%; background: #fff; border: 1px solid #ccc; border-radius: 0 0 4px 4px; max-height: 220px; overflow-y: auto; z-index: 100; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: none;"></div>
+            <input type="text" id="GRN_ItemSearch" class="global-search" placeholder="Search item name here..."
+                style="width: 100%; margin: 0; padding: 6px 10px; font-size: 13px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+            <div id="GRN_SearchSuggestions" class="search-results-container"
+                style="position: absolute; left: 0; top: 100%; width: 100%; background: #fff; border: 1px solid #ccc; border-radius: 0 0 4px 4px; max-height: 220px; overflow-y: auto; z-index: 100; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: none;">
+            </div>
         </div>
-        
+
         <!-- Right: Small Ref & Order Date table -->
-        <div class="order-date-box" style="margin-0;">
-            <table style="border-collapse: collapse; border: 1px solid #1f226f; font-family: Tahoma, Arial, sans-serif; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <div class="order-date-box" style="margin:0px;">
+            <table
+                style="border-collapse: collapse; border: 1px solid #1f226f; font-family: Tahoma, Arial, sans-serif; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                 <thead>
                     <tr>
-                        <th style="background: #2e3192; color: #fff; padding: 4px 10px; font-size: 12px; font-weight: bold; border-right: 1px solid #1f226f; text-align: center; white-space: nowrap;">Ref #</th>
-                        <th style="background: #2e3192; color: #fff; padding: 4px 10px; font-size: 12px; font-weight: bold; text-align: center; white-space: nowrap;">Order Date</th>
+                        <th
+                            style="background: #2e3192; color: #fff; padding: 4px 10px; font-size: 12px; font-weight: bold; border-right: 1px solid #1f226f; text-align: center; white-space: nowrap;">
+                            Ref #</th>
+                        <th
+                            style="background: #2e3192; color: #fff; padding: 4px 10px; font-size: 12px; font-weight: bold; text-align: center; white-space: nowrap;">
+                            Order Date</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td style="padding: 0; border-right: 1px solid #1f226f; background: #fff;">
-                            <input type="text" id="GRN_Ref" value="SupplierBills_20" style="border: none; padding: 5px 8px; width: 120px; font-family: inherit; font-size: 12px; outline: none; text-align: center;">
+                            <input type="text" id="GRN_Ref" value="SupplierBills_20"
+                                style="border: none; padding: 5px 8px; width: 120px; font-family: inherit; font-size: 12px; outline: none; text-align: center;">
                         </td>
                         <td style="padding: 0; background: #fff;">
-                            <input type="date" id="GRN_Date" style="border: none; padding: 4px 6px; width: 130px; font-family: inherit; font-size: 12px; outline: none; text-align: center;">
+                            <input type="date" id="GRN_Date"
+                                style="border: none; padding: 4px 6px; width: 130px; font-family: inherit; font-size: 12px; outline: none; text-align: center;">
                         </td>
                     </tr>
                 </tbody>
@@ -162,19 +175,25 @@
     </div>
 
     <!-- Bottom: Description & Actions -->
-    <div class="grn-bottom-panel" style="margin-top: 15px; display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid #eee; padding-top: 10px; flex-shrink: 0;">
+    <div class="grn-bottom-panel"
+        style="margin-top: 15px; display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid #eee; padding-top: 10px; flex-shrink: 0;">
         <!-- Left: Description textarea -->
         <div style="display: flex; align-items: flex-start; gap: 8px;">
-            <label for="GRN_Description" style="font-weight: bold; font-size: 13px; margin-top: 4px; color: #333;">Description:</label>
-            <textarea id="GRN_Description" style="width: 320px; height: 50px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; font-size: 12px; resize: none; box-sizing: border-box;">Supplies Received from Procurement</textarea>
+            <label for="GRN_Description"
+                style="font-weight: bold; font-size: 13px; margin-top: 4px; color: #333;">Description:</label>
+            <textarea id="GRN_Description"
+                style="width: 320px; height: 50px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; font-size: 12px; resize: none; box-sizing: border-box;">Supplies Received from Procurement</textarea>
         </div>
-        
+
         <!-- Right: Actions buttons -->
         <div style="display: flex; gap: 10px;">
-            <button class="wd-action-btn primary" id="BTN_GRN_Validate" style="min-width: 120px; height: 34px; padding: 0 15px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: bold;">
+            <button class="wd-action-btn primary" id="BTN_GRN_Validate"
+                style="min-width: 120px; height: 34px; padding: 0 15px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: bold;">
                 Validate <i class="fa-solid fa-circle-check" style="color: #2e3192;"></i>
             </button>
-            <button class="wd-action-btn" id="BTN_GRN_Close" style="min-width: 120px; height: 34px; padding: 0 15px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: bold;" onclick="loadScreen('home.html')">
+            <button class="wd-action-btn" id="BTN_GRN_Close"
+                style="min-width: 120px; height: 34px; padding: 0 15px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: bold;"
+                onclick="loadScreen('home.html')">
                 Close <i class="fa-solid fa-circle-xmark" style="color: #cd2027;"></i>
             </button>
         </div>

@@ -356,6 +356,7 @@ function resolveScreenPath(file) {
         "setup-sms.html": "screens/setup/setup-sms.html",
         "setup-system-users.html": "screens/setup/setup-system-users.html",
         "inventory-adjust.html": "screens/stock-management/inventory-adjust.html",
+        "verify-student-submission.html": "screens/stock-management/verify-student-submission.html",
         "inventory-supplier-master.html": "screens/stock-management/inventory-supplier-master.html",
         "inventory-supplier-new.html": "screens/stock-management/inventory-supplier-new.html",
         "inventory-track.html": "screens/stock-management/inventory-track.html",
@@ -493,6 +494,12 @@ function loadScreen(file, menuElement = null, title = '') {
             if (normalizedFile === "inventory-list.html") {
                 initInventoryList();
             }
+            if (normalizedFile === "inventory-adjust.html") {
+                initInventoryAdjust();
+            }
+            if (normalizedFile === "inventory-track.html") {
+                initInventoryTrack();
+            }
             if (normalizedFile === "stock-new.html") {
                 initStockNew(); // This will now trigger the modal
             }
@@ -576,9 +583,12 @@ function loadScreen(file, menuElement = null, title = '') {
             if (normalizedFile === "paylist-generate.html") initPaylistGenerate();
             if (normalizedFile === "paylist-cnps.html") initPaylistCNPS();
             if (normalizedFile === "paylist-tax.html") initPaylistTax();
-            if (normalizedFile === "paylist-journal.html") initPaylistJournal();
+            if (normalizedFile === "verify-student-submission.html") initVerifyStudentSubmission();
+
 
             // Journal Initializers
+            if (normalizedFile === "paylist-journal.html") initPaylistJournal();
+
             if (normalizedFile === "cash-journal.html") initCashJournal();
             if (normalizedFile === "bank-journal.html") initBankJournal();
 
@@ -755,6 +765,9 @@ async function testPrint() {
 <script src="js/report-budget-details.js"></script>
 <script src="js/approved-supplier-bills.js"></script>
 <script src="js/banking-operations.js"></script>
+<script src="js/verify-student-submission.js"></script>
+<script src="js/inventory-adjust.js"></script>
+<script src="js/inventory-track.js"></script>
 
 <script>
     // --- Custom Alert Script (Embedded) ---

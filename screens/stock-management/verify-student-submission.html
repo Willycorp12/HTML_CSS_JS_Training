@@ -1,0 +1,164 @@
+<!-- screens/stock-management/verify-student-submission.html -->
+<div class="page-header">
+    <h2 style="text-align: center; color: #2e3192;">VERIFY STUDENT SUBMISSION</h2>
+</div>
+
+<div class="vss-wrapper">
+    <!-- Info Message (centered) -->
+    <div class="vss-info-msg" style="text-align: center;">
+        Simply Tick on your left to indicate that a student has submitted items requested from them.
+    </div>
+
+    <!-- Toolbar Row 1: Search + Refresh + Select Items + Date -->
+    <div class="vss-toolbar">
+        <div class="vss-toolbar-left">
+            <input type="text" id="VSS_GLOBAL_SEARCH" class="global-search" placeholder="Search a student here..." style="width: 200px;">
+            <button class="wd-action-btn" id="BTN_VSS_Refresh" style="padding: 4px 12px; height: 28px;">
+                Refresh
+            </button>
+        </div>
+        <div class="vss-toolbar-right">
+            <label style="font-size: 12px; white-space: nowrap;">Select Items:</label>
+            <select id="VSS_Filter_SelectItems" class="vss-filter-select">
+                <option>AA REALM O+</option>
+            </select>
+            <label style="font-size: 12px; white-space: nowrap;">Date</label>
+            <input type="date" id="VSS_Filter_Date" class="vss-filter-select" style="width: 140px;">
+        </div>
+    </div>
+
+    <!-- Toolbar Row 2: Advance Filtering Options -->
+    <div class="vss-toolbar vss-filter-bar">
+        <span class="vss-filter-label">Advance Filtering options:</span>
+        <div class="vss-filter-group">
+            <label>Batch/Years:</label>
+            <select id="VSS_Filter_BatchYear" class="vss-filter-select">
+                <option value="">---All---</option>
+            </select>
+        </div>
+        <div class="vss-filter-group">
+            <label>School Level:</label>
+            <select id="VSS_Filter_SchoolLevel" class="vss-filter-select">
+                <option value="">---All---</option>
+            </select>
+        </div>
+        <div class="vss-filter-group">
+            <label>School Type:</label>
+            <select id="VSS_Filter_SchoolType" class="vss-filter-select">
+                <option value="">---All---</option>
+            </select>
+        </div>
+        <div class="vss-filter-group">
+            <label>Specialty:</label>
+            <select id="VSS_Filter_Specialty" class="vss-filter-select">
+                <option value="">---All---</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-scroll-wrapper" style="flex: 1; background: #fff; border: 1px solid #ccc;">
+        <table class="wd-table stock-table" id="TABLE_VerifySubmission">
+            <thead>
+                <tr>
+                    <th style="width: 35px; text-align: center;"><input type="checkbox" id="VSS_SelectAll" title="Select All"></th>
+                    <th style="width: 80px;">Status <i class="fa-solid fa-sort"></i></th>
+                    <th style="width: auto;">Student Names</th>
+                    <th style="width: 120px;">Matricule <i class="fa-solid fa-sort"></i></th>
+                    <th style="width: 100px;">Phone</th>
+                    <th style="width: 120px;">Specialty <i class="fa-solid fa-sort"></i></th>
+                    <th style="width: 100px;">School Levels</th>
+                    <th style="width: 110px;">School Type <i class="fa-solid fa-sort"></i></th>
+                    <th style="width: 80px;">Items <i class="fa-solid fa-sort"></i></th>
+                </tr>
+            </thead>
+            <tbody id="VSS_TBODY">
+                <!-- Populated by js/verify-student-submission.js -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .vss-wrapper {
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 60px);
+        background: #fff;
+        padding: 0 10px;
+        gap: 0;
+    }
+
+    .vss-info-msg {
+        font-size: 12px;
+        color: #cd2027;
+        padding: 4px 8px;
+        font-family: Tahoma, Arial, sans-serif;
+    }
+
+    .vss-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 4px 0;
+        font-family: Tahoma, Arial, sans-serif;
+        font-size: 12px;
+    }
+
+    .vss-toolbar-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .vss-toolbar-right {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-left: auto;
+    }
+
+    .vss-filter-bar {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 4px;
+        margin-bottom: 2px;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 6px;
+    }
+
+    .vss-filter-label {
+        color: #cd2027;
+        font-weight: bold;
+        font-size: 11px;
+        white-space: nowrap;
+        margin-right: 4px;
+    }
+
+    .vss-filter-group {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+        flex: 1;
+        min-width: 140px;
+    }
+
+    .vss-filter-group label {
+        font-size: 11px;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .vss-filter-select {
+        padding: 3px 6px;
+        border: 1px solid #999;
+        border-radius: 3px;
+        font-size: 12px;
+        font-family: Tahoma, Arial, sans-serif;
+        background: #fff;
+        height: 26px;
+        flex: 1;
+        min-width: 100px;
+    }
+</style>

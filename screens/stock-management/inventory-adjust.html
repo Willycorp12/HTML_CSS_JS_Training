@@ -1,4 +1,110 @@
-<section class='screen-placeholder'>
-  <h1>inventory adjust</h1>
-  <p>This is a generated placeholder page for inventory adjust.</p>
-</section>
+<!-- screens/stock-management/inventory-adjust.html -->
+<div class="page-header">
+    <h2 style="text-align: center; color: #2e3192;">ADJUST QUANTITY ON HAND</h2>
+</div>
+
+<div class="inv-adj-wrapper">
+    <!-- Toolbar -->
+    <div class="inv-adj-toolbar">
+        <div class="inv-adj-toolbar-left">
+            <input type="text" id="INV_ADJ_Search" class="global-search" placeholder="Search By Item Name" style="width: 300px;">
+        </div>
+        <div class="inv-adj-toolbar-right">
+            <label style="font-weight: bold; font-size: 12px; margin-right: 5px;">Date</label>
+            <input type="date" id="INV_ADJ_Date" class="inv-adj-date-input" style="width: 140px;">
+        </div>
+    </div>
+
+    <!-- 2 Tables Side by Side -->
+    <div class="table-scroll-wrapper" id="INV_ADJ_ScrollArea" style="flex: 1; display: flex; background: #fff; border: 1px solid #ccc; overflow-y: auto;">
+        
+        <!-- Left Table -->
+        <table class="wd-table stock-table" id="TABLE_InvAdj_Left" style="width: calc(100% - 160px); margin: 0; border-right: 2px solid #ccc;">
+            <thead>
+                <tr>
+                    <th style="width: auto;">Item</th>
+                    <th style="width: 200px;">Sub Category</th>
+                    <th style="width: 100px; text-align: center;">Qty on Hand</th>
+                </tr>
+            </thead>
+            <tbody id="INV_ADJ_TBODY_Left">
+                <!-- Populated by JS -->
+            </tbody>
+        </table>
+
+        <!-- Right Table -->
+        <table class="wd-table stock-table inv-adj-right-table" id="TABLE_InvAdj_Right" style="width: 160px; min-width: 160px; margin: 0;">
+            <thead>
+                <tr>
+                    <th style="width: 80px; text-align: center;">Add (+)</th>
+                    <th style="width: 80px; text-align: center;">Deduct (-)</th>
+                </tr>
+            </thead>
+            <tbody id="INV_ADJ_TBODY_Right">
+                <!-- Populated by JS -->
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<style>
+    .inv-adj-wrapper {
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 60px);
+        background: #fff;
+        padding: 0 10px;
+        gap: 5px;
+    }
+
+    .inv-adj-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding: 5px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .inv-adj-toolbar-left, .inv-adj-toolbar-right {
+        display: flex;
+        align-items: center;
+    }
+
+    .inv-adj-date-input {
+        padding: 4px 8px;
+        border: 1px solid #999;
+        border-radius: 3px;
+        font-size: 13px;
+        font-family: Tahoma, Arial, sans-serif;
+    }
+
+    /* Style for the right table (Add/Deduct columns) */
+    .inv-adj-right-table tbody td {
+        background-color: #000 !important;
+        color: #0f0 !important; /* Green text */
+        text-align: center;
+        border-bottom: 1px solid #333 !important;
+        border-right: 1px solid #333 !important;
+        padding: 0 !important;
+    }
+    
+    .inv-adj-right-table tbody td input {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        background: transparent;
+        border: none;
+        color: #0f0;
+        text-align: center;
+        font-weight: bold;
+        font-family: Tahoma, Arial, sans-serif;
+        font-size: 13px;
+        outline: none;
+    }
+
+    .inv-adj-right-table tbody td input:focus {
+        background-color: #222;
+    }
+</style>
+<script src="js/inventory-adjust.js"></script>

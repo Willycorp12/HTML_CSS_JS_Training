@@ -148,7 +148,7 @@ const topMenus = [
         ]
     },
 
-     //  FIRST MAIN MENU
+    //  FIRST MAIN MENU
     {
         title: "Accounting & Finance",
         dir: "accounting-finance/",
@@ -158,7 +158,7 @@ const topMenus = [
             { title: "Recover Old Student Debts", file: "recover-old-debts.html" },
             { title: "Refund Fees", file: "refund-fees.html" },
             { title: "Give Discount", file: "give-discount.html" },
-            { 
+            {
                 title: "Payment Order",
                 children: [
                     { title: "Create a Requisition", file: "payment-order-form.html" },
@@ -219,15 +219,15 @@ const topMenus = [
         ]
     },
 
-//2ND MENU
-     {
+    //2ND MENU
+    {
         title: "Stock Management",
         dir: "stock-management/",
         children: [
             { title: "Create a New Stock", file: "stock-new.html" },
             { title: "Stock Master Data", file: "stock-master.html" },
             //{ title: "POS (Sales of Stock)", file: "stock-pos.html" },
-            { 
+            {
                 title: "Purchase of Stock",
                 children: [
                     //{ title: "Create Estimates", file: "stock-purchase-estimates.html" },
@@ -242,25 +242,26 @@ const topMenus = [
                     { title: "Supplier Master Data", file: "inventory-supplier-master.html" }
                 ]
             },*/
-            { 
+            {
                 title: "Inventory Activities",
                 children: [
                     { title: "Adjust Qty/Value on Hand", file: "inventory-adjust.html" },
                     { title: "Track Stock Movement", file: "inventory-track.html" }
                 ]
-            }
+            },
+            { title: "Verify Student Submission", file: "verify-student-submission.html" }
         ]
     },
     //3RD MENU
 
- {
+    {
         title: "Fixed Asset Management",
         dir: "fixed-asset-management/",
         children: [
             { title: "Create a New Asset", file: "asset-new.html" },
             { title: "Fixed Asset Master Data", file: "asset-master.html" },
             { title: "Personnel Master Data", file: "personnel-master.html" },
-            { 
+            {
                 title: "Asset Suppliers",
                 children: [
                     { title: "Add a New Supplier", file: "supplier-new.html" },
@@ -269,7 +270,7 @@ const topMenus = [
             },
             { title: "Asset Out", file: "asset-out.html" },
             { title: "Asset In", file: "asset-in.html" },
-            { 
+            {
                 title: "Purchase Assets",
                 children: [
                     { title: "Create Estimates", file: "purchase-estimates.html" },
@@ -287,7 +288,7 @@ const topMenus = [
         title: "Report Center",
         dir: "report-center/",
         children: [
-            { 
+            {
                 title: "Student Reports",
                 children: [
                     { title: "Statement of Accounts", file: "report-statement-of-accounts.html" },
@@ -299,14 +300,14 @@ const topMenus = [
                     { title: "List of Old Students", file: "report-old-students.html" }
                 ]
             },
-            { 
+            {
                 title: "Stock Reports",
                 children: [
                     { title: "Stock Movements/Tracking", file: "report-stock-movements.html" },
                     { title: "Wastage Reports", file: "report-stock-wastage.html" }
                 ]
             },
-            { 
+            {
                 title: "Fixed Asset Report",
                 children: [
                     { title: "Asset List", file: "report-asset-list.html" },
@@ -317,7 +318,7 @@ const topMenus = [
                     { title: "Asset Depreciation", file: "report-asset-depreciation.html" }
                 ]
             },
-            { 
+            {
                 title: "List",
                 children: [
                     { title: "Stock List", file: "report-stock-list.html" },
@@ -325,7 +326,7 @@ const topMenus = [
                     { title: "Supplier List", file: "report-supplier-list.html" }
                 ]
             },
-            { 
+            {
                 title: "Financial Statements",
                 children: [
                     { title: "Trial Balance", file: "report-trial-balance.html" },
@@ -333,7 +334,7 @@ const topMenus = [
                     { title: "Income Statement Cash Basis", file: "report-income-statement.html" },
                     { title: "Balance Sheet", file: "report-balance-sheet.html" },
                     { title: "General Ledger", file: "report-general-ledger.html" },
-                    { 
+                    {
                         title: "Budget Reports",
                         children: [
                             { title: "Budget Details Report", file: "report-budget-details.html" },
@@ -342,7 +343,7 @@ const topMenus = [
                     }
                 ]
             },
-            { 
+            {
                 title: "Other Reports",
                 children: [
                     { title: "Supplier Bills Summary", file: "report-supplier-bills.html" }
@@ -440,8 +441,8 @@ const topMenus = [
         ]
     }
 
- 
-    
+
+
 ];
 
 normalizeMenuFilePaths(topMenus);
@@ -464,8 +465,8 @@ function renderTopMenu(menuData, container) {
         li.className = 'top-menu-item';
         li.textContent = menu.title;
 
- //  Insert icon + title dynamically
-       //li.innerHTML = `<i class="${menu.icon || ''}"></i> ${menu.title}`;
+        //  Insert icon + title dynamically
+        //li.innerHTML = `<i class="${menu.icon || ''}"></i> ${menu.title}`;
 
         // If the menu has a file, attach click
         if (menu.file) {

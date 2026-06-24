@@ -1,4 +1,187 @@
-<section class='screen-placeholder'>
-  <h1>inventory track</h1>
-  <p>This is a generated placeholder page for inventory track.</p>
-</section>
+<!-- screens/stock-management/inventory-track.html -->
+<div class="page-header">
+    <h2 style="text-align: center; color: #2e3192;">INVENTORY TRACKING/STOCK MOVEMENT</h2>
+</div>
+
+<div class="inv-track-wrapper">
+    <!-- Top Search Bar -->
+    <div class="inv-track-search-bar">
+        <input type="text" id="INV_TRACK_SearchName" class="global-search" placeholder="Search By Name" style="width: 250px;">
+        <span class="inv-track-or">OR</span>
+        <input type="text" id="INV_TRACK_SearchBarcode" class="global-search" placeholder="Search By Barcode" style="width: 250px;">
+    </div>
+
+    <!-- Top Table (Items) -->
+    <div class="table-scroll-wrapper" style="height: 180px; min-height: 180px; flex: none; background: #fff; border: 1px solid #ccc; margin-bottom: 5px;">
+        <table class="wd-table stock-table" id="TABLE_InvTrack_Items">
+            <thead>
+                <tr>
+                    <th style="width: auto;">ItemName</th>
+                    <th style="width: 200px;">Sub Category</th>
+                </tr>
+            </thead>
+            <tbody id="INV_TRACK_ITEMS_TBODY">
+                <!-- Populated by JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Middle Controls Bar -->
+    <div class="inv-track-mid-bar">
+        <div class="inv-track-mid-left">
+            <div id="INV_TRACK_DateText" style="font-size: 11px; font-weight: bold; color: #2e3192; margin-bottom: 2px;">
+                1 June 2026 To 30 June 2026
+            </div>
+            <div style="display: flex; align-items: center; gap: 5px;">
+                <label>From:</label>
+                <input type="date" id="INV_TRACK_FromDate" class="inv-track-date-input">
+                <label>To:</label>
+                <input type="date" id="INV_TRACK_ToDate" class="inv-track-date-input">
+                <button class="wd-action-btn primary" id="BTN_INV_TRACK_Search" style="padding: 3px 10px; height: 26px;">Search <i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+        <div class="inv-track-mid-right">
+            <div style="display: flex; align-items: center; gap: 10px; margin-right: 20px;">
+                <label style="font-weight: bold; font-size: 12px;">Selected Item:</label>
+                <span id="INV_TRACK_SelectedItem" style="font-size: 12px; font-weight: bold; min-width: 150px;">-</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 5px;">
+                <label style="font-size: 12px;">Balance B/F:</label>
+                <input type="text" id="INV_TRACK_BalanceBF" class="inv-track-bal-input" value="0.00 Units" readonly>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Table (Tracking Details) -->
+    <div class="table-scroll-wrapper" style="flex: 1; background: #fff; border: 1px solid #ccc; display: flex; flex-direction: column;">
+        <table class="wd-table stock-table" id="TABLE_InvTrack_Details" style="margin: 0;">
+            <thead>
+                <!-- Super Headers -->
+                <tr>
+                    <th colspan="4" style="text-align: center; border-bottom: 1px solid #1f226f; background: #3b5998;">PRODUCT INFO</th>
+                    <th style="text-align: center; border-bottom: 1px solid #1f226f; background: #4b69a8;">OPENING BALANCE</th>
+                    <th style="text-align: center; border-bottom: 1px solid #1f226f; background: #3b5998;">ENTRY</th>
+                    <th style="text-align: center; border-bottom: 1px solid #1f226f; background: #4b69a8;">EXIT</th>
+                </tr>
+                <!-- Sub Headers -->
+                <tr>
+                    <th style="width: 80px;">Date</th>
+                    <th style="width: 80px;">Time</th>
+                    <th style="width: 100px;">User</th>
+                    <th style="width: auto;">Description</th>
+                    <th style="width: 80px; text-align: center;">O/B Qty</th>
+                    <th style="width: 80px; text-align: center;">Entry Qty</th>
+                    <th style="width: 80px; text-align: center;">Exit Qty</th>
+                </tr>
+            </thead>
+            <tbody id="INV_TRACK_DETAILS_TBODY">
+                <!-- Populated by JS -->
+            </tbody>
+            <tfoot>
+                <tr style="background: #e6e6e6; font-weight: bold; font-size: 12px;">
+                    <td colspan="4" style="border-right: 1px solid #ccc; text-align: left; padding: 4px 8px;">Sum</td>
+                    <td style="border-right: 1px solid #ccc; text-align: center;" id="INV_TRACK_SumOB"></td>
+                    <td style="border-right: 1px solid #ccc; text-align: center;" id="INV_TRACK_SumEntry">0</td>
+                    <td style="text-align: center;" id="INV_TRACK_SumExit"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    
+    <!-- Footer Current Balance -->
+    <div class="inv-track-footer">
+        <label>Current Balance:</label>
+        <input type="text" id="INV_TRACK_CurrentBalance" class="inv-track-current-bal" value="0.00 Units" readonly>
+    </div>
+</div>
+
+<style>
+    .inv-track-wrapper {
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 60px);
+        background: #f0f0f0;
+        padding: 5px 10px;
+        gap: 5px;
+    }
+
+    .inv-track-search-bar {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: #fff;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+    }
+
+    .inv-track-or {
+        font-weight: bold;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+    }
+
+    .inv-track-mid-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        background: #fff;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+    }
+
+    .inv-track-mid-left {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .inv-track-mid-left label {
+        font-size: 11px;
+    }
+
+    .inv-track-date-input {
+        padding: 3px 6px;
+        border: 1px solid #999;
+        font-size: 12px;
+        font-family: Tahoma, Arial, sans-serif;
+    }
+
+    .inv-track-mid-right {
+        display: flex;
+        align-items: center;
+    }
+
+    .inv-track-bal-input {
+        width: 100px;
+        text-align: right;
+        padding: 2px 5px;
+        border: 1px solid #999;
+        font-family: Tahoma, Arial, sans-serif;
+        font-size: 13px;
+    }
+
+    .inv-track-footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 0;
+    }
+
+    .inv-track-footer label {
+        font-size: 12px;
+        color: #333;
+    }
+
+    .inv-track-current-bal {
+        width: 120px;
+        text-align: right;
+        padding: 3px 5px;
+        border: 1px solid #00a651;
+        font-family: Tahoma, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        color: #00a651; /* Green color like the image */
+        background: #fff;
+    }
+</style>
+<script src="js/inventory-track.js"></script>

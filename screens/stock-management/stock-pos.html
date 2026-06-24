@@ -1,4 +1,185 @@
-<section class='screen-placeholder'>
-  <h1>stock pos</h1>
-  <p>This is a generated placeholder page for stock pos.</p>
-</section>
+<style>
+  /* Basic styling to match the look of other screens */
+  .pos-screen {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+    background: #fff;
+  }
+
+  .pos-top-section {
+    background: #eaf2f8;
+    padding: 10px 20px;
+    border-bottom: 1px solid #cbd5e1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .pos-table-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 10px 20px;
+  }
+
+  .pos-table-section table {
+    border-collapse: collapse;
+    border: 1px solid #1f226f;
+    width: 100%;
+    flex: 1;
+  }
+
+  .pos-table-section th {
+    background: #2e3192;
+    color: #fff;
+    padding: 8px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .pos-table-section td {
+    border: 1px solid #cbd5e1;
+    padding: 4px 6px;
+    font-size: 12px;
+    height: 28px;
+    box-sizing: border-box;
+  }
+
+  /* Selected row styling from stock-purchase-grn.css */
+  .pos-table-section tr.selected td {
+    background-color: #2e3192;
+    color: #ffffff !important;
+  }
+
+  .pos-table-section tr.selected td input {
+    color: #ffffff !important;
+  }
+
+  /* Remove blue focus rings */
+  .pos-screen input[type="text"],
+  .pos-screen input[type="number"] {
+    outline: none;
+    border: 1px solid #cbd5e1;
+  }
+
+  .pos-screen input:focus,
+  .pos-screen input[type="text"]:focus {
+    border-color: #2e3192;
+  }
+
+  /* Remove shadows from buttons if any, keep them flat */
+  .wd-action-btn {
+    box-shadow: none;
+  }
+
+  /* Ensure placeholder doesn't look too different */
+  .pos-screen input::placeholder {
+    color: #94a3b8;
+  }
+
+  /* Remove blue outline from WD styles */
+  .wd-action-btn:focus,
+  .wd-action-btn:active {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #cd2027;
+    background: #2e3192;
+    color: #fff;
+  }
+</style>
+
+<div class="pos-screen">
+  <!-- Top Bar -->
+  <div class="pos-top-section">
+    <!-- Center Header -->
+    <div style="margin: 0 auto; flex: 0;">
+      <h2
+        style="text-align: center; color: #2e3192; border-bottom: 2px solid #cd2027; padding-bottom: 5px; margin: 0; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 800; font-size: 20px;">
+        Sales</h2>
+    </div>
+
+    <!-- Left Section: Small table -->
+    <div style="text-align: right; flex: 0;">
+      <table style="border-collapse: collapse; border: 1px solid #1f226f;">
+        <tr>
+          <td style="background: #2e3192; color: #fff; padding: 4px 10px; font-size: 12px; font-weight: bold;">Date</td>
+          <td style="padding: 0; background: #fff; border-left: 1px solid #1f226f;">
+            <input type="date" id="POS_Date" value="2026-06-13"
+              style="border: none; padding: 4px 6px; width: 120px; font-family: inherit; font-size: 12px; outline: none; text-align: center;">
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Right Section: Search -->
+    <div style="position: relative; width: 300px; flex: 0;">
+      <div style="display: flex; gap: 8px; align-items: flex-end;">
+        <div style="flex: 1;">
+          <label for="POS_ItemSearch"
+            style="font-weight: bold; font-size: 13px; display: block; margin-bottom: 2px; color: #333;">Item:</label>
+          <input type="text" id="POS_ItemSearch" class="global-search" placeholder="Search item name here..."
+            style="width: 100%; margin: 0; padding: 6px 10px; font-size: 13px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+          <div id="POS_SearchSuggestions" class="search-results-container"
+            style="position: absolute; left: 0; top: 100%; width: 100%; background: #fff; border: 1px solid #ccc; border-radius: 0 0 4px 4px; max-height: 220px; overflow-y: auto; z-index: 100; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: none;">
+          </div>
+        </div>
+        <button class="wd-action-btn primary" id="BTN_POS_Add"
+          style="width: 40px; height: 34px; padding: 0; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; background: #2e3192; border: 1px solid #cd2027; color: #fff;">
+          +
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="pos-table-section">
+    <table id="POS_Items_Table">
+      <thead>
+        <tr>
+          <th style="width: 50px;">#</th>
+          <th>Item</th>
+          <th style="width: 120px;">Qty</th>
+          <th style="width: 120px;">Price</th>
+          <th style="width: 120px;">Amount</th>
+        </tr>
+      </thead>
+      <tbody id="POS_ITEMS_TBODY">
+        <!-- Rows will be generated here -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Bottom Panel -->
+  <div style="border-top: 1px solid #cbd5e1; padding: 10px 20px 15px; background: #f8fafc; flex-shrink: 0;">
+    <div style="display: flex; justify-content: flex-end;">
+      <table style="border-collapse: collapse; font-family: Tahoma, Arial, sans-serif; font-size: 12px; width: 300px;">
+        <tr>
+          <td style="padding: 4px;">Sub Total:</td>
+          <td style="padding: 4px; text-align: right; font-weight: bold; color: #2e3192;">
+            <span id="POS_SubTotal">0.00</span> XAF
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 4px;">Total Tax:</td>
+          <td style="padding: 4px; text-align: right; font-weight: bold; color: #2e3192;">
+            <span id="POS_TotalTax">0.00</span> XAF
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 4px; background: #eaf2f8; font-weight: bold; border-top: 2px solid #1f226f;">Grand Total:
+          </td>
+          <td
+            style="padding: 4px; text-align: right; font-weight: bold; color: #2e3192; background: #eaf2f8; border-top: 2px solid #1f226f;">
+            <span id="POS_GrandTotal">0.00</span> XAF
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
