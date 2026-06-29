@@ -28,10 +28,10 @@ window.initInventoryTrack = function () {
     if (fromDate) fromDate.value = firstDay.toISOString().split('T')[0];
     if (toDate) toDate.value = today.toISOString().split('T')[0];
 
-    // Search input listeners
-    const searchName = document.getElementById('INV_TRACK_SearchName');
-    if (searchName) {
-        searchName.addEventListener('input', function () {
+    // Search input listener
+    const searchInput = document.getElementById('INV_TRACK_Search');
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
             filterInvTrackItems();
         });
     }
@@ -71,12 +71,24 @@ function renderInvTrackItems(data) {
 }
 
 function filterInvTrackItems() {
-    const search = (document.getElementById('INV_TRACK_SearchName')?.value || '').toLowerCase();
+    const search = (document.getElementById('INV_TRACK_Search')?.value || '').toLowerCase();
     const rows = document.querySelectorAll('#INV_TRACK_ITEMS_TBODY tr');
 
     rows.forEach(row => {
-        const nameCell = row.cells[0].textContent.toLowerCase();
-        row.style.display = (!search || nameCell.includes(search)) ? '' : 'none';
+        const nameCell = row.cells[0]?.textContent.toLowerCase() || '';
+        const subCatCell = row.cells[1]?.textContent.toLowerCase() || '';
+        const allText = nameCell + ' ' + subCatCell;
+        // Search by name or barcode (barcode info may be in the item data)
+        const itemId = row.dataset.id;
+        let barcodeMatch = false;
+        if (search && itemId) {
+            const itemData = INV_TRACK_ITEMS_DATA.find(d => String(d.id) === String(itemId));
+            if (itemData && itemData.barcode) {
+                barcodeMatch = itemData.barcode.toLowerCase().includes(search);
+            }
+        }
+        const match = !search || allText.includes(search) || barcodeMatch;
+        row.style.display = match ? '' : 'none';
     });
 }
 
@@ -120,11 +132,6 @@ function renderInvTrackDetails(itemId) {
             tbody.appendChild(tr);
         });
     }
-
-    // Update Footer Sums
-    document.getElementById('INV_TRACK_SumOB').textContent = sumOB || '';
-    document.getElementById('INV_TRACK_SumEntry').textContent = sumEntry || '';
-    document.getElementById('INV_TRACK_SumExit').textContent = sumExit || '';
 
     // Update Current Balance
     const currentBalance = (sumOB + sumEntry - sumExit).toFixed(2);

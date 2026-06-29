@@ -405,20 +405,9 @@ const topMenus = [
                 ]
             },
             {
-                title: "HCM & Payroll Setup",
+                title: "Admission Options",
                 children: [
-                    {
-                        title: "System Setup",
-                        children: [
-                            { title: "Company Profile", file: "hcm-system-company.html" },
-                            { title: "Default Accounts Setup", file: "hcm-default-accounts.html" },
-                            { title: "Batch Import", file: "hcm-batch-import.html" },
-                            { title: "Set-up LetterHead", file: "hcm-letterhead.html" },
-                            { title: "Batch Salary Setup", file: "hcm-batch-salary.html" },
-                            { title: "Category, Echelon, Title & Position Setup", file: "hcm-category-setup.html" },
-                            { title: "Employee Import", file: "hcm-employee-import.html" }
-                        ]
-                    },
+
                     {
                         title: "Security",
                         children: [

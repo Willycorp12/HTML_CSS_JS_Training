@@ -55,7 +55,7 @@ function renderInvAdjTables(data) {
         trLeft.innerHTML = `
             <td>${item.name}</td>
             <td>${item.subCategory}</td>
-            <td style="text-align: center;">${item.qty}</td>
+            <td style="text-align: center; font-weight: bold;">${item.qty}</td>
         `;
 
         // Right Table Row

@@ -6,9 +6,7 @@
 <div class="inv-track-wrapper">
     <!-- Top Search Bar -->
     <div class="inv-track-search-bar">
-        <input type="text" id="INV_TRACK_SearchName" class="global-search" placeholder="Search By Name" style="width: 250px;">
-        <span class="inv-track-or">OR</span>
-        <input type="text" id="INV_TRACK_SearchBarcode" class="global-search" placeholder="Search By Barcode" style="width: 250px;">
+        <input type="text" id="INV_TRACK_Search" class="global-search" placeholder="Search By Name or Barcode" style="width: 350px;">
     </div>
 
     <!-- Top Table (Items) -->
@@ -77,14 +75,6 @@
             <tbody id="INV_TRACK_DETAILS_TBODY">
                 <!-- Populated by JS -->
             </tbody>
-            <tfoot>
-                <tr style="background: #e6e6e6; font-weight: bold; font-size: 12px;">
-                    <td colspan="4" style="border-right: 1px solid #ccc; text-align: left; padding: 4px 8px;">Sum</td>
-                    <td style="border-right: 1px solid #ccc; text-align: center;" id="INV_TRACK_SumOB"></td>
-                    <td style="border-right: 1px solid #ccc; text-align: center;" id="INV_TRACK_SumEntry">0</td>
-                    <td style="text-align: center;" id="INV_TRACK_SumExit"></td>
-                </tr>
-            </tfoot>
         </table>
     </div>
     
@@ -112,12 +102,6 @@
         background: #fff;
         padding: 5px 10px;
         border: 1px solid #ccc;
-    }
-
-    .inv-track-or {
-        font-weight: bold;
-        font-size: 16px;
-        font-family: Arial, sans-serif;
     }
 
     .inv-track-mid-bar {

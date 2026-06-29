@@ -481,17 +481,21 @@ function renderStockMasterItems() {
         it.name.toLowerCase().includes(q) || it.barcode.toLowerCase().includes(q)
     );
 
-    tbody.innerHTML = filtered.map((it, idx) => `
+    tbody.innerHTML = filtered.map((it, idx) => {
+        // Look up actual main category name from mainId
+        const mainCatObj = window.inventoryState.mainCategories.find(c => String(c.id) === String(it.mainId));
+        const mainCatName = mainCatObj ? mainCatObj.name : (it.mainCat || 'N/A');
+        return `
         <tr data-id="${it.id}">
             <td style="text-align: center; font-weight: bold;">${idx + 1}</td>
             <td>${it.name}</td>
             <td><i class="fa-solid fa-barcode" style="color:#777; margin-right:5px;"></i> ${it.barcode || 'N/A'}</td>
-            <td>${it.mainCat || 'STATIONERIES'}</td>
+            <td>${mainCatName}</td>
             <td>${it.subCat || 'N/A'}</td>
             <td style="text-align: right;">${it.qty.toLocaleString()}</td>
             <td style="text-align: center;">Pcs</td>
-        </tr>
-    `).join('');
+        </tr>`;
+    }).join('');
 
     for(let i=filtered.length; i<18; i++) tbody.insertAdjacentHTML('beforeend', '<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
 }

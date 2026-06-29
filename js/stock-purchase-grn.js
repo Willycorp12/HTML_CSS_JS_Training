@@ -28,12 +28,12 @@
             tr.innerHTML = `
                 <td style="text-align: center; font-weight: bold;">${idx + 1}</td>
                 <td>${item.name}</td>
-                <td style="text-align: right; padding-right: 25px;">
-                    <input type="number" class="grn-qty-input" value="${item.qty}" min="1" data-idx="${idx}" style="text-align: right;">
+                <td style="text-align: right; padding: 0;">
+                    <input type="number" class="grn-qty-input" value="${item.qty}" min="1" data-idx="${idx}" style="text-align: right; padding-right: 10px;">
                 </td>
-                <td style="text-align: center; padding: 0;">
-                    <button class="grn-delete-row-btn" data-idx="${idx}" style="color: #cd2027; background: transparent; border: none; cursor: pointer; font-size: 12px; display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px;">
-                        <i class="fa-solid fa-xmark"></i> Delete
+                <td style="text-align: center; padding: 2px 4px;">
+                    <button class="wd-btn reject grn-delete-row-btn" data-idx="${idx}" style="font-size: 11px; padding: 3px 8px; cursor: pointer;">
+                        <i class="fa-solid fa-trash-can"></i> Delete
                     </button>
                 </td>
             `;
@@ -89,24 +89,8 @@
             descTextarea.value = "Supplies Received from Procurement";
         }
 
-        // 3. Pre-populate one item matching the mockup ("19A HP Toner")
-        let defaultItemName = "19A HP Toner";
-        // Check if there is an item starting with "19A HP Toner" in the loaded inventory items
-        let matchingItem = null;
-        if (window.inventoryState && window.inventoryState.items.length > 0) {
-            matchingItem = window.inventoryState.items.find(it => 
-                it.name.toLowerCase().startsWith("19a hp toner")
-            );
-        }
-
-        grnItems = [
-            {
-                id: matchingItem ? matchingItem.id : 103,
-                name: matchingItem ? matchingItem.name : "19A HP Toner",
-                qty: 1,
-                selected: true // Selected by default in mockup
-            }
-        ];
+        // 3. Start with an empty table (no pre-populated items)
+        grnItems = [];
 
         renderGrnTable();
 
@@ -137,7 +121,7 @@
                 } else {
                     suggestionsBox.innerHTML = matches.map(item => `
                         <div class="search-result-item" data-id="${item.id}" data-name="${item.name}">
-                            <strong style="color: #2e3192;">${item.name}</strong> 
+                            <strong style="color: #333;">${item.name}</strong> 
                             <span style="font-size: 11px; color: #666; margin-left: 8px;">(Qty: ${item.qty})</span>
                         </div>
                     `).join("");
@@ -158,13 +142,12 @@
                 if (existing) {
                     existing.qty += 1;
                 } else {
-                    // Add new row and make it the selected row
-                    grnItems.forEach(it => it.selected = false);
+                    // Add new row (no auto-selection)
                     grnItems.push({
                         id: itemId,
                         name: itemName,
                         qty: 1,
-                        selected: true
+                        selected: false
                     });
                 }
 

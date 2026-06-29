@@ -79,14 +79,22 @@
         font-family: Tahoma, Arial, sans-serif;
     }
 
-    /* Style for the right table (Add/Deduct columns) */
+    /* Style for the right table (Add/Deduct columns) - light green for Add, light red for Deduct */
     .inv-adj-right-table tbody td {
-        background-color: #000 !important;
-        color: #0f0 !important; /* Green text */
         text-align: center;
-        border-bottom: 1px solid #333 !important;
-        border-right: 1px solid #333 !important;
         padding: 0 !important;
+        border-bottom: 1px solid #ccc !important;
+        border-right: 1px solid #ccc !important;
+    }
+
+    .inv-adj-right-table tbody td:first-child {
+        background-color: #00a651 !important;
+        color: #fff !important;
+    }
+
+    .inv-adj-right-table tbody td:last-child {
+        background-color: #cd2027 !important;
+        color: #fff !important;
     }
     
     .inv-adj-right-table tbody td input {
@@ -95,7 +103,7 @@
         box-sizing: border-box;
         background: transparent;
         border: none;
-        color: #0f0;
+        color: #fff;
         text-align: center;
         font-weight: bold;
         font-family: Tahoma, Arial, sans-serif;
@@ -104,7 +112,7 @@
     }
 
     .inv-adj-right-table tbody td input:focus {
-        background-color: #222;
+        background-color: rgba(0, 0, 0, 0.1);
     }
 </style>
 <script src="js/inventory-adjust.js"></script>
