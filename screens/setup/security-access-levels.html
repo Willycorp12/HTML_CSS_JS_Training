@@ -1,4 +1,115 @@
-<section class='screen-placeholder'>
-  <h1>security access levels</h1>
-  <p>This is a generated placeholder page for security access levels.</p>
-</section>
+<!-- screens/setup/security-access-levels.html -->
+<div class="page-header">
+    <h2>Payroll Security Access</h2>
+</div>
+<div style="text-align: center; font-size: 12px; color: #666; margin-top: 4px; margin-bottom: 10px;">Configure Payroll Security Access Levels</div>
+
+<div class="security-container">
+    <div class="coa-toolbar" style="padding: 8px 10px; display: flex; justify-content: flex-end; align-items: center; background: #f8f9fc; border-bottom: 1px solid #ccc;">
+        <div class="coa-right-tools" style="display: flex; gap: 8px;">
+            <button class="wd-action-btn primary" id="BTN_UpdateAccessLevels">
+                Update Settings <i class="fa-solid fa-circle-check"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="security-content-row">
+        <div class="security-table-wrapper">
+            <table class="wd-table security-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50px; text-align: center;">ID</th>
+                        <th>Control Name</th>
+                        <th style="width: 150px;">Level 1 Security</th>
+                        <th style="width: 150px;">Level 2 Security</th>
+                        <th style="width: 150px;">Level 3 Security</th>
+                        <th style="width: 150px;">Level 4 Security</th>
+                        <th style="width: 150px;">Maximum Security</th>
+                    </tr>
+                </thead>
+                <tbody id="TB_SecurityAccessLevels">
+                    <!-- Populated by security-access-levels.js -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .security-container {
+        height: calc(100% - 75px);
+        border: 1px solid #ccc;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+    }
+    
+    .security-content-row {
+        flex: 1;
+        overflow: hidden;
+        border-top: 2px solid #2e3192;
+    }
+    
+    .security-table-wrapper {
+        height: 100%;
+        overflow: auto;
+    }
+    
+    .security-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .security-table thead th {
+        background: #2e3192;
+        color: #fff;
+        padding: 10px;
+        text-align: left;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-right: 1px solid #1f226f;
+        font-size: 13px;
+        font-weight: 600;
+    }
+    
+    .security-table tbody td {
+        padding: 4px 8px;
+        border-bottom: 1px solid #b4c7e7;
+        border-right: 1px solid #b4c7e7;
+        font-size: 13px;
+        color: #000;
+        height: 36px;
+        vertical-align: middle;
+    }
+    
+    .security-table tr:nth-child(even) {
+        background-color: #f2f7ff;
+    }
+    
+    .security-table tr.selected td {
+        background-color: #cd2027 !important;
+        color: #fff !important;
+    }
+    
+    .security-table tr:hover:not(.selected) td {
+        background-color: #e6f1ff;
+    }
+    
+    .security-table select {
+        width: 100%;
+        padding: 4px;
+        font-size: 12px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        background: #fff;
+        color: #333;
+        outline: none;
+    }
+    
+    .security-table tr.selected select {
+        background: #fff;
+        color: #000;
+    }
+</style>

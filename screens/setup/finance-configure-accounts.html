@@ -1,4 +1,206 @@
-<section class='screen-placeholder'>
-  <h1>finance configure accounts</h1>
-  <p>This is a generated placeholder page for finance configure accounts.</p>
-</section>
+<!-- screens/setup/finance-configure-accounts.html -->
+<div class="page-header">
+    <h2>Configure Accounts</h2>
+</div>
+<div style="text-align: center; font-size: 13px; color: #cd2027; font-weight: bold; margin-top: 4px; margin-bottom: 10px;">Setup Default Transaction Accounts for your Institution</div>
+
+<div class="config-container">
+    <!-- Toolbar with Tabs & Refresh Button -->
+    <div class="coa-toolbar" style="padding: 0 10px; display: flex; justify-content: space-between; align-items: flex-end; background: #f8f9fc; border-bottom: 1px solid #ccc; height: 38px;">
+        <div class="main-tabs" style="display: flex; gap: 4px; margin-bottom: -1px; border-bottom: none;">
+            <div class="main-tab active" id="TAB_DefaultAccounts" onclick="ConfigureAccountsManager.switchTab('default')" style="padding: 6px 16px; background: #2e3192; color: white; border: 1px solid #2e3192; border-bottom: none; border-radius: 4px 4px 0 0; font-size: 12px; font-weight: bold; cursor: pointer;">Default Accounts</div>
+            <div class="main-tab" id="TAB_OtherAccounts" onclick="ConfigureAccountsManager.switchTab('other')" style="padding: 6px 16px; background: #e0e0e0; color: #333; border: 1px solid #ccc; border-bottom: none; border-radius: 4px 4px 0 0; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s;">Other Accounts</div>
+        </div>
+        <div class="coa-right-tools" style="padding-bottom: 5px;">
+            <button class="wd-btn refresh" onclick="ConfigureAccountsManager.refreshData()" style="padding: 4px 12px; display: flex; align-items: center; gap: 5px; height: 26px;">
+                Refresh <i class="fa-solid fa-arrows-rotate"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="config-body" style="padding: 20px; background: #fff; border: 1px solid #ccc; border-top: none; flex: 1; overflow-y: auto;">
+        <!-- Tab 1: Default Accounts -->
+        <div id="PANEL_DefaultAccounts" class="config-panel" style="display: block;">
+            <div class="config-grid">
+                <div class="config-col">
+                    <div class="form-row-config">
+                        <label>Default Cash Account</label>
+                        <input type="text" id="mod-default-cash" class="wd-input-setup picker-trigger" readonly placeholder="Select Default Cash Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Default Bank Account</label>
+                        <input type="text" id="mod-default-bank" class="wd-input-setup picker-trigger" readonly placeholder="Select Default Bank Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Mobile Money Account</label>
+                        <input type="text" id="mod-momo-acc" class="wd-input-setup picker-trigger" readonly placeholder="Select Mobile Money Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Equity Account</label>
+                        <input type="text" id="mod-equity-acc" class="wd-input-setup picker-trigger" readonly placeholder="Select Equity Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Bank Interest</label>
+                        <input type="text" id="mod-bank-interest" class="wd-input-setup picker-trigger" readonly placeholder="Select Bank Interest Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Bank Charges Account</label>
+                        <input type="text" id="mod-bank-charges" class="wd-input-setup picker-trigger" readonly placeholder="Select Bank Charges Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Prepayments from Students</label>
+                        <input type="text" id="mod-prepayments" class="wd-input-setup picker-trigger" readonly placeholder="Select Student Prepayments Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Bad Debt Expense</label>
+                        <input type="text" id="mod-bad-debt" class="wd-input-setup picker-trigger" readonly placeholder="Select Bad Debt Expense Account">
+                    </div>
+                </div>
+                
+                <div class="config-col">
+                    <div class="form-row-config">
+                        <label>CNPS</label>
+                        <input type="text" id="mod-cnps" class="wd-input-setup picker-trigger" readonly placeholder="Select CNPS Liability/Expense Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Taxes</label>
+                        <input type="text" id="mod-taxes" class="wd-input-setup picker-trigger" readonly placeholder="Select Tax Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Default School Receivables</label>
+                        <input type="text" id="mod-default-receivables" class="wd-input-setup picker-trigger" readonly placeholder="Select School Receivables Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Default Accounts Payables</label>
+                        <input type="text" id="mod-default-payables" class="wd-input-setup picker-trigger" readonly placeholder="Select Accounts Payable Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Depreciation Expense</label>
+                        <input type="text" id="mod-deprec-exp" class="wd-input-setup picker-trigger" readonly placeholder="Select Depreciation Expense Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Accruals</label>
+                        <input type="text" id="mod-accruals" class="wd-input-setup picker-trigger" readonly placeholder="Select Accruals Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Student Discount Account</label>
+                        <input type="text" id="mod-student-discount" class="wd-input-setup picker-trigger" readonly placeholder="Select Student Discount Account">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Other Accounts -->
+        <div id="PANEL_OtherAccounts" class="config-panel" style="display: none;">
+            <div style="font-size: 11px; color: #2e3192; font-weight: bold; margin-bottom: 12px; border-bottom: 1px dashed #ccc; padding-bottom: 4px;">Preset Your Account Classes below</div>
+            <div class="config-grid">
+                <div class="config-col">
+                    <div class="form-row-config">
+                        <label>Income from Transcript Account</label>
+                        <input type="text" id="mod-transcript-income" class="wd-input-setup picker-trigger" readonly placeholder="Select Transcript Income Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Income from Attestation/Certificate Acc</label>
+                        <input type="text" id="mod-attest-income" class="wd-input-setup picker-trigger" readonly placeholder="Select Certificate Income Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Stock Adjustment(+)</label>
+                        <input type="text" id="mod-stock-adj-plus" class="wd-input-setup picker-trigger" readonly placeholder="Select Positive Stock Adjustment Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Stock Adjustment(-)</label>
+                        <input type="text" id="mod-stock-adj-minus" class="wd-input-setup picker-trigger" readonly placeholder="Select Negative Stock Adjustment Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Bank Reconciliation</label>
+                        <input type="text" id="mod-bank-recon" class="wd-input-setup picker-trigger" readonly placeholder="Select Bank Reconciliation Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Suspense Account (Uncategorized Expenses)</label>
+                        <input type="text" id="mod-suspense-exp" class="wd-input-setup picker-trigger" readonly placeholder="Select Suspense Expense Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Suspense Account (Uncategorized Income)</label>
+                        <input type="text" id="mod-suspense-inc" class="wd-input-setup picker-trigger" readonly placeholder="Select Suspense Income Account">
+                    </div>
+                </div>
+                
+                <div class="config-col">
+                    <div class="form-row-config">
+                        <label>Recovery Income Account</label>
+                        <input type="text" id="mod-recovery-income" class="wd-input-setup picker-trigger" readonly placeholder="Select Recovery Income Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Receivables for Old Debts</label>
+                        <input type="text" id="mod-receivables-old" class="wd-input-setup picker-trigger" readonly placeholder="Select Receivables for Old Debts Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>Profit & Loss Account</label>
+                        <input type="text" id="mod-pandl-acc" class="wd-input-setup picker-trigger" readonly placeholder="Select Profit & Loss Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>AIT Default Account</label>
+                        <input type="text" id="mod-ait-acc" class="wd-input-setup picker-trigger" readonly placeholder="Select AIT Default Account">
+                    </div>
+                    <div class="form-row-config">
+                        <label>AIT Rate (%)</label>
+                        <input type="text" id="mod-ait-rate" class="wd-input-setup" placeholder="e.g. 5.5" value="5.5%">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 25px; text-align: center;">
+            <button class="wd-action-btn primary" onclick="ConfigureAccountsManager.saveSettings()">
+                Save Configurations <i class="fa-solid fa-circle-check"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .config-container {
+        height: calc(100% - 75px);
+        display: flex;
+        flex-direction: column;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+    }
+    
+    .config-grid {
+        display: flex;
+        gap: 30px;
+    }
+    
+    .config-col {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .form-row-config {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .form-row-config label {
+        font-size: 11px;
+        font-weight: bold;
+        color: #1a1a1a;
+    }
+    
+    .form-row-config input.picker-trigger {
+        background-color: #fff;
+        cursor: pointer;
+        padding-right: 25px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' class='bi bi-search' viewBox='0 0 16 16'><path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/></svg>");
+        background-repeat: no-repeat;
+        background-position: calc(100% - 8px) center;
+    }
+    
+    .form-row-config input.picker-trigger:hover {
+        border-color: #2e3192;
+        background-color: #fafbfe;
+    }
+</style>

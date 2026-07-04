@@ -488,6 +488,27 @@ function loadScreen(file, menuElement = null, title = '') {
             if (normalizedFile === "setup-sms.html") {
                 initSmsSetting();
             }
+            if (normalizedFile === "security-access-levels.html") {
+                initSecurityAccessLevels();
+            }
+            if (normalizedFile === "finance-annual-fee.html") {
+                initFinanceAnnualFee();
+            }
+            if (normalizedFile === "finance-open-balances.html") {
+                initFinanceOpenBalances();
+            }
+            if (normalizedFile === "finance-fee-category.html") {
+                initFinanceFeeCategory();
+            }
+            if (normalizedFile === "finance-fee-types.html") {
+                initFinanceFeeTypes();
+            }
+            if (normalizedFile === "finance-configure-accounts.html") {
+                initFinanceConfigureAccounts();
+            }
+            if (normalizedFile === "finance-chart-accounts.html") {
+                initChartOfAccounts();
+            }
             if (normalizedFile === "setup-requisition.html") {
                 initSetupRequisition();
             }
@@ -754,6 +775,12 @@ async function testPrint() {
 <script src="js/setup-company-profile.js"></script>
 <script src="js/setup-academic-year.js"></script>
 <script src="js/setup-sms.js"></script>
+<script src="js/security-access-levels.js"></script>
+<script src="js/finance-annual-fee.js"></script>
+<script src="js/finance-open-balances.js"></script>
+<script src="js/finance-fee-category.js"></script>
+<script src="js/finance-fee-types.js"></script>
+<script src="js/finance-configure-accounts.js"></script>
 <script src="js/setup-requisition.js"></script>
 <script src="js/sticky-columns.js"></script>
 <script src="js/report-trial-balance.js"></script>
