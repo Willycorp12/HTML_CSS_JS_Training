@@ -35,34 +35,8 @@
 
             <!-- Tab Content: Basic Info -->
             <div id="TAB_BasicInfo" class="asset-tab-content active">
-                <div class="asset-general-layout">
-                    <div class="asset-general-left">
-                        <div class="form-row">
-                            <label>No Of Children:</label>
-                            <input id="EMP_CHILDREN" type="number" class="wd-input" value="0">
-                        </div>
-                        <div class="form-row">
-                            <label>Employment Date:</label>
-                            <input id="EMP_EMP_DATE" type="date" class="wd-input">
-                        </div>
-                        <div class="form-row">
-                            <label>No Of Legal Days:</label>
-                            <input id="EMP_LEGAL_DAYS" type="number" class="wd-input" value="0">
-                        </div>
-                    </div>
-                    <div class="asset-general-right">
-                        <div class="form-row">
-                            <label>Longevity/Seniority:</label>
-                            <input id="EMP_LONGEVITY" type="text" class="wd-input" value="0 Years">
-                        </div>
-                        <div class="form-row">
-                            <label>Address:</label>
-                            <textarea id="EMP_ADDRESS" class="wd-input" rows="3"></textarea>
-                        </div>
-                    </div>
-                </div>
                 <!-- Top Form Section (Always visible) -->
-        <div class="asset-top-form">
+                <div class="asset-top-form">
             <div class="asset-top-left">
                 <div class="form-row">
                     <label>Matricule:</label>
@@ -140,8 +114,33 @@
                     <button id="BTN_SETUP_PAYSLIP" class="wd-btn primary" onclick="openPayslipSetupModal()" style="width:100%; margin-top:10px;">Setup Payslip Details <i class="fa-solid fa-arrow-right"></i></button>
                 </fieldset>
             </div>
-        </div>
-
+                </div>
+                <div class="asset-general-layout">
+                    <div class="asset-general-left">
+                        <div class="form-row">
+                            <label>No Of Children:</label>
+                            <input id="EMP_CHILDREN" type="number" class="wd-input" value="0">
+                        </div>
+                        <div class="form-row">
+                            <label>Employment Date:</label>
+                            <input id="EMP_EMP_DATE" type="date" class="wd-input">
+                        </div>
+                        <div class="form-row">
+                            <label>No Of Legal Days:</label>
+                            <input id="EMP_LEGAL_DAYS" type="number" class="wd-input" value="0">
+                        </div>
+                    </div>
+                    <div class="asset-general-right">
+                        <div class="form-row">
+                            <label>Longevity/Seniority:</label>
+                            <input id="EMP_LONGEVITY" type="text" class="wd-input" value="0 Years">
+                        </div>
+                        <div class="form-row">
+                            <label>Address:</label>
+                            <textarea id="EMP_ADDRESS" class="wd-input" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Tab Content: More Info 1 -->
@@ -211,7 +210,7 @@
                             <legend>Payment Account Info</legend>
                             <div class="form-row">
                                 <label>Payment Mode:</label>
-                                <select id="EMP_PAYMENT_MODE" class="wd-input">
+                                <select id="EMP_PAY_MODE" class="wd-input">
                                     <option value="1">Cash</option>
                                     <option value="2">Bank</option>
                                     <option value="3">Prepaid Card</option>
