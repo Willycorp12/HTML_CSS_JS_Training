@@ -1,18 +1,13 @@
 const API_BASE = "https://www.buib-app.online";
-const API_KEY  = "KSL-CLIENT-2025-SECURE";
+const API_KEY = "KSL-CLIENT-2025-SECURE";
 
 const LOGIN_PAGE = "login.html";
 let sessionTimer = null;
 
 function clearSession() {
     localStorage.removeItem("SESSION_TOKEN");
-
     localStorage.removeItem("SESSION_EXPIRES_AT");
-    localStorage.removeItem("SESSION_EXPIRES_AT_SERVER");
-    localStorage.removeItem("SESSION_DURATION_MINUTES"); // harmless for old browsers/users
-
-    localStorage.removeItem("USER_PERMISSIONS");
-    localStorage.removeItem("USER_ID");
+    localStorage.removeItem("SESSION_DURATION_MINUTES");
 }
 
 function redirectToLogin(reason = "expired") {
@@ -61,14 +56,13 @@ function startSessionTimer() {
     }, remainingMs);
 }
 
-
 (function requireLogin() {
     startSessionTimer();
 })();
 
 async function apiFetch(path, options = {}) {
     if (!enforceSession()) {
-        return new Promise(() => {});
+        return new Promise(() => { });
     }
 
     const token = localStorage.getItem("SESSION_TOKEN");
@@ -92,15 +86,13 @@ async function apiFetch(path, options = {}) {
 
         if (response.status === 401 || response.status === 403) {
             redirectToLogin("server_rejected");
-            return new Promise(() => {});
+            return new Promise(() => { });
         }
 
         const rawText = await response.text();
 
-        let data;
-
         try {
-            data = JSON.parse(rawText);
+            return JSON.parse(rawText);
         } catch (e) {
             return {
                 success: false,
@@ -108,23 +100,6 @@ async function apiFetch(path, options = {}) {
                 raw: rawText
             };
         }
-
-        const msg = String(data?.message || data?.error || "").toLowerCase();
-
-        if (
-            data?.success === false &&
-            (
-                msg.includes("session required") ||
-                msg.includes("session expired") ||
-                msg.includes("invalid session") ||
-                msg.includes("unauthorized")
-            )
-        ) {
-            redirectToLogin("server_session_expired");
-            return new Promise(() => {});
-        }
-
-        return data;
 
     } catch (networkError) {
         return {
@@ -134,30 +109,7 @@ async function apiFetch(path, options = {}) {
     }
 }
 
-window.logout = async function () {
-
-    const token = localStorage.getItem("SESSION_TOKEN");
-
-    if (token) {
-        try {
-            const resp = await fetch(API_BASE + "/api/v1/auth/logout", {
-                method: "POST",
-               headers: {
-                    "Content-Type": "application/json",
-                    "X-API-KEY": API_KEY,
-                    "X-SESSION-TOKEN": token
-                },
-                body: JSON.stringify({})
-            });
-
-
-            const raw = await resp.text();
-
-        } catch (e) {
-            console.error("logout request failed:", e);
-        }
-    }
-
+function logout() {
     clearSession();
     window.location.href = LOGIN_PAGE;
 }
