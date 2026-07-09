@@ -67,6 +67,10 @@
                     <input id="EMP_TELEPHONE" type="text" class="wd-input">
                 </div>
                 <div class="form-row">
+                    <label>Telephone 2:</label>
+                    <input id="EMP_TEL2" type="text" class="wd-input">
+                </div>
+                <div class="form-row">
                     <label>Gender:</label>
                     <select id="EMP_GENDER" class="wd-input"></select>
                 </div>
@@ -194,7 +198,13 @@
                         </fieldset>
                         <fieldset class="asset-num-group">
                             <legend>Social Security & Other</legend>
-                            <div class="form-row"><label>CNPS Y/N:</label><input id="EMP_CNPS_YN" type="text" class="wd-input"></div>
+                            <div class="form-row">
+                                <label>CNPS Y/N:</label>
+                                <select id="EMP_CNPS_YN" class="wd-input">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
                             <div class="form-row"><label>NIU (Tax Payer's ID):</label><input id="EMP_NIU" type="text" class="wd-input"></div>
                             <div class="form-row"><label>Email:</label><input id="EMP_EMAIL" type="email" class="wd-input"></div>
                         </fieldset>
@@ -246,11 +256,19 @@
                                     <input id="EMP_BANK_ACCOUNT_KEY" type="text" class="wd-input">
                                 </div>
                                 <div class="form-row">
+                                    <label>RIB Key:</label>
+                                    <input id="EMP_BANK_RIB_KEY" type="text" class="wd-input">
+                                </div>
+                                <div class="form-row">
                                     <label>Account Creation Date:</label>
                                     <input id="EMP_BANK_CREATION_DATE" type="date" class="wd-input">
                                 </div>
                             </div>
                             <div id="EMP_PREPAID_DETAILS" style="display: none;">
+                                <div class="form-row">
+                                    <label>Card Number:</label>
+                                    <input id="EMP_PREPAID_CARD_NUMBER" type="text" class="wd-input">
+                                </div>
                                 <div class="form-row">
                                     <label>Prepaid Card Expiry Date:</label>
                                     <input id="EMP_PREPAID_EXPIRY_DATE" type="date" class="wd-input">
@@ -259,6 +277,14 @@
                             <div class="form-row" style="margin-top: 20px;">
                                 <label>Payrate:</label>
                                 <input id="EMP_PAYRATE" type="text" class="wd-input" value="0 FCFA">
+                            </div>
+                            <div class="form-row">
+                                <label>Normal Working Hours:</label>
+                                <input id="EMP_NORMAL_HOURS" type="number" class="wd-input" value="0">
+                            </div>
+                            <div class="form-row">
+                                <label>Overtime Rate:</label>
+                                <input id="EMP_OVERTIME_RATE" type="text" class="wd-input" value="0 FCFA">
                             </div>
                         </fieldset>
                     </div>

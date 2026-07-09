@@ -6,32 +6,34 @@
 
 <div class="employee-master-container">
     <div class="employee-filters">
-    <div class="filter-group">
-        <label>Select Branch:</label>
-        <select id="MASTER_BRANCH_FILTER" class="wd-input" onchange="window.fetchEmployeeList()">
-            <option value="0">---- All Branches ----</option>
-        </select>
-        
-        <label>Filter by Dept:</label>
-        <select id="MASTER_DEPT_FILTER" class="wd-input" onchange="window.fetchEmployeeList()">
-            <option value="0">---- All Departments ----</option>
-        </select>
+        <div class="filter-group">
+            <label>Select Branch:</label>
+            <select id="MASTER_BRANCH_FILTER" class="wd-input" onchange="window.fetchEmployeeList()">
+                <option value="0">---- All Branches ----</option>
+            </select>
+
+            <label>Filter by Dept:</label>
+            <select id="MASTER_DEPT_FILTER" class="wd-input" onchange="window.fetchEmployeeList()">
+                <option value="0">---- All Departments ----</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <input type="text" id="EMPLOYEE_SEARCH" class="wd-input" placeholder="Search by Name or MAT >>>">
+        </div>
     </div>
-    <div class="filter-group">
-        <input type="text" id="EMPLOYEE_SEARCH" class="wd-input" placeholder="Search by Name or MAT >>>">
-    </div>
-</div>
 
     <div class="employee-content-wrapper">
         <div class="main-toolbar">
             <div class="toolbar-group">
-                <button class="wd-btn primary" onclick="openCreateEmployeeModal()"><i class="fa-solid fa-file-circle-plus"></i> New</button>
+                <button class="wd-btn primary" onclick="openCreateEmployeeModal()"><i
+                        class="fa-solid fa-file-circle-plus"></i> New</button>
                 <button class="wd-btn primary" id="btn-modify-employee"><i class="fa-solid fa-pen"></i> Modify</button>
                 <button class="wd-btn danger" id="btn-delete-employee"><i class="fa-solid fa-trash"></i> Delete</button>
             </div>
             <div class="toolbar-separator"></div>
             <div class="toolbar-group">
-                <button class="wd-btn" onclick="window.fetchEmployeeList()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+                <button class="wd-btn" onclick="window.fetchEmployeeList()"><i class="fa-solid fa-rotate"></i>
+                    Refresh</button>
                 <button class="wd-btn"><i class="fa-solid fa-circle-question"></i> Help?</button>
             </div>
             <div class="toolbar-spacer"></div>
@@ -50,7 +52,7 @@
             <table class="wd-table blue-header employee-list-table">
                 <thead>
                     <tr>
-                        <th class="fixed-col" style="width: 30px;">SN</th>
+                        <th class="fixed-col" style="width: 50px;">SN</th>
                         <th class="fixed-col" style="width: 80px;">Matricule</th>
                         <th class="fixed-col" style="width: 150px;">Employee Name</th>
                         <th class="fixed-col" style="width: 100px;">Employment<br>Date</th>
@@ -90,7 +92,7 @@
             <table class="wd-table blue-header employee-list-table">
                 <thead>
                     <tr>
-                        <th class="fixed-col" style="width: 30px;">SN</th>
+                        <th class="fixed-col" style="width: 50px;">SN</th>
                         <th class="fixed-col" style="width: 80px;">Matricule</th>
                         <th class="fixed-col" style="width: 150px;">Employee Name</th>
                         <th class="fixed-col" style="width: 100px;">Employment<br>Date</th>
@@ -129,7 +131,7 @@
             <table class="wd-table blue-header employee-list-table">
                 <thead>
                     <tr>
-                        <th class="fixed-col" style="width: 30px;">SN</th>
+                        <th class="fixed-col" style="width: 50px;">SN</th>
                         <th class="fixed-col" style="width: 80px;">Matricule</th>
                         <th class="fixed-col" style="width: 150px;">Employee Name</th>
                         <th class="fixed-col" style="width: 100px;">Employment<br>Date</th>
@@ -176,16 +178,20 @@
         margin-top: 5px;
         font-style: italic;
     }
+
     .employee-master-container {
-        height: calc(100vh - 160px); /* Optimized for 768px height displays, ensures container stays on screen */
+        height: calc(100vh - 160px);
+        /* Optimized for 768px height displays, ensures container stays on screen */
         display: flex;
         flex-direction: column;
         font-family: "Segoe UI", Tahoma, sans-serif;
         font-size: 12px;
         border: 1px solid #ccc;
         background: #fff;
-        overflow: hidden; /* Prevents outer scroll */
+        overflow: hidden;
+        /* Prevents outer scroll */
     }
+
     .employee-filters {
         display: flex;
         gap: 15px;
@@ -194,15 +200,30 @@
         background: #f0f0f0;
         border-bottom: 1px solid #ccc;
     }
-    .filter-group { display: flex; align-items: center; gap: 8px; }
-    .employee-filters .wd-input { padding: 5px; font-size: 12px; border-radius: 4px; border: 1px solid #999; }
-    .employee-filters input.wd-input { width: 250px; }
+
+    .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .employee-filters .wd-input {
+        padding: 5px;
+        font-size: 12px;
+        border-radius: 4px;
+        border: 1px solid #999;
+    }
+
+    .employee-filters input.wd-input {
+        width: 250px;
+    }
 
     .employee-content-wrapper {
         flex: 1;
         display: flex;
         flex-direction: column;
-        overflow: hidden; /* Important to contain the table flex */
+        overflow: hidden;
+        /* Important to contain the table flex */
     }
 
     .main-toolbar {
@@ -213,9 +234,22 @@
         align-items: center;
         gap: 8px;
     }
-    .toolbar-group { display: flex; gap: 5px; }
-    .toolbar-separator { width: 1px; background: #999; height: 24px; margin: 0 5px; }
-    .toolbar-spacer { flex: 1; }
+
+    .toolbar-group {
+        display: flex;
+        gap: 5px;
+    }
+
+    .toolbar-separator {
+        width: 1px;
+        background: #999;
+        height: 24px;
+        margin: 0 5px;
+    }
+
+    .toolbar-spacer {
+        flex: 1;
+    }
 
     .main-tabs {
         display: flex;
@@ -224,6 +258,7 @@
         padding-top: 6px;
         padding-left: 6px;
     }
+
     .main-tab {
         padding: 6px 15px;
         border: 1px solid #ccc;
@@ -234,6 +269,7 @@
         border-radius: 4px 4px 0 0;
         color: #555;
     }
+
     .main-tab.active {
         background: #fff;
         font-weight: bold;
@@ -246,34 +282,50 @@
     /* Table and scrolling container */
     .employee-table-container {
         flex: 1;
-        overflow: auto; /* Vertical and horizontal scrollbars appear only when needed */
+        overflow: auto;
+        /* Vertical and horizontal scrollbars appear only when needed */
         position: relative;
         border-bottom: 1px solid #ccc;
     }
+
     .employee-list-table {
-        min-width: 2800px; /* Wide enough to demonstrate scrolling */
+        min-width: 2800px;
+        /* Wide enough to demonstrate scrolling */
         border-collapse: collapse;
         width: 100%;
     }
+
     .wd-table.blue-header th {
         background: #2e3192;
         color: #fff;
         padding: 6px 8px;
         border-right: 1px solid #1f226f;
-        white-space: normal; /* Allow wrapping */
+        white-space: normal;
+        /* Allow wrapping */
         position: sticky;
         top: 0;
         z-index: 3;
     }
+
     .wd-table td {
         padding: 4px 8px;
         border-bottom: 1px dotted #ccc;
         border-right: 1px solid #eee;
         white-space: nowrap;
     }
-    .wd-table tr:hover td { background: #f0f5ff; }
-    .wd-table tr.selected td { background: #cd2027; color: #fff; }
-    .wd-table td.amount { text-align: right; }
+
+    .wd-table tr:hover td {
+        background: #f0f5ff;
+    }
+
+    .wd-table tr.selected td {
+        background: #cd2027;
+        color: #fff;
+    }
+
+    .wd-table td.amount {
+        text-align: right;
+    }
 
     /* Sticky Column Styles */
     .employee-list-table th:nth-child(-n+4),
@@ -282,16 +334,26 @@
         left: 0;
         z-index: 2;
     }
+
     .employee-list-table thead th:nth-child(-n+4) {
         background-color: #2e3192;
-        z-index: 4; /* Must be higher than scrolling th */
+        z-index: 4;
+        /* Must be higher than scrolling th */
     }
+
     .employee-list-table tbody td:nth-child(-n+4) {
         background-color: #fff;
         border-right: 1px solid #ddd;
     }
-    .employee-list-table tr:hover td:nth-child(-n+4) { background-color: #f0f5ff; }
-    .employee-list-table tr.selected td:nth-child(-n+4) { background: #cd2027; color: #fff; }
+
+    .employee-list-table tr:hover td:nth-child(-n+4) {
+        background-color: #f0f5ff;
+    }
+
+    .employee-list-table tr.selected td:nth-child(-n+4) {
+        background: #cd2027;
+        color: #fff;
+    }
 
     /* Sticky column offsets */
     /* Column 1 (SN) is at left: 0 by default */
@@ -299,28 +361,35 @@
     /* Column 2 (Matricule) starts after 30px */
     .employee-list-table th:nth-child(2),
     .employee-list-table td:nth-child(2) {
-        left: 30px; /* Width of first fixed column */
+        left: 30px;
+        /* Width of first fixed column */
         width: 80px;
         min-width: 80px;
         max-width: 80px;
     }
+
     /* Column 3 (Name) starts after 30+80 = 110px */
     .employee-list-table th:nth-child(3),
     .employee-list-table td:nth-child(3) {
-        left: 110px; /* 30 + 80 */
+        left: 110px;
+        /* 30 + 80 */
         width: 150px;
         min-width: 150px;
         max-width: 150px;
     }
+
     /* Column 4 (Date) starts after 110+150 = 260px */
     .employee-list-table th:nth-child(4),
     .employee-list-table td:nth-child(4) {
-        left: 260px; /* 110 + 150 */
-        border-right: 2px solid #ccc; /* Distinct separator for the fixed pane */
+        left: 260px;
+        /* 110 + 150 */
+        border-right: 2px solid #ccc;
+        /* Distinct separator for the fixed pane */
         width: 100px;
         min-width: 100px;
         max-width: 100px;
     }
+
     /* Column 1 (SN) explicit width */
     .employee-list-table th:nth-child(1),
     .employee-list-table td:nth-child(1) {

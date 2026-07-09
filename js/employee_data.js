@@ -17,14 +17,14 @@ window.currentEmployeeDataList = [];
 /**
  * Renders the employee table based on provided data.
  */
-window.renderEmployeeTable = function(data = []) {
+window.renderEmployeeTable = function (data = []) {
     console.log("renderEmployeeTable: Called with data:", data);
     // Find the currently visible table container to render the correct tab's data
     const activeContent = Array.from(document.querySelectorAll('.employee-table-container'))
         .find(el => el.style.display !== 'none');
-    
+
     const tbody = activeContent ? activeContent.querySelector('table tbody') : document.querySelector('.employee-list-table tbody');
-    
+
     if (!tbody) return;
     console.log("renderEmployeeTable: Active content for rendering:", activeContent);
     tbody.innerHTML = '';
@@ -80,7 +80,7 @@ window.renderEmployeeTable = function(data = []) {
 /**
  * Fetches employee list from backend with current filters
  */
-window.fetchEmployeeList = async function() {
+window.fetchEmployeeList = async function () {
     console.log("fetchEmployeeList: Initiating fetch...");
     const branchId = document.getElementById('MASTER_BRANCH_FILTER')?.value || 0;
     const departmentId = document.getElementById('MASTER_DEPT_FILTER')?.value || 0;
@@ -115,13 +115,15 @@ window.fetchEmployeeList = async function() {
 /**
  * Loads lookups for the master screen and populates filter dropdowns.
  */
-window.loadEmployeeMasterData = async function() {
+window.loadEmployeeMasterData = async function () {
     console.log("loadEmployeeMasterData: Starting to load filters and initial data...");
 
     try {
         console.log("loadEmployeeMasterData: Fetching lookup data from /api/v1/payroll/lookups/employeeCreate");
-        const response = await apiFetch('/api/v1/payroll/lookups/employeeCreate', { method: 'GET' });
-        
+        const response = await apiFetch('/api/v1/payroll/lookups/employeeCreate', {
+            method: 'GET'
+        });
+
         if (response && response.success) {
             console.log("loadEmployeeMasterData: Lookup data fetched successfully:", response.data);
             const d = response.data;
@@ -177,7 +179,7 @@ window.loadEmployeeMasterData = async function() {
 /**
  * Closes the Create Employee Modal.
  */
-window.closeCreateEmployeeModal = function() {
+window.closeCreateEmployeeModal = function () {
     const el = document.getElementById('create-employee-overlay');
     if (el) el.style.display = 'none';
 };
@@ -187,9 +189,9 @@ window.closeCreateEmployeeModal = function() {
  * dynamically fetches the HTML if not present in the DOM.
  * @param {number|string|null} employeeId If provided, modal opens in Modify mode.
  */
-window.openCreateEmployeeModal = async function(employeeId = null) {
+window.openCreateEmployeeModal = async function (employeeId = null) {
     let el = document.getElementById('create-employee-overlay');
-    
+
     // Dynamic injection if missing (e.g. when on employee-master.html)
     if (!el) {
         try {
@@ -221,7 +223,7 @@ window.openCreateEmployeeModal = async function(employeeId = null) {
             window.currentEditingEmployeeId = employeeId;
             if (titleEl) titleEl.textContent = "Modify Employee Details";
             if (submitBtn) submitBtn.innerHTML = 'Update Record <i class="fa-solid fa-save"></i>';
-            
+
             try {
                 const response = await apiFetch(`/api/v1/payroll/getEmployeeDetails/${employeeId}`, { method: 'GET' });
                 if (response && response.success) {
@@ -258,75 +260,111 @@ function populateEmployeeForm(d) {
         el.value = Number(val || 0).toLocaleString('en-US') + " FCFA";
     };
 
+    const formatDate = (val) => {
+        if (!val) return "";
+        return val.split('T')[0];
+    };
+
     // Basic Info Tab
-    setVal('EMP_STATUS', d.staffStatus);
-    setVal('EMP_MATRICULE', d.matricule);
-    setVal('EMP_TITLE', d.titleId);
-    setVal('EMP_FIRST_NAME', d.firstName);
-    setVal('EMP_MIDDLE_NAME', d.middleName);
-    setVal('EMP_LAST_NAME', d.lastName);
-    setVal('EMP_FULL_NAME', d.fullName);
-    setVal('EMP_TELEPHONE', d.telephone1);
-    setVal('EMP_TEL2', d.telephone2);
-    setVal('EMP_EMAIL', d.email);
-    setVal('EMP_GENDER', d.genderId);
-    setVal('EMP_CIVIL_STATUS', d.civilStatus);
-    setVal('EMP_BRANCH', d.branchId);
-    setVal('EMP_DEPARTMENT', d.departmentId);
-    setVal('EMP_POST', d.positionId);
-    setVal('EMP_CATEGORY', d.categoryId);
-    setVal('EMP_ECHELON', d.echelonId);
-    setVal('EMP_EMPLOYEE_TYPE', d.payBasis);
-    setVal('EMP_NATIONALITY', d.nationalityId);
-    setVal('EMP_DENOMINATION', d.denominationId);
-    setVal('EMP_CHILDREN', d.noOfChildren);
-    setVal('EMP_DATE', d.employmentDate ? d.employmentDate.split('T')[0] : "");
-    setVal('EMP_ADDRESS', d.address);
-    setVal('EMP_POB', d.placeOfBirth);
+    setVal('EMP_STATUS', d.staffStatus ?? d.StaffStatus);
+    setVal('EMP_MATRICULE', d.matricule ?? d.Matricule);
+    setVal('EMP_TITLE', d.titleId ?? d.TitleID);
+    setVal('EMP_FIRST_NAME', d.firstName ?? d.FirstName);
+    setVal('EMP_MIDDLE_NAME', d.middleName ?? d.MiddleName);
+    setVal('EMP_LAST_NAME', d.lastName ?? d.LastName);
+    setVal('EMP_FULL_NAME', d.fullName ?? d.FullName);
+    setVal('EMP_TELEPHONE', d.telephone1 ?? d.Telephone1);
+    setVal('EMP_TEL2', d.telephone2 ?? d.Telephone2);
+    setVal('EMP_EMAIL', d.email ?? d.Email);
+    setVal('EMP_GENDER', d.genderId ?? d.GenderID);
+    setVal('EMP_CIVIL_STATUS', d.civilStatus ?? d.CivilStatus);
+    setVal('EMP_BRANCH', d.branchId ?? d.BranchID);
+    setVal('EMP_DEPARTMENT', d.departmentId ?? d.DepartmentID);
+    setVal('EMP_POST', d.positionId ?? d.PositionID);
+    setVal('EMP_CATEGORY', d.categoryId ?? d.CategoryID);
+    setVal('EMP_ECHELON', d.echelonId ?? d.EchelonID);
+    setVal('EMP_EMPLOYEE_TYPE', d.payBasis ?? d.PayBasis);
+    setVal('EMP_NATIONALITY', d.nationalityId ?? d.NationalityID);
+    setVal('EMP_DENOMINATION', d.denominationId ?? d.DenominationID);
+    setVal('EMP_CHILDREN', d.noOfChildren ?? d.NoOfChildren);
+    setVal('EMP_EMP_DATE', formatDate(d.employmentDate ?? d.EmploymentDate));
+    setVal('EMP_ADDRESS', d.address ?? d.Address);
+    setVal('EMP_BIRTH_PLACE', d.placeOfBirth ?? d.PlaceOfBirth);
 
     // More Info 1 Tab
-    setVal('EMP_ICE1_NAME', d.emergencyName1);
-    setVal('EMP_ICE1_TEL', d.emergencyNum1);
-    setVal('EMP_ICE2_NAME', d.emergencyName2);
-    setVal('EMP_ICE2_TEL', d.emergencyNum2);
-    setVal('EMP_ID_TYPE', d.identification);
-    setVal('EMP_ID_NUM', d.identificationNum);
-    setVal('EMP_ID_PLACE', d.identificationPlace);
-    setVal('EMP_NID', d.nid);
-    setVal('EMP_NIU', d.niu);
-    setVal('EMP_CNPS', d.cnpsNo);
+    setVal('EMP_EMERGENCY_NAME_1', d.emergencyName1 ?? d.EmergencyName1);
+    setVal('EMP_EMERGENCY_PHONE_1', d.emergencyNum1 ?? d.EmergencyNum1);
+    setVal('EMP_EMERGENCY_NAME_2', d.emergencyName2 ?? d.EmergencyName2);
+    setVal('EMP_EMERGENCY_PHONE_2', d.emergencyNum2 ?? d.EmergencyNum2);
+    setVal('EMP_DOB', formatDate(d.dob ?? d.DOB));
+    setVal('EMP_NID', d.nid ?? d.NID);
+    setVal('EMP_CNPS', d.cnpsNo ?? d.CNPSNo);
+    setVal('EMP_ID_TYPE', d.identification ?? d.Identification);
+    setVal('EMP_ID_NUMBER', d.identificationNum ?? d.IdentificationNum);
+    setVal('EMP_ID_PLACE_OF_ISSUE', d.identificationPlace ?? d.IdentificationPlace);
+    setVal('EMP_ID_ISSUE_DATE', formatDate(d.idStartDate ?? d.IDStartDate));
+    setVal('EMP_ID_EXPIRY_DATE', formatDate(d.idEndDate ?? d.IDEndDate));
+    setVal('EMP_CNPS_YN', d.cnpsyn ?? d.CNPSYN);
+    setVal('EMP_NIU', d.niu ?? d.NIU);
+
+    // Passport Details
+    setVal('EMP_PASSPORT_ID_TYPE', d.passportIdentification ?? d.PassportIdentification);
+    setVal('EMP_PASSPORT_NUMBER', d.passportIDNum ?? d.PassportIDNum);
+    setVal('EMP_PASSPORT_PLACE_ISSUE', d.passportPlaceOfIssue ?? d.PassportPlaceOfIssue);
+    setVal('EMP_PASSPORT_ISSUE_DATE', formatDate(d.passportStartDate ?? d.PassportStartDate));
+    setVal('EMP_PASSPORT_EXPIRY_DATE', formatDate(d.passportEndDate ?? d.PassportEndDate));
+
+    // Previous Employment
+    setVal('EMP_LAST_DIPLOMA', d.lastDiploma ?? d.LastDiploma);
+    setVal('EMP_LAST_JOB', d.lastJob ?? d.LastJob);
+    setVal('EMP_LAST_EMPLOYER', d.lastEmployer ?? d.LastEmployer);
+    setVal('EMP_LAST_JOB_START_DATE', formatDate(d.lastJobStartDate ?? d.LastJobStartDate));
+    setVal('EMP_LAST_JOB_END_DATE', formatDate(d.lastJobEndDate ?? d.LastJobEndDate));
 
     // More Info 2 Tab
-    setVal('EMP_PAY_MODE', d.paymentMode || 'Cash');
-    setVal('EMP_BANK_NAME', d.bankName);
-    setVal('EMP_BANK_ACC', d.bankAccountNo);
+    setVal('EMP_PAY_MODE', d.paymentMode ?? d.PaymentMode ?? 'Cash');
+    setVal('EMP_BANK_FIRST_NAME', d.accountFirstName ?? d.AccountFirstName);
+    setVal('EMP_BANK_LAST_NAME', d.accountLastName ?? d.AccountLastName);
+    setVal('EMP_BANK_NAME', d.bankName ?? d.BankName);
+    setVal('EMP_BANK_ACCOUNT_NUMBER', d.bankAccountNo ?? d.BankAccountNo);
+    setVal('EMP_BANK_CODE', d.bankCode ?? d.BankCode);
+    setVal('EMP_BANK_BRANCH_CODE', d.branchCode ?? d.BranchCode);
+    setVal('EMP_BANK_ACCOUNT_KEY', d.accountKey ?? d.AccountKey);
+    setVal('EMP_BANK_RIB_KEY', d.ribKey ?? d.RIBKey);
+    setVal('EMP_BANK_CREATION_DATE', formatDate(d.accountCreationDate ?? d.AccountCreationDate));
+    setVal('EMP_PREPAID_CARD_NUMBER', d.cardNumber ?? d.CardNumber);
+    setVal('EMP_PREPAID_EXPIRY_DATE', formatDate(d.prepaidExpiryDate ?? d.PrepaidExpiryDate));
     
+    setVal('EMP_NORMAL_HOURS', d.normalWorkingHours ?? d.NormalWorkingHours);
+    setFCFA('EMP_PAYRATE', d.payRate ?? d.PayRate);
+    setFCFA('EMP_OVERTIME_RATE', d.overtimeRate ?? d.OvertimeRate);
+
     // Trigger UI logic for payment modes and employee types
     setTimeout(() => document.getElementById('EMP_PAY_MODE')?.dispatchEvent(new Event('change')), 100);
     document.getElementById('EMP_EMPLOYEE_TYPE')?.dispatchEvent(new Event('change'));
 
     // Payslip Details Integration
-    setFCFA('PS_INPUT_1', d.basicSalary);
-    setFCFA('PS_INPUT_2', d.overtime);
-    setFCFA('PS_INPUT_3', d.seniorityBonus);
-    setFCFA('PS_INPUT_4', d.dutyPostAllowance);
-    setFCFA('PS_INPUT_5', d.researchAllowance);
-    setFCFA('PS_INPUT_6', d.transportAllowance);
-    setFCFA('PS_INPUT_7', d.representationAllowance);
-    setFCFA('PS_INPUT_8', d.housingAllowance);
-    setFCFA('PS_INPUT_9', d.vehicleAllowance);
-    setFCFA('PS_INPUT_10', d.waterAllowance);
-    setFCFA('PS_INPUT_11', d.electricityAllowance);
-    setFCFA('PS_INPUT_12', d.foodAllowance);
-    setFCFA('PS_INPUT_13', d.domesticAllowance);
-    setFCFA('PS_INPUT_14', d.basketAllowance);
-    setFCFA('PS_INPUT_32', d.medicalDeductions);
+    setFCFA('PS_INPUT_1', d.basicSalary ?? d.BasicSalary);
+    setFCFA('PS_INPUT_2', d.overtime ?? d.Overtime);
+    setFCFA('PS_INPUT_3', d.seniorityBonus ?? d.SeniorityBonus);
+    setFCFA('PS_INPUT_4', d.dutyPostAllowance ?? d.DutyPostAllowance);
+    setFCFA('PS_INPUT_5', d.researchAllowance ?? d.ResearchAllowance);
+    setFCFA('PS_INPUT_6', d.transportAllowance ?? d.TransportAllowance);
+    setFCFA('PS_INPUT_7', d.representationAllowance ?? d.RepresentationAllowance);
+    setFCFA('PS_INPUT_8', d.housingAllowance ?? d.HousingAllowance);
+    setFCFA('PS_INPUT_9', d.vehicleAllowance ?? d.VehicleAllowance);
+    setFCFA('PS_INPUT_10', d.waterAllowance ?? d.WaterAllowance);
+    setFCFA('PS_INPUT_11', d.electricityAllowance ?? d.ElectricityAllowance);
+    setFCFA('PS_INPUT_12', d.foodAllowance ?? d.FoodAllowance);
+    setFCFA('PS_INPUT_13', d.domesticAllowance ?? d.DomesticAllowance);
+    setFCFA('PS_INPUT_14', d.basketAllowance ?? d.BasketAllowance);
+    setFCFA('PS_INPUT_32', d.medicalDeductions ?? d.MedicalDeductions);
 
     // Update secondary displays
     const nameDisplay = document.getElementById('PAYSLIP_EmpNameDisplay');
-    if (nameDisplay) nameDisplay.textContent = d.fullName.toUpperCase();
+    if (nameDisplay) nameDisplay.textContent = (d.fullName ?? d.FullName ?? '').toUpperCase();
     const netDisplay = document.getElementById('PAYSLIP_NetTotal');
-    if (netDisplay) netDisplay.textContent = Number(d.netPayment || 0).toLocaleString('en-US') + " FCFA";
+    if (netDisplay) netDisplay.textContent = Number(d.netPayment ?? d.NetPayment ?? 0).toLocaleString('en-US') + " FCFA";
 }
 
 /**
@@ -364,14 +402,20 @@ function resetEmployeeCreateForm() {
     // 2. Explicitly clear input and select values that might persist from modification mode
     const fieldsToClear = [
         'EMP_FIRST_NAME', 'EMP_MIDDLE_NAME', 'EMP_LAST_NAME', 'EMP_FULL_NAME',
-        'EMP_TELEPHONE', 'EMP_TEL2', 'EMP_EMAIL', 'EMP_ADDRESS', 'EMP_POB',
-        'EMP_MATRICULE', 'EMP_CHILDREN', 'EMP_DATE',
-        'EMP_ICE1_NAME', 'EMP_ICE1_TEL', 'EMP_ICE2_NAME', 'EMP_ICE2_TEL',
-        'EMP_ID_NUM', 'EMP_ID_PLACE', 'EMP_NID', 'EMP_NIU', 'EMP_CNPS',
-        'EMP_BANK_NAME', 'EMP_BANK_ACC', 'EMP_STATUS', 'EMP_TITLE', 'EMP_GENDER', 
-        'EMP_CIVIL_STATUS', 'EMP_BRANCH', 'EMP_DEPARTMENT', 'EMP_POST', 
-        'EMP_CATEGORY', 'EMP_ECHELON', 'EMP_EMPLOYEE_TYPE', 'EMP_NATIONALITY', 
-        'EMP_DENOMINATION', 'EMP_PAY_MODE', 'PS_STAFF_STATUS'
+        'EMP_TELEPHONE', 'EMP_TEL2', 'EMP_EMAIL', 'EMP_ADDRESS', 'EMP_BIRTH_PLACE',
+        'EMP_MATRICULE', 'EMP_CHILDREN', 'EMP_EMP_DATE', 'EMP_LEGAL_DAYS', 'EMP_LONGEVITY',
+        'EMP_EMERGENCY_NAME_1', 'EMP_EMERGENCY_PHONE_1', 'EMP_EMERGENCY_NAME_2', 'EMP_EMERGENCY_PHONE_2',
+        'EMP_ID_NUMBER', 'EMP_ID_PLACE_OF_ISSUE', 'EMP_NID', 'EMP_NIU', 'EMP_CNPS',
+        'EMP_BANK_NAME', 'EMP_BANK_ACCOUNT_NUMBER', 'EMP_STATUS', 'EMP_TITLE', 'EMP_GENDER',
+        'EMP_CIVIL_STATUS', 'EMP_BRANCH', 'EMP_DEPARTMENT', 'EMP_POST',
+        'EMP_CATEGORY', 'EMP_ECHELON', 'EMP_EMPLOYEE_TYPE', 'EMP_NATIONALITY',
+        'EMP_DENOMINATION', 'EMP_PAY_MODE', 'PS_STAFF_STATUS', 'EMP_DOB',
+        'EMP_ID_ISSUE_DATE', 'EMP_ID_EXPIRY_DATE', 'EMP_CNPS_YN',
+        'EMP_PASSPORT_ID_TYPE', 'EMP_PASSPORT_NUMBER', 'EMP_PASSPORT_PLACE_ISSUE', 'EMP_PASSPORT_ISSUE_DATE', 'EMP_PASSPORT_EXPIRY_DATE',
+        'EMP_LAST_DIPLOMA', 'EMP_LAST_JOB', 'EMP_LAST_EMPLOYER', 'EMP_LAST_JOB_START_DATE', 'EMP_LAST_JOB_END_DATE',
+        'EMP_BANK_FIRST_NAME', 'EMP_BANK_LAST_NAME', 'EMP_BANK_CODE', 'EMP_BANK_BRANCH_CODE', 'EMP_BANK_ACCOUNT_KEY',
+        'EMP_BANK_RIB_KEY', 'EMP_BANK_CREATION_DATE', 'EMP_PREPAID_CARD_NUMBER', 'EMP_PREPAID_EXPIRY_DATE',
+        'EMP_PAYRATE', 'EMP_NORMAL_HOURS', 'EMP_OVERTIME_RATE'
     ];
     fieldsToClear.forEach(id => {
         const el = document.getElementById(id);
@@ -383,7 +427,7 @@ function resetEmployeeCreateForm() {
     // 3. Clear fields that form.reset() might miss (like custom display spans or dataset ids)
     const nameDisplay = document.getElementById('PAYSLIP_EmpNameDisplay');
     if (nameDisplay) nameDisplay.textContent = 'NEW EMPLOYEE';
-    
+
     const netDisplay = document.getElementById('PAYSLIP_NetTotal');
     if (netDisplay) netDisplay.textContent = '0 FCFA';
 
@@ -398,7 +442,7 @@ function resetEmployeeCreateForm() {
     // 5. Reset internal state
     window.currentEditingEmployeeId = null;
     window.isRecalculated = false;
-    
+
     // 6. Trigger UI updates (like hiding bank info)
     document.getElementById('EMP_PAY_MODE')?.dispatchEvent(new Event('change'));
     document.getElementById('EMP_EMPLOYEE_TYPE')?.dispatchEvent(new Event('change'));
@@ -409,7 +453,7 @@ function resetEmployeeCreateForm() {
  * @param {string} tabId The ID of the tab content to show (e.g., 'TAB_BasicInfo').
  * @param {HTMLElement} element The clicked tab element.
  */
-window.switchEmployeeCreateTab = function(tabId, element) {
+window.switchEmployeeCreateTab = function (tabId, element) {
     // Deactivate all tabs
     document.querySelectorAll('#create-employee-modal .asset-tab').forEach(tab => {
         tab.classList.remove('active');
@@ -431,7 +475,7 @@ window.switchEmployeeCreateTab = function(tabId, element) {
  * @param {string} tabName The name of the tab to switch to (e.g., 'department', 'all-employees').
  * @param {HTMLElement} element The clicked tab element.
  */
-window.switchEmployeeMasterTab = function(tabName, element) {
+window.switchEmployeeMasterTab = function (tabName, element) {
     const container = element.closest('.employee-master-container');
     if (!container) return;
 
@@ -445,7 +489,7 @@ window.switchEmployeeMasterTab = function(tabName, element) {
     container.querySelectorAll('.employee-table-container').forEach(content => {
         content.style.display = 'none';
     });
-    
+
     const target = document.getElementById(tabName + '-content');
     if (target) target.style.display = 'block';
 };
@@ -455,7 +499,7 @@ window.switchEmployeeMasterTab = function(tabName, element) {
  * Place this inside js/employee_data.js
  */
 const originalTabSwitcher = window.switchEmployeeMasterTab;
-window.switchEmployeeMasterTab = function(tabName, element) {
+window.switchEmployeeMasterTab = function (tabName, element) {
     // Log the tab switch
     console.log("switchEmployeeMasterTab: Switched to tab:", tabName);
     const container = element.closest('.employee-master-container');
@@ -493,7 +537,7 @@ window.switchEmployeeMasterTab = function(tabName, element) {
 /**
  * Deletes the currently selected employee using the backend endpoint.
  */
-window.deleteEmployee = async function() {
+window.deleteEmployee = async function () {
     // Find the selected row across the employee master table
     const selectedRow = document.querySelector('.employee-list-table tr.selected');
     if (!selectedRow) {
@@ -536,7 +580,7 @@ window.deleteEmployee = async function() {
 /**
  * Initializes the Employee Master Screen (employee-master.html).
  */
-window.initEmployeeMaster = function() {
+window.initEmployeeMaster = function () {
     console.log("initEmployeeMaster: Initializing Employee Master Screen...");
     ensureEmployeeStyles();
 
@@ -591,7 +635,7 @@ window.initEmployeeMaster = function() {
         tbody.addEventListener('click', (e) => {
             const tr = e.target.closest('tr');
             if (!tr) return;
-            
+
             // Deselect others in this table
             tbody.querySelectorAll('tr.selected').forEach(r => r.classList.remove('selected'));
             tr.classList.add('selected');
@@ -607,7 +651,7 @@ window.initEmployeeMaster = function() {
  * Initializes the Employee Create Screen (employee-create.html).
  * Can be called if loaded as a page or after dynamic injection as a modal.
  */
-window.initEmployeeCreate = function() {
+window.initEmployeeCreate = function () {
     console.log("Initializing Employee Create Modal/Screen...");
     ensureEmployeeStyles();
 
@@ -716,10 +760,10 @@ window.initEmployeeCreate = function() {
  * @param {Array} items
  * @param {string} placeholder
  */
-window.populateEmployeeCreateSelect = function(selectId, items = []) {
+window.populateEmployeeCreateSelect = function (selectId, items = []) {
     const select = document.getElementById(selectId);
     if (!select) return;
-    
+
     items.forEach(item => {
         const option = document.createElement('option');
         option.value = item.id ?? item.value ?? '';
@@ -730,7 +774,7 @@ window.populateEmployeeCreateSelect = function(selectId, items = []) {
 
 window.employeeCreateLookupEndpoint = window.employeeCreateLookupEndpoint || '/api/v1/payroll/lookups/employeeCreate';
 
-window.loadEmployeeCreateOptions = async function() {
+window.loadEmployeeCreateOptions = async function () {
     // 1. Map select tag IDs to the property keys returned in the lookup payload
     const selectMap = {
         EMP_STATUS: 'staffStatuses',
@@ -763,7 +807,7 @@ window.loadEmployeeCreateOptions = async function() {
             throw new Error('apiFetch utility from auth.js is not loaded.');
         }
 
-        // 2. Perform GET request via global apiFetch wrapper (attaches Auth headers automatically)
+        // 2. Perform POST request via global apiFetch wrapper (attaches Auth headers automatically)
         const response = await apiFetch(endpoint, {
             method: 'GET'
         });
@@ -798,7 +842,7 @@ window.loadEmployeeCreateOptions = async function() {
 /**
  * Generates and prints the Employee List using the layout from printing.html
  */
-window.printEmployeeList = function() {
+window.printEmployeeList = function () {
     const companyName = "Institute Name"; // Placeholder or pull from config
     const printDate = new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' });
 
@@ -1039,7 +1083,7 @@ function renderPayslipBreakdown() {
     items.forEach(item => {
         const tr = document.createElement('tr');
         if (item.type === 'header') tr.className = 'row-header';
-        
+
         let amtCell = '';
         if (item.type !== 'empty' && item.type !== 'header') {
             amtCell = `<td class="editable-amt" id="PS_AMT_${item.id}" oninput="updatePayslipTotal()">0</td>`;
@@ -1059,7 +1103,7 @@ function renderPayslipBreakdown() {
 /**
  * Triggers the /api/v1/payroll/calculateEmployeeSalary endpoint with modal parameters.
  */
-window.calculateSalary = async function() {
+window.calculateSalary = async function () {
     // Utility helper to extract clean, unformatted numbers from input fields
     const getCleanVal = (id) => {
         const input = document.getElementById(id);
@@ -1072,20 +1116,20 @@ window.calculateSalary = async function() {
     const payBasisVal = payBasisSelect ? parseInt(payBasisSelect.value, 10) : 2;
 
     const payload = {
-        basicSalary: getCleanVal('PS_INPUT_1'),
-        overtime: getCleanVal('PS_INPUT_2'),
-        seniorityBonus: getCleanVal('PS_INPUT_3'),
-        dutyPostAllowance: getCleanVal('PS_INPUT_4'),
-        researchAllowance: getCleanVal('PS_INPUT_5'),
-        transportAllowance: getCleanVal('PS_INPUT_6'),
-        representationAllowance: getCleanVal('PS_INPUT_7'),
-        housingAllowance: getCleanVal('PS_INPUT_8'),
-        waterAllowance: getCleanVal('PS_INPUT_10'),
-        electricityAllowance: getCleanVal('PS_INPUT_11'),
-        basketAllowance: getCleanVal('PS_INPUT_14'),
-        medicalDeductions: getCleanVal('PS_INPUT_32'),
-        payBasis: payBasisVal,
-        staffStatus: parseInt(document.getElementById('PS_STAFF_STATUS')?.value || '1', 10)
+        BasicSalary: getCleanVal('PS_INPUT_1'),
+        Overtime: getCleanVal('PS_INPUT_2'),
+        SeniorityBonus: getCleanVal('PS_INPUT_3'),
+        DutyPostAllowance: getCleanVal('PS_INPUT_4'),
+        ResearchAllowance: getCleanVal('PS_INPUT_5'),
+        TransportAllowance: getCleanVal('PS_INPUT_6'),
+        RepresentationAllowance: getCleanVal('PS_INPUT_7'),
+        HousingAllowance: getCleanVal('PS_INPUT_8'),
+        WaterAllowance: getCleanVal('PS_INPUT_10'),
+        ElectricityAllowance: getCleanVal('PS_INPUT_11'),
+        BasketAllowance: getCleanVal('PS_INPUT_14'),
+        MedicalDeductions: getCleanVal('PS_INPUT_32'),
+        PayBasis: payBasisVal,
+        StaffStatus: parseInt(document.getElementById('PS_STAFF_STATUS')?.value || '1', 10)
     };
 
     try {
@@ -1192,7 +1236,7 @@ window.calculateSalary = async function() {
 /**
  * Syncs values from sidebar inputs to the main computation table.
  */
-window.syncPayslipTable = function(id, value) {
+window.syncPayslipTable = function (id, value) {
     const numericVal = value.replace(/[^0-9]/g, '') || 0;
     const target = document.getElementById(`PS_AMT_${id}`);
     if (target) {
@@ -1204,18 +1248,18 @@ window.syncPayslipTable = function(id, value) {
 /**
  * Calculates the Net Payment and updates the footer.
  */
-window.updatePayslipTotal = function() {
+window.updatePayslipTotal = function () {
     // Simplified calculation for demo: Net Payment (34) = Gross (16) - Deductions (33)
     // In real app, this would involve complex payroll formulas.
     const getAmt = (id) => parseFloat(document.getElementById(`PS_AMT_${id}`)?.textContent.replace(/,/g, '')) || 0;
-    
+
     const netPayment = getAmt(1) + getAmt(2); // Just for visualization in this context
-    
+
     const netEl = document.getElementById('PAYSLIP_NetTotal');
     if (netEl) netEl.textContent = Number(netPayment).toLocaleString() + " FCFA";
 };
 
-window.openPayslipSetupModal = function() {
+window.openPayslipSetupModal = function () {
     const createModal = document.getElementById('create-employee-overlay');
     const firstNameInput = document.getElementById('EMP_FIRST_NAME');
     const mo = document.getElementById('MODAL_ModifyEmployee');
@@ -1234,7 +1278,7 @@ window.openPayslipSetupModal = function() {
 
     injectPayslipSetupModal();
     const modal = document.getElementById('MODAL_PayslipSetup');
-    
+
     // Dynamic Name Fetching Logic
     let fullName = 'NEW EMPLOYEE';
     const modModal = document.getElementById('MODAL_ModifyEmployee');
@@ -1259,14 +1303,14 @@ window.openPayslipSetupModal = function() {
     }
 };
 
-window.closePayslipSetupModal = function() {
+window.closePayslipSetupModal = function () {
     document.getElementById('MODAL_PayslipSetup').style.display = 'none';
 };
 
 /**
  * Compiles all tabs data and creates the new employee record using POST method
  */
-window.submitCreateEmployeeForm = async function() {
+window.submitCreateEmployeeForm = async function () {
     const getCleanNum = (id) => {
         const el = document.getElementById(id);
         if (!el) return 0;
@@ -1288,56 +1332,80 @@ window.submitCreateEmployeeForm = async function() {
     const compiledFullName = [fName, mName, lName].filter(Boolean).join(' ') || 'New Employee';
 
     const payload = {
-        firstName: fName,
-        middleName: mName,
-        lastName: lName,
-        fullName: compiledFullName,
-        titleId: getSelectInt('EMP_TITLE'),
-        genderId: getSelectInt('EMP_GENDER'),
-        civilStatus: getSelectInt('EMP_CIVIL_STATUS'),
-        telephone1: document.getElementById('EMP_TELEPHONE')?.value.trim() || '',
-        telephone2: document.getElementById('EMP_TEL2')?.value.trim() || '',
-        email: document.getElementById('EMP_EMAIL')?.value.trim() || '',
-        address: document.getElementById('EMP_ADDRESS')?.value.trim() || '',
-        placeOfBirth: document.getElementById('EMP_POB')?.value.trim() || '',
-        nationalityId: getSelectInt('EMP_NATIONALITY'),
-        denominationId: getSelectInt('EMP_DENOMINATION'),
-        noOfChildren: parseInt(document.getElementById('EMP_CHILDREN')?.value || '0', 10),
-        employmentDate: document.getElementById('EMP_DATE')?.value || '',
-        branchId: getSelectInt('EMP_BRANCH'),
-        departmentId: getSelectInt('EMP_DEPARTMENT'),
-        positionId: getSelectInt('EMP_POST'),
-        categoryId: getSelectInt('EMP_CATEGORY'),
-        echelonId: getSelectInt('EMP_ECHELON'),
-        payBasis: getSelectInt('EMP_EMPLOYEE_TYPE'),
-        staffStatus: getSelectInt('EMP_STATUS'),
-        emergencyName1: document.getElementById('EMP_ICE1_NAME')?.value.trim() || '',
-        emergencyNum1: document.getElementById('EMP_ICE1_TEL')?.value.trim() || '',
-        emergencyName2: document.getElementById('EMP_ICE2_NAME')?.value.trim() || '',
-        emergencyNum2: document.getElementById('EMP_ICE2_TEL')?.value.trim() || '',
-        identification: document.getElementById('EMP_ID_TYPE')?.value || 'ID Card',
-        identificationNum: document.getElementById('EMP_ID_NUM')?.value.trim() || '',
-        identificationPlace: document.getElementById('EMP_ID_PLACE')?.value.trim() || '',
-        nid: getCleanNum('EMP_NID'),
-        niu: document.getElementById('EMP_NIU')?.value.trim() || '',
-        cnpsNo: document.getElementById('EMP_CNPS')?.value.trim() || '',
-        paymentMode: document.getElementById('EMP_PAY_MODE')?.value || 'Cash',
-        bankName: document.getElementById('EMP_BANK_NAME')?.value.trim() || '',
-        bankAccountNo: document.getElementById('EMP_BANK_ACC')?.value.trim() || '',
+        TitleID: getSelectInt('EMP_TITLE'),
+        FirstName: fName,
+        MiddleName: mName,
+        LastName: lName,
+        FullName: compiledFullName,
+        GenderID: getSelectInt('EMP_GENDER'),
+        CivilStatus: getSelectInt('EMP_CIVIL_STATUS'),
+        DOB: document.getElementById('EMP_DOB')?.value || '',
+        PlaceOfBirth: document.getElementById('EMP_BIRTH_PLACE')?.value.trim() || '',
+        Telephone1: document.getElementById('EMP_TELEPHONE')?.value.trim() || '',
+        Telephone2: document.getElementById('EMP_TEL2')?.value.trim() || '',
+        Email: document.getElementById('EMP_EMAIL')?.value.trim() || '',
+        Address: document.getElementById('EMP_ADDRESS')?.value.trim() || '',
+        NationalityID: getSelectInt('EMP_NATIONALITY'),
+        DenominationID: getSelectInt('EMP_DENOMINATION'),
+        NoOfChildren: parseInt(document.getElementById('EMP_CHILDREN')?.value || '0', 10),
+        EmploymentDate: document.getElementById('EMP_EMP_DATE')?.value || '',
+        BranchID: getSelectInt('EMP_BRANCH'),
+        DepartmentID: getSelectInt('EMP_DEPARTMENT'),
+        PositionID: getSelectInt('EMP_POST'),
+        CategoryID: getSelectInt('EMP_CATEGORY'),
+        EchelonID: getSelectInt('EMP_ECHELON'),
+        PayBasis: getSelectInt('EMP_EMPLOYEE_TYPE'),
+        StaffStatus: getSelectInt('EMP_STATUS'),
+        EmergencyName1: document.getElementById('EMP_EMERGENCY_NAME_1')?.value.trim() || '',
+        EmergencyNum1: document.getElementById('EMP_EMERGENCY_PHONE_1')?.value.trim() || '',
+        EmergencyName2: document.getElementById('EMP_EMERGENCY_NAME_2')?.value.trim() || '',
+        EmergencyNum2: document.getElementById('EMP_EMERGENCY_PHONE_2')?.value.trim() || '',
+        Identification: document.getElementById('EMP_ID_TYPE')?.value || 'ID Card',
+        IdentificationNum: document.getElementById('EMP_ID_NUMBER')?.value.trim() || '',
+        IdentificationPlace: document.getElementById('EMP_ID_PLACE_OF_ISSUE')?.value.trim() || '',
+        IDStartDate: document.getElementById('EMP_ID_ISSUE_DATE')?.value || '',
+        IDEndDate: document.getElementById('EMP_ID_EXPIRY_DATE')?.value || '',
+        NID: document.getElementById('EMP_NID')?.value.trim() || '',
+        NIU: document.getElementById('EMP_NIU')?.value.trim() || '',
+        CNPSNo: document.getElementById('EMP_CNPS')?.value.trim() || '',
+        CNPSYN: document.getElementById('EMP_CNPS_YN')?.value || 'No',
+        PassportIdentification: document.getElementById('EMP_PASSPORT_ID_TYPE')?.value.trim() || '',
+        PassportIDNum: document.getElementById('EMP_PASSPORT_NUMBER')?.value.trim() || '',
+        PassportPlaceOfIssue: document.getElementById('EMP_PASSPORT_PLACE_ISSUE')?.value.trim() || '',
+        PassportStartDate: document.getElementById('EMP_PASSPORT_ISSUE_DATE')?.value || '',
+        PassportEndDate: document.getElementById('EMP_PASSPORT_EXPIRY_DATE')?.value || '',
+        LastDiploma: document.getElementById('EMP_LAST_DIPLOMA')?.value.trim() || '',
+        LastJob: document.getElementById('EMP_LAST_JOB')?.value.trim() || '',
+        LastEmployer: document.getElementById('EMP_LAST_EMPLOYER')?.value.trim() || '',
+        LastJobStartDate: document.getElementById('EMP_LAST_JOB_START_DATE')?.value || '',
+        LastJobEndDate: document.getElementById('EMP_LAST_JOB_END_DATE')?.value || '',
+        PaymentMode: document.getElementById('EMP_PAY_MODE')?.value || 'Cash',
+        BankName: document.getElementById('EMP_BANK_NAME')?.value.trim() || '',
+        BankAccountNo: document.getElementById('EMP_BANK_ACCOUNT_NUMBER')?.value.trim() || '',
+        BankCode: document.getElementById('EMP_BANK_CODE')?.value.trim() || '',
+        BranchCode: document.getElementById('EMP_BANK_BRANCH_CODE')?.value.trim() || '',
+        AccountKey: document.getElementById('EMP_BANK_ACCOUNT_KEY')?.value.trim() || '',
+        RIBKey: document.getElementById('EMP_BANK_RIB_KEY')?.value.trim() || '',
+        AccountFirstName: document.getElementById('EMP_BANK_FIRST_NAME')?.value.trim() || '',
+        AccountLastName: document.getElementById('EMP_BANK_LAST_NAME')?.value.trim() || '',
+        CardNumber: document.getElementById('EMP_PREPAID_CARD_NUMBER')?.value.trim() || '',
+        PayRate: getCleanNum('EMP_PAYRATE'),
+        NormalWorkingHours: parseInt(document.getElementById('EMP_NORMAL_HOURS')?.value || '0', 10),
+        OvertimeRate: getCleanNum('EMP_OVERTIME_RATE'),
 
         // If employee profile is not 'Fixed Rate', enforce zeroing parameters out completely
-        basicSalary: isFixedRate ? getCleanNum('PS_INPUT_1') : 0,
-        overtime: isFixedRate ? getCleanNum('PS_INPUT_2') : 0,
-        seniorityBonus: isFixedRate ? getCleanNum('PS_INPUT_3') : 0,
-        dutyPostAllowance: isFixedRate ? getCleanNum('PS_INPUT_4') : 0,
-        researchAllowance: isFixedRate ? getCleanNum('PS_INPUT_5') : 0,
-        transportAllowance: isFixedRate ? getCleanNum('PS_INPUT_6') : 0,
-        representationAllowance: isFixedRate ? getCleanNum('PS_INPUT_7') : 0,
-        housingAllowance: isFixedRate ? getCleanNum('PS_INPUT_8') : 0,
-        waterAllowance: isFixedRate ? getCleanNum('PS_INPUT_10') : 0,
-        electricityAllowance: isFixedRate ? getCleanNum('PS_INPUT_11') : 0,
-        basketAllowance: isFixedRate ? getCleanNum('PS_INPUT_14') : 0,
-        medicalDeductions: isFixedRate ? getCleanNum('PS_INPUT_32') : 0
+        BasicSalary: isFixedRate ? getCleanNum('PS_INPUT_1') : 0,
+        Overtime: isFixedRate ? getCleanNum('PS_INPUT_2') : 0,
+        SeniorityBonus: isFixedRate ? getCleanNum('PS_INPUT_3') : 0,
+        DutyPostAllowance: isFixedRate ? getCleanNum('PS_INPUT_4') : 0,
+        ResearchAllowance: isFixedRate ? getCleanNum('PS_INPUT_5') : 0,
+        TransportAllowance: isFixedRate ? getCleanNum('PS_INPUT_6') : 0,
+        RepresentationAllowance: isFixedRate ? getCleanNum('PS_INPUT_7') : 0,
+        HousingAllowance: isFixedRate ? getCleanNum('PS_INPUT_8') : 0,
+        WaterAllowance: isFixedRate ? getCleanNum('PS_INPUT_10') : 0,
+        ElectricityAllowance: isFixedRate ? getCleanNum('PS_INPUT_11') : 0,
+        BasketAllowance: isFixedRate ? getCleanNum('PS_INPUT_14') : 0,
+        MedicalDeductions: isFixedRate ? getCleanNum('PS_INPUT_32') : 0
     };
 
     const id = window.currentEditingEmployeeId;
