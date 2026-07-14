@@ -1,0 +1,333 @@
+<!-- screens/hr-payroll/other-hcm.html -->
+<div class="page-header">
+    <h2>Other HCM Setup</h2>
+</div>
+<div style="text-align: center; font-size: 12px; color: #666; margin-top: 4px; margin-bottom: 10px;">Configure and Manage General Human Capital Management Settings</div>
+
+<div class="hcm-container">
+    <!-- Toolbar with Action Buttons -->
+    <div class="coa-toolbar" style="padding: 8px 10px; display: flex; justify-content: flex-end; align-items: center; background: #f8f9fc; border-bottom: 1px solid #ccc;">
+        <div class="coa-right-tools" style="display: flex; gap: 8px;">
+            <button class="wd-action-btn primary" onclick="OtherHcmManager.openNew()">
+                New <i class="fa-solid fa-plus-circle"></i>
+            </button>
+            <button class="wd-action-btn primary" onclick="OtherHcmManager.openModify()">
+                Modify <i class="fa-solid fa-pen"></i>
+            </button>
+            <button class="wd-action-btn danger" onclick="OtherHcmManager.handleDelete()">
+                Delete <i class="fa-solid fa-circle-minus"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Top Tabs Navigation -->
+    <div class="hcm-tabs-wrap" style="background: #f1f3f7; border-bottom: 1px solid #ccc; display: flex; overflow-x: auto; padding: 5px 10px 0 10px; gap: 4px;">
+        <div class="hcm-tab active" data-tab="branches" onclick="OtherHcmManager.switchTab('branches', this)">Branches</div>
+        <div class="hcm-tab" data-tab="departments" onclick="OtherHcmManager.switchTab('departments', this)">Departments</div>
+        <div class="hcm-tab" data-tab="directions" onclick="OtherHcmManager.switchTab('directions', this)">Directions</div>
+        <div class="hcm-tab" data-tab="positions" onclick="OtherHcmManager.switchTab('positions', this)">Positions</div>
+        <div class="hcm-tab" data-tab="categories" onclick="OtherHcmManager.switchTab('categories', this)">Categories</div>
+        <div class="hcm-tab" data-tab="echelons" onclick="OtherHcmManager.switchTab('echelons', this)">Echelons</div>
+        <div class="hcm-tab" data-tab="titles" onclick="OtherHcmManager.switchTab('titles', this)">Titles</div>
+        <div class="hcm-tab" data-tab="denominations" onclick="OtherHcmManager.switchTab('denominations', this)">Denominations</div>
+        <div class="hcm-tab" data-tab="salaryCategories" onclick="OtherHcmManager.switchTab('salaryCategories', this)">Salary Categories</div>
+    </div>
+
+    <!-- Tab Panels Container -->
+    <div class="hcm-content-row" style="flex: 1; overflow: hidden; position: relative;">
+        <!-- Branches Panel -->
+        <div id="PANEL_branches" class="hcm-panel" style="display: block;">
+            <div class="hcm-table-wrapper">
+                <table class="wd-table hcm-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px; text-align: center;">Branch ID</th>
+                            <th>Branch Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TB_hcm_branches"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Departments Panel -->
+        <div id="PANEL_departments" class="hcm-panel" style="display: none;">
+            <div class="hcm-table-wrapper">
+                <table class="wd-table hcm-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px; text-align: center;">Department ID</th>
+                            <th>Department Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TB_hcm_departments"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Directions Panel -->
+        <div id="PANEL_directions" class="hcm-panel" style="display: none;">
+            <div class="hcm-table-wrapper">
+                <table class="wd-table hcm-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px; text-align: center;">Direction ID</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TB_hcm_directions"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Positions Panel -->
+        <div id="PANEL_positions" class="hcm-panel" style="display: none;">
+            <div class="hcm-table-wrapper">
+                <table class="wd-table hcm-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px; text-align: center;">Position ID</th>
+                            <th>Position Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TB_hcm_positions"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Categories Panel -->
+        <div id="PANEL_categories" class="hcm-panel" style="display: none;">
+            <div class="hcm-table-wrapper">
+                <table class="wd-table hcm-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px; text-align: center;">Category ID</th>
+                            <th>Category Name</th>
+                            <th style="width: 150px; text-align: right;">Lower Limit</th>
+                            <th style="width: 150px; text-align: right;">Upper Limit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TB_hcm_categories"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Echelons Panel -->
+        <div id="PANEL_echelons" class="hcm-panel" style="display: none;">
+            <div class="hcm-table-wrapper">
+                <table class="wd-table hcm-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px; text-align: center;">Echelon ID</th>
+                            <th>Echelon Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TB_hcm_echelons"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Titles Panel -->
+        <div id="PANEL_titles" class="hcm-panel" style="display: none;">
+            <div class="hcm-table-wrapper">
+                <table class="wd-table hcm-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px; text-align: center;">Title ID</th>
+                            <th>Title Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TB_hcm_titles"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Denominations Panel -->
+        <div id="PANEL_denominations" class="hcm-panel" style="display: none;">
+            <div class="hcm-table-wrapper">
+                <table class="wd-table hcm-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px; text-align: center;">Denomination ID</th>
+                            <th>Denomination Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TB_hcm_denominations"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Salary Categories Panel -->
+        <div id="PANEL_salaryCategories" class="hcm-panel" style="display: none;">
+            <div class="hcm-table-wrapper">
+                <table class="wd-table hcm-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px; text-align: center;">Salary Category ID</th>
+                            <th>Salary Category Name</th>
+                            <th style="width: 150px; text-align: right;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TB_hcm_salaryCategories"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for New/Modify Setup Records -->
+<div id="MODAL_OtherHcm" class="coa-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 10005; align-items: center; justify-content: center;">
+    <div class="coa-modal" style="width: 480px; background: #f0f0f0; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); overflow: hidden; border: 1px solid #888;">
+        <!-- Modal Header -->
+        <div class="coa-modal-header" id="MOH_Header" style="background: #2e3192; color: white; padding: 10px 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move; user-select: none;">
+            <div id="MOH_Title" style="font-size: 14px;">New Branches Setup</div>
+            <div style="font-size: 22px; color: #fff; opacity: 0.8; cursor: pointer; padding: 0 5px;" onclick="OtherHcmManager.closeModal()" onmousedown="event.stopPropagation()">&times;</div>
+        </div>
+        <!-- Modal Body -->
+        <div class="coa-modal-body" style="padding: 20px; background: #fff; display: flex; flex-direction: column; gap: 15px;">
+            <div style="text-align: center; background: #333; color: white; padding: 10px; border-radius: 2px; margin-bottom: 10px;">
+                <span id="MOH_BodyHeader" style="font-size: 13px; font-weight: bold;">Creating a new Branch</span>
+            </div>
+            
+            <form id="MOH_Form" onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 12px;">
+                <!-- Main Value Input (Branch Name / Dept Name / Description / Position Name etc.) -->
+                <div class="form-row-setup">
+                    <label id="LBL_MohValue" style="width: 130px; font-weight: bold;">Branch Name</label>
+                    <input type="text" id="INP_MohValue" class="wd-input-setup" placeholder="Enter name...">
+                </div>
+                
+                <!-- Category Specific: Lower Limit -->
+                <div class="form-row-setup field-cat-only" style="display: none;">
+                    <label style="width: 130px; font-weight: bold;">Lower Limit</label>
+                    <input type="number" id="INP_MohLowerLimit" class="wd-input-setup" value="0">
+                </div>
+                
+                <!-- Category Specific: Upper Limit -->
+                <div class="form-row-setup field-cat-only" style="display: none;">
+                    <label style="width: 130px; font-weight: bold;">Upper Limit</label>
+                    <input type="number" id="INP_MohUpperLimit" class="wd-input-setup" value="0">
+                </div>
+
+                <!-- Salary Category Specific: Amount -->
+                <div class="form-row-setup field-sal-only" style="display: none;">
+                    <label style="width: 130px; font-weight: bold;">Amount</label>
+                    <input type="number" id="INP_MohAmount" class="wd-input-setup" value="0">
+                </div>
+            </form>
+        </div>
+        <!-- Modal Footer -->
+        <div class="coa-modal-footer" style="padding: 12px; background: #f5f5f5; border-top: 1px solid #ddd; text-align: right; display: flex; justify-content: center; gap: 15px;">
+            <button class="wd-btn primary" style="padding: 8px 25px;" onclick="OtherHcmManager.handleSave()">
+                Validate <i class="fa-solid fa-circle-check"></i>
+            </button>
+            <button class="wd-btn danger" style="padding: 8px 25px;" onclick="OtherHcmManager.closeModal()">
+                Cancel <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hcm-container {
+        height: calc(100% - 75px);
+        border: 1px solid #ccc;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+    }
+    
+    .hcm-tab {
+        padding: 8px 16px;
+        background: #e0e4ec;
+        color: #333;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        border-radius: 4px 4px 0 0;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.15s ease-in-out;
+        white-space: nowrap;
+    }
+    
+    .hcm-tab.active {
+        background: #2e3192;
+        color: #fff;
+        border-color: #2e3192;
+    }
+    
+    .hcm-tab:hover:not(.active) {
+        background: #d0d5e2;
+    }
+    
+    .hcm-panel {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+    }
+    
+    .hcm-table-wrapper {
+        height: 100%;
+        overflow: auto;
+    }
+    
+    .hcm-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .hcm-table thead th {
+        background: #2e3192;
+        color: #fff;
+        padding: 10px;
+        text-align: left;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-right: 1px solid #1f226f;
+        font-size: 13px;
+        font-weight: 600;
+    }
+    
+    .hcm-table tbody td {
+        padding: 6px 12px;
+        border-bottom: 1px solid #b4c7e7;
+        border-right: 1px solid #b4c7e7;
+        font-size: 13px;
+        color: #000;
+        height: 32px;
+        vertical-align: middle;
+    }
+    
+    .hcm-table tr:nth-child(even) {
+        background-color: #f2f7ff;
+    }
+    
+    .hcm-table tr.selected td {
+        background-color: #cd2027 !important;
+        color: #fff !important;
+    }
+    
+    .hcm-table tr:hover:not(.selected) td {
+        background-color: #e6f1ff;
+    }
+    
+    .form-row-setup {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .form-row-setup label {
+        width: 120px;
+        font-size: 12px;
+        color: #333;
+    }
+    .wd-input-setup {
+        flex: 1;
+        padding: 6px;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        font-size: 12px;
+    }
+</style>

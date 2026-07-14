@@ -91,7 +91,7 @@ window.fetchEmployeeList = async function () {
         departmentId: parseInt(departmentId)
     };
 
-    console.log("fetchEmployeeList: Sending payload:", payload);
+    console.log("fetchEmployeeList: Validating and sending payload:", payload);
 
     try {
         const response = await apiFetch('/api/v1/payroll/getEmployeeList', {
@@ -120,6 +120,7 @@ window.loadEmployeeMasterData = async function () {
 
     try {
         console.log("loadEmployeeMasterData: Fetching lookup data from /api/v1/payroll/lookups/employeeCreate");
+        console.log("loadEmployeeMasterData: Validating and sending payload (GET, no payload): {}");
         const response = await apiFetch('/api/v1/payroll/lookups/employeeCreate', {
             method: 'GET'
         });
@@ -225,8 +226,10 @@ window.openCreateEmployeeModal = async function (employeeId = null) {
             if (submitBtn) submitBtn.innerHTML = 'Update Record <i class="fa-solid fa-save"></i>';
 
             try {
+                console.log("getEmployeeDetails: Validating and sending payload:", { employeeId });
                 const response = await apiFetch(`/api/v1/payroll/getEmployeeDetails/${employeeId}`, { method: 'GET' });
                 if (response && response.success) {
+                    console.log("getEmployeeDetails: Data: ", response.data);
                     populateEmployeeForm(response.data);
                 } else {
                     showAlert(response?.message || "Failed to load details.", "error");
@@ -264,6 +267,7 @@ function populateEmployeeForm(d) {
         if (!val) return "";
         return val.split('T')[0];
     };
+    setVal('EMP_SN', d.serialNum);
 
     // Basic Info Tab
     setVal('EMP_STATUS', d.staffStatus ?? d.StaffStatus);
@@ -304,12 +308,12 @@ function populateEmployeeForm(d) {
     setVal('EMP_ID_PLACE_OF_ISSUE', d.identificationPlace ?? d.IdentificationPlace);
     setVal('EMP_ID_ISSUE_DATE', formatDate(d.idStartDate ?? d.IDStartDate));
     setVal('EMP_ID_EXPIRY_DATE', formatDate(d.idEndDate ?? d.IDEndDate));
-    setVal('EMP_CNPS_YN', d.cnpsyn ?? d.CNPSYN);
+    setVal('EMP_CNPS_YN', d.cnpsYn ?? d.CNPSYN);
     setVal('EMP_NIU', d.niu ?? d.NIU);
 
     // Passport Details
     setVal('EMP_PASSPORT_ID_TYPE', d.passportIdentification ?? d.PassportIdentification);
-    setVal('EMP_PASSPORT_NUMBER', d.passportIDNum ?? d.PassportIDNum);
+    setVal('EMP_PASSPORT_NUMBER', d.passportIdNum ?? d.PassportIDNum);
     setVal('EMP_PASSPORT_PLACE_ISSUE', d.passportPlaceOfIssue ?? d.PassportPlaceOfIssue);
     setVal('EMP_PASSPORT_ISSUE_DATE', formatDate(d.passportStartDate ?? d.PassportStartDate));
     setVal('EMP_PASSPORT_EXPIRY_DATE', formatDate(d.passportEndDate ?? d.PassportEndDate));
@@ -334,7 +338,7 @@ function populateEmployeeForm(d) {
     setVal('EMP_BANK_CREATION_DATE', formatDate(d.accountCreationDate ?? d.AccountCreationDate));
     setVal('EMP_PREPAID_CARD_NUMBER', d.cardNumber ?? d.CardNumber);
     setVal('EMP_PREPAID_EXPIRY_DATE', formatDate(d.prepaidExpiryDate ?? d.PrepaidExpiryDate));
-    
+
     setVal('EMP_NORMAL_HOURS', d.normalWorkingHours ?? d.NormalWorkingHours);
     setFCFA('EMP_PAYRATE', d.payRate ?? d.PayRate);
     setFCFA('EMP_OVERTIME_RATE', d.overtimeRate ?? d.OvertimeRate);
@@ -551,6 +555,7 @@ window.deleteEmployee = async function () {
     const performDelete = async () => {
         try {
             // Call the delete endpoint with PUT method and an empty body as requested
+            console.log("deleteEmployee: Validating and sending payload:", { employeeId });
             const response = await apiFetch(`/api/v1/payroll/deleteEmployee/${employeeId}`, {
                 method: 'PUT',
                 body: {}
@@ -808,6 +813,7 @@ window.loadEmployeeCreateOptions = async function () {
         }
 
         // 2. Perform POST request via global apiFetch wrapper (attaches Auth headers automatically)
+        console.log("loadEmployeeCreateOptions: Validating and sending payload (GET, no payload):", { endpoint });
         const response = await apiFetch(endpoint, {
             method: 'GET'
         });
@@ -1137,6 +1143,7 @@ window.calculateSalary = async function () {
             throw new Error('apiFetch utility from auth.js is not loaded.');
         }
 
+        console.log("calculateSalary: Validating and sending payload:", payload);
         const response = await apiFetch('/api/v1/payroll/calculateEmployeeSalary', {
             method: 'POST',
             body: payload
@@ -1417,6 +1424,7 @@ window.submitCreateEmployeeForm = async function () {
             throw new Error('Communication utility apiFetch is unavailable.');
         }
 
+        console.log("submitCreateEmployeeForm: Validating and sending payload:", payload);
         const response = await apiFetch(endpoint, {
             method: method,
             body: payload

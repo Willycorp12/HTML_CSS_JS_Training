@@ -123,7 +123,8 @@ const topMenus = [
                     { title: "How to Use this App", file: "help-how-to.html" },
                     { title: "Guiding Principles (CMR Payroll Basics)", file: "help-guiding-principles.html" }
                 ]
-            }
+            },
+            { title: "Other HCM", file: "other-hcm.html" }
         ]
     },
     {
