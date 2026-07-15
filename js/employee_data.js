@@ -19,6 +19,11 @@ window.currentEmployeeDataList = [];
  */
 window.renderEmployeeTable = function (data = []) {
     console.log("renderEmployeeTable: Called with data:", data);
+
+    // Clear search bar whenever the table loads or resets
+    const searchInput = document.getElementById('EMPLOYEE_SEARCH');
+    if (searchInput) searchInput.value = '';
+
     // Find the currently visible table container to render the correct tab's data
     const activeContent = Array.from(document.querySelectorAll('.employee-table-container'))
         .find(el => el.style.display !== 'none');
@@ -225,6 +230,16 @@ window.openCreateEmployeeModal = async function (employeeId = null) {
             if (titleEl) titleEl.textContent = "Modify Employee Details";
             if (submitBtn) submitBtn.innerHTML = 'Update Record <i class="fa-solid fa-save"></i>';
 
+            // Show longevity field (greyed out) when modifying
+            const longevityRow = document.getElementById('EMP_LONGEVITY')?.closest('.form-row');
+            if (longevityRow) longevityRow.style.display = '';
+            const longevityInput = document.getElementById('EMP_LONGEVITY');
+            if (longevityInput) {
+                longevityInput.readOnly = true;
+                longevityInput.style.background = '#eee';
+                longevityInput.style.color = '#666';
+            }
+
             try {
                 console.log("getEmployeeDetails: Validating and sending payload:", { employeeId });
                 const response = await apiFetch(`/api/v1/payroll/getEmployeeDetails/${employeeId}`, { method: 'GET' });
@@ -239,6 +254,10 @@ window.openCreateEmployeeModal = async function (employeeId = null) {
             resetEmployeeCreateForm();
             if (titleEl) titleEl.textContent = "Creating a New Employee";
             if (submitBtn) submitBtn.innerHTML = 'Validate <i class="fa-solid fa-circle-check"></i>';
+
+            // Hide longevity field when creating a new employee
+            const longevityRow = document.getElementById('EMP_LONGEVITY')?.closest('.form-row');
+            if (longevityRow) longevityRow.style.display = 'none';
         }
 
         // Reset to Basic Info tab
@@ -267,7 +286,7 @@ function populateEmployeeForm(d) {
         if (!val) return "";
         return val.split('T')[0];
     };
-    setVal('EMP_SN', d.serialNum);
+    setVal('EMP_SN', d.serialNumber);
 
     // Basic Info Tab
     setVal('EMP_STATUS', d.staffStatus ?? d.StaffStatus);
@@ -291,7 +310,18 @@ function populateEmployeeForm(d) {
     setVal('EMP_NATIONALITY', d.nationalityId ?? d.NationalityID);
     setVal('EMP_DENOMINATION', d.denominationId ?? d.DenominationID);
     setVal('EMP_CHILDREN', d.noOfChildren ?? d.NoOfChildren);
+    setVal('EMP_LEGAL_DAYS', d.legalDays ?? d.LegalDays);
     setVal('EMP_EMP_DATE', formatDate(d.employmentDate ?? d.EmploymentDate));
+
+    // Longevity - greyed out with " Years" suffix
+    const longevityVal = d.longevity ?? d.Longevity ?? 0;
+    const longevityEl = document.getElementById('EMP_LONGEVITY');
+    if (longevityEl) {
+        longevityEl.value = longevityVal + ' Years';
+        longevityEl.readOnly = true;
+        longevityEl.style.background = '#eee';
+        longevityEl.style.color = '#666';
+    }
     setVal('EMP_ADDRESS', d.address ?? d.Address);
     setVal('EMP_BIRTH_PLACE', d.placeOfBirth ?? d.PlaceOfBirth);
 
@@ -335,9 +365,9 @@ function populateEmployeeForm(d) {
     setVal('EMP_BANK_BRANCH_CODE', d.branchCode ?? d.BranchCode);
     setVal('EMP_BANK_ACCOUNT_KEY', d.accountKey ?? d.AccountKey);
     setVal('EMP_BANK_RIB_KEY', d.ribKey ?? d.RIBKey);
-    setVal('EMP_BANK_CREATION_DATE', formatDate(d.accountCreationDate ?? d.AccountCreationDate));
+    setVal('EMP_BANK_CREATION_DATE', formatDate(d.bankAccountCreationDate ?? d.BankAccountCreationDate));
     setVal('EMP_PREPAID_CARD_NUMBER', d.cardNumber ?? d.CardNumber);
-    setVal('EMP_PREPAID_EXPIRY_DATE', formatDate(d.prepaidExpiryDate ?? d.PrepaidExpiryDate));
+    setVal('EMP_PREPAID_EXPIRY_DATE', formatDate(d.prepaidCardExpiryDate ?? d.PrepaidCardExpiryDate));
 
     setVal('EMP_NORMAL_HOURS', d.normalWorkingHours ?? d.NormalWorkingHours);
     setFCFA('EMP_PAYRATE', d.payRate ?? d.PayRate);
@@ -768,6 +798,16 @@ window.initEmployeeCreate = function () {
 window.populateEmployeeCreateSelect = function (selectId, items = []) {
     const select = document.getElementById(selectId);
     if (!select) return;
+
+    // Add empty placeholder option for all selects except EMP_STATUS
+    if (selectId !== 'EMP_STATUS') {
+        const placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = '-- Select --';
+        placeholder.disabled = true;
+        placeholder.selected = true;
+        select.appendChild(placeholder);
+    }
 
     items.forEach(item => {
         const option = document.createElement('option');
@@ -1307,6 +1347,35 @@ window.openPayslipSetupModal = function () {
 
     if (modal) {
         modal.style.display = 'flex';
+
+        // Auto-focus on the first amount input field
+        setTimeout(() => {
+            const firstInput = modal.querySelector('.payslip-left-sidebar .fcfa-field');
+            if (firstInput) {
+                firstInput.focus();
+                if (typeof parseFCFAInput === 'function') parseFCFAInput(firstInput);
+            }
+
+            // Setup arrow key navigation between amount input fields
+            const allInputs = Array.from(modal.querySelectorAll('.payslip-left-sidebar .fcfa-field'));
+            if (!modal.dataset.arrowNavInit) {
+                modal.dataset.arrowNavInit = 'true';
+                modal.addEventListener('keydown', (e) => {
+                    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+                    const active = document.activeElement;
+                    const idx = allInputs.indexOf(active);
+                    if (idx === -1) return;
+                    e.preventDefault();
+                    let nextIdx = e.key === 'ArrowDown' ? idx + 1 : idx - 1;
+                    if (nextIdx < 0) nextIdx = allInputs.length - 1;
+                    if (nextIdx >= allInputs.length) nextIdx = 0;
+                    // Format current before leaving
+                    if (typeof formatFCFAInput === 'function') formatFCFAInput(active);
+                    allInputs[nextIdx].focus();
+                    if (typeof parseFCFAInput === 'function') parseFCFAInput(allInputs[nextIdx]);
+                });
+            }
+        }, 100);
     }
 };
 
@@ -1355,6 +1424,8 @@ window.submitCreateEmployeeForm = async function () {
         NationalityID: getSelectInt('EMP_NATIONALITY'),
         DenominationID: getSelectInt('EMP_DENOMINATION'),
         NoOfChildren: parseInt(document.getElementById('EMP_CHILDREN')?.value || '0', 10),
+        LegalDays: parseInt(document.getElementById('EMP_LEGAL_DAYS')?.value || '0', 10),
+        Longevity: parseInt((document.getElementById('EMP_LONGEVITY')?.value || '0').replace(/[^0-9.-]/g, '')) || 0,
         EmploymentDate: document.getElementById('EMP_EMP_DATE')?.value || '',
         BranchID: getSelectInt('EMP_BRANCH'),
         DepartmentID: getSelectInt('EMP_DEPARTMENT'),
@@ -1396,6 +1467,8 @@ window.submitCreateEmployeeForm = async function () {
         AccountFirstName: document.getElementById('EMP_BANK_FIRST_NAME')?.value.trim() || '',
         AccountLastName: document.getElementById('EMP_BANK_LAST_NAME')?.value.trim() || '',
         CardNumber: document.getElementById('EMP_PREPAID_CARD_NUMBER')?.value.trim() || '',
+        BankAccountCreationDate: document.getElementById('EMP_BANK_CREATION_DATE')?.value || '',
+        PrepaidCardExpiryDate: document.getElementById('EMP_PREPAID_EXPIRY_DATE')?.value || '',
         PayRate: getCleanNum('EMP_PAYRATE'),
         NormalWorkingHours: parseInt(document.getElementById('EMP_NORMAL_HOURS')?.value || '0', 10),
         OvertimeRate: getCleanNum('EMP_OVERTIME_RATE'),
