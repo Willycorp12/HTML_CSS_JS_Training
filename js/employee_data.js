@@ -20,10 +20,6 @@ window.currentEmployeeDataList = [];
 window.renderEmployeeTable = function (data = []) {
     console.log("renderEmployeeTable: Called with data:", data);
 
-    // Clear search bar whenever the table loads or resets
-    const searchInput = document.getElementById('EMPLOYEE_SEARCH');
-    if (searchInput) searchInput.value = '';
-
     // Find the currently visible table container to render the correct tab's data
     const activeContent = Array.from(document.querySelectorAll('.employee-table-container'))
         .find(el => el.style.display !== 'none');
@@ -97,6 +93,10 @@ window.fetchEmployeeList = async function () {
     };
 
     console.log("fetchEmployeeList: Validating and sending payload:", payload);
+
+    // Clear search bar whenever fresh data is loaded from the API
+    const searchInput = document.getElementById('EMPLOYEE_SEARCH');
+    if (searchInput) searchInput.value = '';
 
     try {
         const response = await apiFetch('/api/v1/payroll/getEmployeeList', {
@@ -780,6 +780,24 @@ window.initEmployeeCreate = function () {
     }
 
     handleEmployeeTypeChange();
+
+    // Auto-calculate longevity from employment date
+    const empDateInput = document.getElementById('EMP_EMP_DATE');
+    if (empDateInput) {
+        empDateInput.addEventListener('change', () => {
+            const longevityInput = document.getElementById('EMP_LONGEVITY');
+            if (!longevityInput) return;
+            const dateVal = empDateInput.value;
+            if (!dateVal) {
+                longevityInput.value = '0 Years';
+                return;
+            }
+            const empYear = new Date(dateVal).getFullYear();
+            const currentYear = new Date().getFullYear();
+            const years = Math.max(0, currentYear - empYear);
+            longevityInput.value = years + ' Years';
+        });
+    }
 
     // Load endpoint-driven selects for company info and related fields
     if (typeof window.loadEmployeeCreateOptions === 'function') {
