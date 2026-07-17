@@ -50,7 +50,7 @@ window.renderEmployeeTable = function (data = []) {
             <td class="fixed-col">${d.employmentDate || '---'}</td>
             <td>Taxable</td>
             <td>${d.telephone1 || '---'}</td>
-            <td>${d.serialNumber || '0'}</td>
+            <td>${d.nid || '0'}</td>
             <td>${d.cnpsNo || '---'}</td>
             <td>${d.staffStatus == 1 ? 'Active' : 'Suspended'}</td>
             <td>${posName}</td>
@@ -62,10 +62,17 @@ window.renderEmployeeTable = function (data = []) {
             <td>${d.address || '---'}</td>
             <td>${d.email || '---'}</td>
             <td class="amount">${Number(d.basicSalary || 0).toLocaleString()}</td>
-            <td class="amount">0</td><td class="amount">0</td><td class="amount">0</td>
-            <td class="amount">0</td><td class="amount">0</td><td class="amount">0</td>
-            <td class="amount">0</td><td class="amount">0</td><td class="amount">0</td>
-            <td class="amount">0</td><td class="amount">0</td>
+            <td class="amount">${Number(d.overtime || 0).toLocaleString()}</td>
+            <td class="amount">${Number(d.seniorityBonus || 0).toLocaleString()}</td>
+            <td class="amount">${Number(d.dutyAllowance || 0).toLocaleString()}</td>
+            <td class="amount">${Number(d.researchAllowance || 0).toLocaleString()}</td>
+            <td class="amount">${Number(d.transportAllowance || 0).toLocaleString()}</td>
+            <td class="amount">${Number(d.representationAllowance || 0).toLocaleString()}</td>
+            <td class="amount">${Number(d.housingAllowance || 0).toLocaleString()}</td>
+            <td class="amount">${Number(d.waterAllowance || 0).toLocaleString()}</td>
+            <td class="amount">${Number(d.electricityAllowance || 0).toLocaleString()}</td>
+            <td class="amount">${Number(d.basketAllowance || 0).toLocaleString()}</td>
+            <td class="amount">${Number(d.otherDeductions || 0).toLocaleString()}</td>
         `;
         tbody.appendChild(tr);
     });

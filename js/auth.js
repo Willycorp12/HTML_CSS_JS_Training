@@ -1,5 +1,5 @@
 const API_BASE = "https://www.buib-app.online";
-const API_KEY  = "KSL-CLIENT-2025-SECURE";
+const API_KEY = "KSL-CLIENT-2025-SECURE";
 
 const LOGIN_PAGE = "login.html";
 let sessionTimer = null;
@@ -68,7 +68,7 @@ function startSessionTimer() {
 
 async function apiFetch(path, options = {}) {
     if (!enforceSession()) {
-        return new Promise(() => {});
+        return new Promise(() => { });
     }
 
     const token = localStorage.getItem("SESSION_TOKEN");
@@ -92,7 +92,7 @@ async function apiFetch(path, options = {}) {
 
         if (response.status === 401 || response.status === 403) {
             redirectToLogin("server_rejected");
-            return new Promise(() => {});
+            return new Promise(() => { });
         }
 
         const rawText = await response.text();
@@ -121,7 +121,7 @@ async function apiFetch(path, options = {}) {
             )
         ) {
             redirectToLogin("server_session_expired");
-            return new Promise(() => {});
+            return new Promise(() => { });
         }
 
         return data;
@@ -142,7 +142,7 @@ window.logout = async function () {
         try {
             const resp = await fetch(API_BASE + "/api/v1/auth/logout", {
                 method: "POST",
-               headers: {
+                headers: {
                     "Content-Type": "application/json",
                     "X-API-KEY": API_KEY,
                     "X-SESSION-TOKEN": token
