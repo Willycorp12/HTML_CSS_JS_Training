@@ -30,6 +30,7 @@
         <div class="hcm-tab" data-tab="echelons" onclick="OtherHcmManager.switchTab('echelons', this)">Echelons</div>
         <div class="hcm-tab" data-tab="titles" onclick="OtherHcmManager.switchTab('titles', this)">Titles</div>
         <div class="hcm-tab" data-tab="denominations" onclick="OtherHcmManager.switchTab('denominations', this)">Denominations</div>
+        <div class="hcm-tab" data-tab="nationalities" onclick="OtherHcmManager.switchTab('nationalities', this)">Nationalities</div>
         <div class="hcm-tab" data-tab="salaryCategories" onclick="OtherHcmManager.switchTab('salaryCategories', this)">Salary Categories</div>
     </div>
 
@@ -153,6 +154,21 @@
                         </tr>
                     </thead>
                     <tbody id="TB_hcm_denominations"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Nationalities Panel -->
+        <div id="PANEL_nationalities" class="hcm-panel" style="display: none;">
+            <div class="hcm-table-wrapper">
+                <table class="wd-table hcm-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px; text-align: center;">Nationality ID</th>
+                            <th>Nationality Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TB_hcm_nationalities"></tbody>
                 </table>
             </div>
         </div>
