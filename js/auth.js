@@ -1,4 +1,4 @@
-const API_BASE = "https://www.buib-app.online/demo";
+const API_BASE = "https://www.buib-app.online";
 const API_KEY = "KSL-CLIENT-2025-SECURE";
 
 const LOGIN_PAGE = "login.html";

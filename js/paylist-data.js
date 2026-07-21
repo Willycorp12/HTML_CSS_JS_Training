@@ -36,7 +36,7 @@ function resolveLookupName(type, id) {
 /**
  * Loads lookups for salary generation screens and populates dropdowns.
  */
-window.loadSalaryGenerationLookups = async function() {
+window.loadSalaryGenerationLookups = async function () {
     try {
         let data;
         if (window.salaryLookupCache) {
@@ -141,7 +141,7 @@ window.loadSalaryGenerationLookups = async function() {
 /**
  * Fetches data from the /api/v1/payroll/getPayrollReportData endpoint if filters changed.
  */
-window.fetchPayrollReportData = async function(force = false) {
+window.fetchPayrollReportData = async function (force = false) {
     // Source filters from persistent state to ensure consistency during SPA navigation
     const filters = {
         month: window.payrollFilterState.month,
@@ -187,7 +187,7 @@ window.fetchPayrollReportData = async function(force = false) {
 /**
  * Generates the salary batch and forwards it for approval via the API.
  */
-window.generateSalaryBatch = async function() {
+window.generateSalaryBatch = async function () {
     const month = document.getElementById('PB_Filter_Month')?.value;
     const year = parseInt(document.getElementById('PB_Filter_Year')?.value) || 0;
     const branchId = parseInt(document.getElementById('PB_Filter_Branch')?.value) || 0;
@@ -215,7 +215,7 @@ window.generateSalaryBatch = async function() {
 /**
  * Render function for 'Generate Pay List' (paylist-generate.html)
  */
-window.initPaylistGenerate = async function(query = "", forceRefresh = false) {
+window.initPaylistGenerate = async function (query = "", forceRefresh = false) {
     await window.loadSalaryGenerationLookups();
     const report = await window.fetchPayrollReportData(forceRefresh);
 
@@ -293,7 +293,7 @@ window.initPaylistGenerate = async function(query = "", forceRefresh = false) {
 /**
  * Render function for 'CNPS Monthly Return' (paylist-cnps.html)
  */
-window.initPaylistCNPS = async function(forceRefresh = false) {
+window.initPaylistCNPS = async function (forceRefresh = false) {
     await window.loadSalaryGenerationLookups();
     const report = await window.fetchPayrollReportData(forceRefresh);
 
@@ -346,7 +346,7 @@ window.initPaylistCNPS = async function(forceRefresh = false) {
 /**
  * Render function for 'Tax Declaration Sheet' (paylist-tax.html)
  */
-window.initPaylistTax = async function(forceRefresh = false) {
+window.initPaylistTax = async function (forceRefresh = false) {
     await window.loadSalaryGenerationLookups();
     const report = await window.fetchPayrollReportData(forceRefresh);
 
@@ -402,10 +402,10 @@ window.initPaylistTax = async function(forceRefresh = false) {
  * Render function for 'Payroll Journal Posting' (paylist-journal.html)
  * Mirrors Tax Sheet logic as per request.
  */
-window.initPaylistJournal = async function(forceRefresh = false) {
+window.initPaylistJournal = async function (forceRefresh = false) {
     // Re-use Tax logic as the columns were requested to be the same
     await initPaylistTax(forceRefresh);
-    
+
     // Open the Journal Posting Modal automatically when this screen loads
     setTimeout(() => {
         if (window.payrollReportCache.data.length > 0) {
@@ -428,12 +428,12 @@ function openJournalPostingModal() {
     // Calculate Totals for the Journal based on samplePayrollData
     const data = window.payrollReportCache.data;
     let totalGross = 0, totalEmpTaxes = 0, totalCNPS = 0, totalNet = 0, totalLoans = 0;
-    
+
     data.forEach(d => {
         totalGross += d.grossSalary;
         totalEmpTaxes += d.totalEmployeeTaxes;
         totalCNPS += d.totalEmployerCNPS;
-        
+
         totalNet += d.netSalary;
         totalLoans += (d.loanDeductions + d.advanceSalary);
     });
@@ -533,7 +533,7 @@ function handleJournalPosting() {
                     // Close the main modal
                     const modal = document.getElementById('MODAL_JournalPosting');
                     if (modal) modal.style.display = 'none';
-                    
+
                     // Success Alert
                     if (typeof showAlert === 'function') {
                         showAlert("Posting was successful", "success");
@@ -550,7 +550,7 @@ function handleJournalPosting() {
  * Generates and prints reports based on the provided printing.html template.
  * @param {string} type - 'paylist', 'cnps', 'tax', 'journal', 'payslip'
  */
-window.printReport = function(type) {
+window.printReport = function (type) {
     // Styles extracted from printing.html
     const styles = `
         body { font-family: Arial, sans-serif; background-color: #fff; margin: 0; padding: 0; display: block; }
@@ -599,7 +599,7 @@ window.printReport = function(type) {
         data.forEach((d, idx) => {
             const totalPayrollDed = d.totalPayrollDeductions;
             const netSalary = d.netSalary;
-            
+
             sums.gross += d.grossSalary; sums.basic += d.basicSalary; sums.taxable += d.grossTaxableSalary;
             sums.irpp += d.pitIrpp; sums.cac += d.cacIrpp; sums.ccf += d.ccfEmployee; sums.rav += d.rav; sums.council += d.councilTax;
             sums.cnps += d.cnpsAmount; sums.net += netSalary; sums.netPay += d.netPayment;
@@ -619,7 +619,7 @@ window.printReport = function(type) {
                 <h2>${companyName}</h2>
                 <h3>PAYLIST REPORT FOR THE PERIOD</h3>
                 <div class="doc-meta">
-                    <div class="meta-left"><span>DECEMBER 2025</span><span>---Display All---</span></div>
+                    <div class="meta-left"><span>${window.payrollFilterState.month.toUpperCase()} ${window.payrollFilterState.year}</span><span>${(document.getElementById('PB_Filter_Dept')?.selectedOptions[0]?.text) || '---Display All---'}</span><span>${(document.getElementById('PB_Filter_Branch')?.selectedOptions[0]?.text) || '---All Branches---'}</span></div>
                     <div class="meta-right"><span>Printed</span><span>${printDate}</span></div>
                 </div>
             </div>
@@ -638,15 +638,15 @@ window.printReport = function(type) {
                     </tr>
                 </tfoot>
             </table>`;
-    } 
+    }
     else if (type === 'cnps') {
         let rows = '', sums = { gross: 0, basic: 0, pvEmp: 0, pvEmpr: 0, atAf: 0, total: 0, grossTot: 0 };
         data.forEach((d, idx) => {
             const atAf = d.riskAllowanceAT + d.familyAllowanceAF;
             const totalEmpr = d.pvEmployer + atAf;
             const grossTot = d.pvEmployee + totalEmpr;
-            
-            sums.gross += d.grossSalary; sums.basic += d.basicSalary; 
+
+            sums.gross += d.grossSalary; sums.basic += d.basicSalary;
             sums.pvEmp += d.pvEmployee; sums.pvEmpr += d.pvEmployer; sums.atAf += atAf;
             sums.total += totalEmpr; sums.grossTot += grossTot;
 
@@ -675,12 +675,12 @@ window.printReport = function(type) {
                     <tr style="font-weight: bold; background-color: #f9f9f9;">
                         <td colspan="2" class="text-center">TOTAL</td>
                         <td>${fmt(sums.gross)}</td><td>${fmt(sums.basic)}</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                        <td>${fmt(sums.pvEmp)}</td><td>${fmt(sums.pvEmpr)}</td><td>${fmt(samplePayrollData.reduce((a,b)=>a+b.at,0))}<br><br>${fmt(samplePayrollData.reduce((a,b)=>a+b.af,0))}</td>
+                        <td>${fmt(sums.pvEmp)}</td><td>${fmt(sums.pvEmpr)}</td><td>${fmt(samplePayrollData.reduce((a, b) => a + b.at, 0))}<br><br>${fmt(samplePayrollData.reduce((a, b) => a + b.af, 0))}</td>
                         <td>${fmt(sums.total)}</td><td>${fmt(sums.grossTot)}</td>
                     </tr>
                 </tfoot>
             </table>`;
-    } 
+    }
     else if (type === 'tax' || type === 'journal') {
         const title = (type === 'journal') ? "PAYROLL JOURNAL POSTING" : "TAX REPORT | TAXES WITHHELD ON WAGES";
         let rows = '', sums = { gross: 0, basic: 0, taxable: 0, irpp: 0, cac: 0, ccf: 0, rav: 0, council: 0, totEmp: 0, ccfEmpr: 0, nef: 0, totEmpr: 0, grandTot: 0 };
