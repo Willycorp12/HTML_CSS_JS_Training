@@ -4,20 +4,20 @@
  */
 
 window.feeTypes = [
-    { id: 1, category: "Admission Fees", name: "Admission Fees Post Graduate SHS", description: "Admission Fees Post Graduate SHS", amount: 19500, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7063000-Admission fees" },
-    { id: 2, category: "Admission Fees", name: "Admission Fees Undergraduate", description: "Admission Fees Undergraduate Students", amount: 14500, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7063000-Admission fees" },
-    { id: 3, category: "Registration Fees", name: "Registration Fees Bsc SMS (New)", description: "Registration Fees Bsc SMS (New)", amount: 75000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7062000-Registration fees" },
-    { id: 4, category: "Registration Fees", name: "Registration Fees Bsc SMS (OLD)", description: "Registration Fees Bsc SMS (OLD)", amount: 65000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7062000-Registration fees" },
-    { id: 5, category: "Registration Fees", name: "Registration Fees HND SMS (New)", description: "Registration Fees Undrgraduation (New Students)", amount: 25000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7062000-Registration fees" },
-    { id: 6, category: "Registration Fees", name: "Registration Fees HND SMS(OLD)", description: "Registration Fees Undergraduate (Old Students)", amount: 10000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7062000-Registration fees" },
-    { id: 7, category: "Registration Fees", name: "Registration Fees MBA", description: "Registration Fees MBA", amount: 125000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7062000-Registration fees" },
-    { id: 8, category: "Registration Fees", name: "Registration Fees Msc SMS", description: "Registration Fees Msc SMS", amount: 125000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7062000-Registration fees" },
-    { id: 9, category: "Registration Fees", name: "Registration Fees TopUp Bsc", description: "Registration Fees TopUp Bsc", amount: 75000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7062000-Registration fees" },
-    { id: 10, category: "Tuition Fees", name: "Tuition Fees Bsc SMS", description: "Tuition Fees Bsc SMS", amount: 350000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7061100-Tuition fees" },
-    { id: 11, category: "Tuition Fees", name: "Tuition Fees HND SMS", description: "Tuition Fees HND SMS", amount: 300000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7061100-Tuition fees" },
-    { id: 12, category: "Tuition Fees", name: "Tuition Fees MBA", description: "Tuition Fees MBA", amount: 800000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7061100-Tuition fees" },
-    { id: 13, category: "Tuition Fees", name: "Tuition Fees Msc SMS", description: "Tuition Fees Msc SMS", amount: 550000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7061100-Tuition fees" },
-    { id: 14, category: "Tuition Fees", name: "Tuition Fees TopUp Bsc SMS", description: "Tuition Fees TopUp Bsc SMS", amount: 350000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7061100-Tuition fees" }
+    { id: 1, category: "Admission Fees", name: "Admission Fees Post Graduate SHS", description: "Admission Fees Post Graduate SHS", amount: 19500, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7063000-Application Fees Postgraduate" },
+    { id: 2, category: "Admission Fees", name: "Admission Fees Undergraduate", description: "Admission Fees Undergraduate Students", amount: 14500, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7063000-Application Fees Undergraduate" },
+    { id: 3, category: "Registration Fees", name: "Registration Fees Bsc SMS (New)", description: "Registration Fees Bsc SMS (New)", amount: 75000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7062000-Registration fees undergraduate" },
+    { id: 4, category: "Registration Fees", name: "Registration Fees Bsc SMS (OLD)", description: "Registration Fees Bsc SMS (OLD)", amount: 65000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7062000-Registration fees undergraduate" },
+    { id: 5, category: "Registration Fees", name: "Registration Fees HND SMS (New)", description: "Registration Fees Undrgraduation (New Students)", amount: 25000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7062000-Registration fees undergraduate" },
+    { id: 6, category: "Registration Fees", name: "Registration Fees HND SMS(OLD)", description: "Registration Fees Undergraduate (Old Students)", amount: 10000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7062000-Registration fees undergraduate" },
+    { id: 7, category: "Registration Fees", name: "Registration Fees MBA", description: "Registration Fees MBA", amount: 125000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7062000-Registration fees postgraduate" },
+    { id: 8, category: "Registration Fees", name: "Registration Fees Msc SMS", description: "Registration Fees Msc SMS", amount: 125000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7062000-Registration fees postgraduate" },
+    { id: 9, category: "Registration Fees", name: "Registration Fees TopUp Bsc", description: "Registration Fees TopUp Bsc", amount: 75000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7062000-Registration fees undergraduate" },
+    { id: 10, category: "Tuition Fees", name: "Tuition Fees Bsc SMS", description: "Tuition Fees Bsc SMS", amount: 350000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7061100-Tuition fees Undergraduate" },
+    { id: 11, category: "Tuition Fees", name: "Tuition Fees HND SMS", description: "Tuition Fees HND SMS", amount: 300000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7061100-Tuition fees Undergraduate" },
+    { id: 12, category: "Tuition Fees", name: "Tuition Fees MBA", description: "Tuition Fees MBA", amount: 800000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7061100-Tuition fees Postgraduate" },
+    { id: 13, category: "Tuition Fees", name: "Tuition Fees Msc SMS", description: "Tuition Fees Msc SMS", amount: 550000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7061100-Tuition fees Postgraduate" },
+    { id: 14, category: "Tuition Fees", name: "Tuition Fees TopUp Bsc SMS", description: "Tuition Fees TopUp Bsc SMS", amount: 350000, schoolType: "SCHOOL OF MANAGEMENT SCIENCES", account: "7061100-Tuition fees Undergraduate" }
 ];
 
 window.collapsedFeeCategories = {};
@@ -47,6 +47,14 @@ window.initFinanceFeeTypes = function() {
     const instSelect = document.getElementById('FT_SelectInstType');
     if (instSelect) {
         instSelect.onchange = function() {
+            renderFeeTypesTable();
+        };
+    }
+
+    // Search bar event handler
+    const searchInput = document.getElementById('FT_SearchInput');
+    if (searchInput) {
+        searchInput.oninput = function() {
             renderFeeTypesTable();
         };
     }
@@ -85,15 +93,16 @@ function populateFeeTypesModalSelectors() {
         accSelect.innerHTML = '';
         const accs = [
             { code: "7061100", name: "Tuition fees Undergraduate" },
-            { code: "7061200", name: "Tuition fees Postgraduate" },
-            { code: "7061300", name: "Tuition fees HND" },
-            { code: "7062000", name: "Registration fees" },
-            { code: "7063000", name: "Admission fees" }
+            { code: "7061100", name: "Tuition fees Postgraduate" },
+            { code: "7062000", name: "Registration fees undergraduate" },
+            { code: "7062000", name: "Registration fees postgraduate" },
+            { code: "7063000", name: "Application Fees Undergraduate" },
+            { code: "7063000", name: "Application Fees Postgraduate" }
         ];
         accs.forEach(a => {
             const opt = document.createElement('option');
             opt.value = `${a.code}-${a.name}`;
-            opt.textContent = `${a.code}-${a.name}`;
+            opt.textContent = a.name;
             accSelect.appendChild(opt);
         });
     }
@@ -109,18 +118,23 @@ function renderFeeTypesTable() {
     if (!tbody) return;
     
     const filterInstType = document.getElementById('FT_SelectInstType').value;
+    const searchVal = document.getElementById('FT_SearchInput')?.value.toLowerCase() || '';
     const cats = window.feeCategories ? window.feeCategories.map(x => x.name) : ["Admission Fees", "Registration Fees", "Tuition Fees"];
     
     let html = '';
     
     cats.forEach(cat => {
         const isCollapsed = !!window.collapsedFeeCategories[cat];
-        const items = window.feeTypes.filter(x => x.category === cat && x.schoolType === filterInstType);
+        let items = window.feeTypes.filter(x => x.category === cat && x.schoolType === filterInstType);
         
+        if (searchVal) {
+            items = items.filter(x => x.name.toLowerCase().includes(searchVal) || x.description.toLowerCase().includes(searchVal));
+        }
+
         // Group Header
         html += `
             <tr class="group-header-row ${isCollapsed ? 'collapsed' : ''}" onclick="toggleFeeCategory('${cat}')">
-                <td colspan="4">
+                <td colspan="5">
                     <i class="fa-solid fa-chevron-down"></i> ${cat}
                 </td>
             </tr>
@@ -129,6 +143,7 @@ function renderFeeTypesTable() {
         // Group Items
         if (!isCollapsed) {
             items.forEach(item => {
+                const displayAccount = item.account ? item.account.split('-')[1] || item.account : '';
                 html += `
                     <tr class="fee-item-row" data-id="${item.id}">
                         <td style="text-align: center;" onclick="event.stopPropagation()">
@@ -137,11 +152,12 @@ function renderFeeTypesTable() {
                         <td>${item.name}</td>
                         <td>${item.description}</td>
                         <td style="text-align: right; font-weight: bold;">${item.amount.toLocaleString('en-US')} FCFA</td>
+                        <td>${displayAccount}</td>
                     </tr>
                 `;
             });
             if (items.length === 0) {
-                html += `<tr><td></td><td colspan="3" style="color: #888; font-style: italic; font-size: 11px;">No fee types configured for this category</td></tr>`;
+                html += `<tr><td></td><td colspan="4" style="color: #888; font-style: italic; font-size: 11px;">No fee types found</td></tr>`;
             }
         }
     });
@@ -150,7 +166,7 @@ function renderFeeTypesTable() {
     
     // Pad empty rows
     for (let i = window.feeTypes.length; i < 15; i++) {
-        tbody.insertAdjacentHTML('beforeend', '<tr><td>&nbsp;</td><td></td><td></td><td></td></tr>');
+        tbody.insertAdjacentHTML('beforeend', '<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>');
     }
 }
 
@@ -174,7 +190,6 @@ window.FeeTypesManager = {
     openNew() {
         this.selectedId = null;
         document.getElementById('MFT_Title').textContent = "New Fee Type";
-        document.getElementById('MFT_BodyHeader').textContent = "Creating a new fee types";
         document.getElementById('MFT_Form').reset();
         
         const filterInst = document.getElementById('FT_SelectInstType').value;
@@ -189,7 +204,6 @@ window.FeeTypesManager = {
         if (!item) return;
         
         document.getElementById('MFT_Title').textContent = "Modify Fee Type";
-        document.getElementById('MFT_BodyHeader').textContent = "Modifying Fee Type Details";
         
         document.getElementById('MFT_FeeName').value = item.name;
         document.getElementById('MFT_Description').value = item.description;

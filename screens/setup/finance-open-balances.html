@@ -55,16 +55,16 @@
             <div style="font-size: 22px; color: #fff; opacity: 0.8; cursor: pointer; padding: 0 5px;" onclick="OpenBalancesModalManager.closeModal()" onmousedown="event.stopPropagation()">&times;</div>
         </div>
         <!-- Modal Body -->
-        <div class="coa-modal-body" style="padding: 20px; background: #fff; display: flex; flex-direction: column; gap: 15px;">
-            <div style="text-align: center;">
+        <div class="coa-modal-body" style="padding: 25px; background: #fff;">
+            <div style="text-align: center; margin-bottom: 15px;">
                 <h3 style="color: #2e3192; font-size: 22px; margin: 0; border-bottom: 2px solid #cd2027; display: inline-block; padding-bottom: 4px;">Account Opening Balances</h3>
                 <div style="color: #cd2027; font-size: 11px; margin-top: 4px;">Enter Accounts value on the day before your Academic Start Date</div>
             </div>
             
             <form id="SOB_Form" onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
                 <div class="form-row-setup">
-                    <label style="width: 140px; font-weight: bold;">Select Account Types:</label>
-                    <select id="SOB_AccountTypeGroup" class="wd-input-setup">
+                    <label style="width: 140px; font-size: 13px; font-weight: bold; color: #333;">Select Account Types:</label>
+                    <select id="SOB_AccountTypeGroup" class="wd-input-setup" style="padding: 5px 8px; border: 1px solid #aaa; border-radius: 1px; font-size: 12px;">
                         <option value="CLASS 1">CLASS 1 - Capital (Investment)</option>
                         <option value="CLASS 2">CLASS 2 - Fixed Asset / Capital Assets</option>
                         <option value="CLASS 4">CLASS 4 - Third Parties Accounts (A/R, A/P)</option>
@@ -72,30 +72,30 @@
                     </select>
                 </div>
                 <div class="form-row-setup">
-                    <label style="width: 140px; font-weight: bold;">Select Account Name:</label>
-                    <select id="SOB_AccountSelect" class="wd-input-setup">
+                    <label style="width: 140px; font-size: 13px; font-weight: bold; color: #333;">Select Account Name:</label>
+                    <select id="SOB_AccountSelect" class="wd-input-setup" style="padding: 5px 8px; border: 1px solid #aaa; border-radius: 1px; font-size: 12px;">
                         <!-- Populated dynamically based on Account Type Group -->
                     </select>
                 </div>
                 <div class="form-row-setup">
-                    <label style="width: 140px; font-weight: bold;">Account Type:</label>
-                    <input type="text" id="SOB_AccountTypeDetail" class="wd-input-setup" readonly style="background: #e9ecef;">
+                    <label style="width: 140px; font-size: 13px; font-weight: bold; color: #333;">Account Type:</label>
+                    <input type="text" id="SOB_AccountTypeDetail" class="wd-input-setup" readonly style="background: #e9ecef; padding: 5px 8px; border: 1px solid #aaa; border-radius: 1px; font-size: 12px;">
                 </div>
                 <div class="form-row-setup align-start">
-                    <label style="width: 140px; font-weight: bold; padding-top: 5px;">Description</label>
-                    <textarea id="SOB_Description" class="wd-input-setup" style="height: 60px; font-family: inherit; font-size: 12px; resize: vertical;"></textarea>
+                    <label style="width: 140px; font-size: 13px; font-weight: bold; color: #333; padding-top: 5px;">Description</label>
+                    <textarea id="SOB_Description" class="wd-input-setup" style="height: 60px; font-family: inherit; font-size: 12px; resize: vertical; padding: 5px 8px; border: 1px solid #aaa; border-radius: 1px;"></textarea>
                 </div>
                 <div class="form-row-setup" style="gap: 15px;">
                     <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
-                        <label style="width: 140px; font-weight: bold;">Opening Balance:</label>
-                        <div style="display: flex; align-items: center; border: 1px solid #ccc; border-radius: 2px; flex: 1; padding: 2px;">
+                        <label style="width: 140px; font-size: 13px; font-weight: bold; color: #333;">Opening Balance:</label>
+                        <div style="display: flex; align-items: center; border: 1px solid #aaa; border-radius: 1px; flex: 1; padding: 2px;">
                             <input type="text" id="SOB_Amount" class="wd-input-setup" style="border: none; padding: 4px; text-align: right; font-weight: bold; width: 100%;" placeholder="0">
                             <span style="font-size: 11px; padding: 0 5px; color: #666; font-weight: bold;">FCFA</span>
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 5px;">
-                        <label style="width: 40px; font-size: 11px;">as of:</label>
-                        <input type="date" id="SOB_Date" class="wd-input-setup" style="width: 130px; padding: 4px;">
+                        <label style="width: 40px; font-size: 11px; font-weight: bold; color: #333;">as of:</label>
+                        <input type="date" id="SOB_Date" class="wd-input-setup" style="width: 130px; padding: 4px; border: 1px solid #aaa; border-radius: 1px; font-size: 12px;">
                     </div>
                 </div>
                 <div style="font-size: 11px; color: #555; display: flex; gap: 10px; padding-left: 150px;">
@@ -106,10 +106,10 @@
         </div>
         <!-- Modal Footer -->
         <div class="coa-modal-footer" style="padding: 12px; background: #f5f5f5; border-top: 1px solid #ddd; text-align: right; display: flex; justify-content: center; gap: 15px;">
-            <button class="wd-btn primary" style="padding: 8px 25px;" id="BTN_SaveOpenBalance">
+            <button class="wd-btn primary" style="padding: 10px 40px; min-width: 120px;" id="BTN_SaveOpenBalance">
                 Validate <i class="fa-solid fa-circle-check"></i>
             </button>
-            <button class="wd-btn danger" style="padding: 8px 25px;" onclick="OpenBalancesModalManager.closeModal()">
+            <button class="wd-btn danger" style="padding: 10px 40px; min-width: 120px;" onclick="OpenBalancesModalManager.closeModal()">
                 Cancel <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
@@ -213,5 +213,29 @@
         border-radius: 2px;
         font-size: 12px;
         outline: none;
+    }
+    .wd-btn {
+        border-radius: 4px;
+        cursor: pointer;
+        transition: 0.2s;
+        border: 1px solid #ccc;
+        background: #fff;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
+    }
+    .wd-btn.primary {
+        background: #2e3192 !important;
+        color: #fff !important;
+        border-color: #2e3192 !important;
+        font-weight: bold;
+    }
+    .wd-btn.danger {
+        background: #cd2027 !important;
+        color: #fff !important;
+        border-color: #cd2027 !important;
+        font-weight: bold;
     }
 </style>

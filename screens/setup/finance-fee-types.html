@@ -9,11 +9,14 @@
         <div class="coa-left-tools" style="display: flex; gap: 15px; align-items: center;">
             <div style="display: flex; align-items: center; gap: 5px; font-size: 12px;">
                 <label style="font-weight: bold; color: #333;">Institution Type:</label>
-                <select id="FT_SelectInstType" class="wd-input-setup" style="width: 260px; padding: 4px;">
+                <select id="FT_SelectInstType" class="wd-input-setup" style="width: 260px; padding: 4px; border: 1px solid #ccc; border-radius: 2px;">
                     <option value="SCHOOL OF MANAGEMENT SCIENCES">SCHOOL OF MANAGEMENT SCIENCES</option>
                     <option value="SCHOOL OF HEALTH AND MEDICAL SCIENCES">SCHOOL OF HEALTH AND MEDICAL SCIENCES</option>
                     <option value="SCHOOL OF INFORMATION TECHNOLOGY">SCHOOL OF INFORMATION TECHNOLOGY</option>
                 </select>
+            </div>
+            <div style="display: flex; align-items: center; gap: 5px; font-size: 12px;">
+                <input type="text" id="FT_SearchInput" placeholder="Search by Fee Name..." style="width: 200px; padding: 5px; border: 1px solid #ccc; border-radius: 2px; font-size: 12px; box-sizing: border-box;">
             </div>
         </div>
         <div class="coa-right-tools" style="display: flex; gap: 8px;">
@@ -38,6 +41,7 @@
                         <th>Fee.Name</th>
                         <th>Description</th>
                         <th style="width: 150px; text-align: right;">Amount</th>
+                        <th>Linked Account</th>
                     </tr>
                 </thead>
                 <tbody id="TB_FeeTypes">
@@ -57,44 +61,40 @@
             <div style="font-size: 22px; color: #fff; opacity: 0.8; cursor: pointer; padding: 0 5px;" onclick="FeeTypesManager.closeModal()" onmousedown="event.stopPropagation()">&times;</div>
         </div>
         <!-- Modal Body -->
-        <div class="coa-modal-body" style="padding: 20px; background: #fff; display: flex; flex-direction: column; gap: 15px;">
-            <div style="text-align: center; background: #333; color: white; padding: 10px; border-radius: 2px; margin-bottom: 10px;">
-                <span id="MFT_BodyHeader" style="font-size: 13px; font-weight: bold;">Creating a new fee types</span>
-            </div>
-            
-            <form id="MFT_Form" onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 12px;">
+        <div class="coa-modal-body" style="padding: 25px; background: #fff;">
+            <form id="MFT_Form" onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 15px;">
                 <div class="form-row-setup align-start">
-                    <label style="width: 120px; font-weight: bold; padding-top: 5px;">Fee Name</label>
-                    <textarea id="MFT_FeeName" class="wd-input-setup" style="height: 50px; font-family: inherit; font-size: 12px; resize: vertical;" placeholder="Enter fee name..."></textarea>
+                    <label style="width: 120px; font-size: 13px; font-weight: bold; color: #333; padding-top: 5px;">Fee Name:</label>
+                    <textarea id="MFT_FeeName" class="wd-input-setup" style="height: 50px; font-family: inherit; font-size: 12px; resize: vertical; padding: 5px 8px; border: 1px solid #aaa; border-radius: 1px;" placeholder="Enter fee name..."></textarea>
                 </div>
                 <div class="form-row-setup">
-                    <label style="width: 120px; font-weight: bold;">Description</label>
-                    <input type="text" id="MFT_Description" class="wd-input-setup" placeholder="Enter description...">
+                    <label style="width: 120px; font-size: 13px; font-weight: bold; color: #333;">Description:</label>
+                    <input type="text" id="MFT_Description" class="wd-input-setup" placeholder="Enter description..." style="padding: 5px 8px; border: 1px solid #aaa; border-radius: 1px; font-size: 12px;">
                 </div>
                 <div class="form-row-setup">
-                    <label style="width: 120px; font-weight: bold;">School Type</label>
-                    <select id="MFT_SchoolType" class="wd-input-setup">
+                    <label style="width: 120px; font-size: 13px; font-weight: bold; color: #333;">School Type:</label>
+                    <select id="MFT_SchoolType" class="wd-input-setup" style="padding: 5px 8px; border: 1px solid #aaa; border-radius: 1px; font-size: 12px;">
                         <option value="SCHOOL OF MANAGEMENT SCIENCES">SCHOOL OF MANAGEMENT SCIENCES</option>
                         <option value="SCHOOL OF HEALTH AND MEDICAL SCIENCES">SCHOOL OF HEALTH AND MEDICAL SCIENCES</option>
                         <option value="SCHOOL OF INFORMATION TECHNOLOGY">SCHOOL OF INFORMATION TECHNOLOGY</option>
                     </select>
                 </div>
                 <div class="form-row-setup">
-                    <label style="width: 120px; font-weight: bold;">Fee Category</label>
-                    <select id="MFT_Category" class="wd-input-setup">
+                    <label style="width: 120px; font-size: 13px; font-weight: bold; color: #333;">Fee Category:</label>
+                    <select id="MFT_Category" class="wd-input-setup" style="padding: 5px 8px; border: 1px solid #aaa; border-radius: 1px; font-size: 12px;">
                         <!-- Populated from window.feeCategories -->
                     </select>
                 </div>
                 <div class="form-row-setup">
-                    <label style="width: 120px; font-weight: bold;">Amount</label>
-                    <div style="display: flex; align-items: center; border: 1px solid #ccc; border-radius: 2px; flex: 1; padding: 2px;">
+                    <label style="width: 120px; font-size: 13px; font-weight: bold; color: #333;">Amount:</label>
+                    <div style="display: flex; align-items: center; border: 1px solid #aaa; border-radius: 1px; flex: 1; padding: 2px;">
                         <input type="text" id="MFT_Amount" class="wd-input-setup" style="border: none; padding: 4px; text-align: right; font-weight: bold; width: 100%;" placeholder="0">
                         <span style="font-size: 11px; padding: 0 5px; color: #666; font-weight: bold;">FCFA</span>
                     </div>
                 </div>
                 <div class="form-row-setup">
-                    <label style="width: 120px; font-weight: bold;">Account Name</label>
-                    <select id="MFT_AccountSelect" class="wd-input-setup">
+                    <label style="width: 120px; font-size: 13px; font-weight: bold; color: #333;">Linked Account:</label>
+                    <select id="MFT_AccountSelect" class="wd-input-setup" style="padding: 5px 8px; border: 1px solid #aaa; border-radius: 1px; font-size: 12px;">
                         <!-- Will hold general ledger account mappings -->
                     </select>
                 </div>
@@ -102,10 +102,10 @@
         </div>
         <!-- Modal Footer -->
         <div class="coa-modal-footer" style="padding: 12px; background: #f5f5f5; border-top: 1px solid #ddd; text-align: right; display: flex; justify-content: center; gap: 15px;">
-            <button class="wd-btn primary" style="padding: 8px 25px;" onclick="FeeTypesManager.handleSave()">
+            <button class="wd-btn primary" style="padding: 10px 40px; min-width: 120px;" onclick="FeeTypesManager.handleSave()">
                 Validate <i class="fa-solid fa-circle-check"></i>
             </button>
-            <button class="wd-btn danger" style="padding: 8px 25px;" onclick="FeeTypesManager.closeModal()">
+            <button class="wd-btn danger" style="padding: 10px 40px; min-width: 120px;" onclick="FeeTypesManager.closeModal()">
                 Cancel <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
@@ -212,5 +212,29 @@
         border: 1px solid #ccc;
         border-radius: 2px;
         font-size: 12px;
+    }
+    .wd-btn {
+        border-radius: 4px;
+        cursor: pointer;
+        transition: 0.2s;
+        border: 1px solid #ccc;
+        background: #fff;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
+    }
+    .wd-btn.primary {
+        background: #2e3192 !important;
+        color: #fff !important;
+        border-color: #2e3192 !important;
+        font-weight: bold;
+    }
+    .wd-btn.danger {
+        background: #cd2027 !important;
+        color: #fff !important;
+        border-color: #cd2027 !important;
+        font-weight: bold;
     }
 </style>

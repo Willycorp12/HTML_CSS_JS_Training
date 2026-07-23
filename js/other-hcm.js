@@ -200,7 +200,6 @@ window.OtherHcmManager = {
         // Configure Title & Subtitle Headers
         const titleText = this.activeTab.charAt(0).toUpperCase() + this.activeTab.slice(1).replace(/([A-Z])/g, ' $1');
         document.getElementById('MOH_Title').textContent = `New ${titleText} Setup`;
-        document.getElementById('MOH_BodyHeader').textContent = `Creating a new ${titleText.slice(0, -5)}`;
         
         // Show/Hide specific category or salary fields
         document.querySelectorAll('.field-cat-only').forEach(el => el.style.display = this.activeTab === 'categories' ? 'flex' : 'none');
@@ -246,7 +245,6 @@ window.OtherHcmManager = {
         // Configure Title & Subtitle Headers
         const titleText = this.activeTab.charAt(0).toUpperCase() + this.activeTab.slice(1).replace(/([A-Z])/g, ' $1');
         document.getElementById('MOH_Title').textContent = `Modify ${titleText} Setup`;
-        document.getElementById('MOH_BodyHeader').textContent = `Modifying ${titleText.slice(0, -5)} Details`;
         
         // Show/Hide specific fields
         document.querySelectorAll('.field-cat-only').forEach(el => el.style.display = this.activeTab === 'categories' ? 'flex' : 'none');

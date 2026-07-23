@@ -200,43 +200,39 @@
             <div style="font-size: 22px; color: #fff; opacity: 0.8; cursor: pointer; padding: 0 5px;" onclick="OtherHcmManager.closeModal()" onmousedown="event.stopPropagation()">&times;</div>
         </div>
         <!-- Modal Body -->
-        <div class="coa-modal-body" style="padding: 20px; background: #fff; display: flex; flex-direction: column; gap: 15px;">
-            <div style="text-align: center; background: #333; color: white; padding: 10px; border-radius: 2px; margin-bottom: 10px;">
-                <span id="MOH_BodyHeader" style="font-size: 13px; font-weight: bold;">Creating a new Branch</span>
-            </div>
-            
-            <form id="MOH_Form" onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 12px;">
+        <div class="coa-modal-body" style="padding: 25px; background: #fff;">
+            <form id="MOH_Form" onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 15px;">
                 <!-- Main Value Input (Branch Name / Dept Name / Description / Position Name etc.) -->
                 <div class="form-row-setup">
-                    <label id="LBL_MohValue" style="width: 130px; font-weight: bold;">Branch Name</label>
-                    <input type="text" id="INP_MohValue" class="wd-input-setup" placeholder="Enter name...">
+                    <label id="LBL_MohValue" style="width: 140px; font-size: 13px; font-weight: bold; color: #333;">Branch Name:</label>
+                    <input type="text" id="INP_MohValue" class="wd-input-setup" placeholder="Enter name..." style="padding: 5px 8px; border: 1px solid #aaa; border-radius: 1px; font-size: 12px;">
                 </div>
                 
                 <!-- Category Specific: Lower Limit -->
                 <div class="form-row-setup field-cat-only" style="display: none;">
-                    <label style="width: 130px; font-weight: bold;">Lower Limit</label>
-                    <input type="number" id="INP_MohLowerLimit" class="wd-input-setup" value="0">
+                    <label style="width: 140px; font-size: 13px; font-weight: bold; color: #333;">Lower Limit:</label>
+                    <input type="number" id="INP_MohLowerLimit" class="wd-input-setup" value="0" style="padding: 5px 8px; border: 1px solid #aaa; border-radius: 1px; font-size: 12px;">
                 </div>
                 
                 <!-- Category Specific: Upper Limit -->
                 <div class="form-row-setup field-cat-only" style="display: none;">
-                    <label style="width: 130px; font-weight: bold;">Upper Limit</label>
-                    <input type="number" id="INP_MohUpperLimit" class="wd-input-setup" value="0">
+                    <label style="width: 140px; font-size: 13px; font-weight: bold; color: #333;">Upper Limit:</label>
+                    <input type="number" id="INP_MohUpperLimit" class="wd-input-setup" value="0" style="padding: 5px 8px; border: 1px solid #aaa; border-radius: 1px; font-size: 12px;">
                 </div>
 
                 <!-- Salary Category Specific: Amount -->
                 <div class="form-row-setup field-sal-only" style="display: none;">
-                    <label style="width: 130px; font-weight: bold;">Amount</label>
-                    <input type="number" id="INP_MohAmount" class="wd-input-setup" value="0">
+                    <label style="width: 140px; font-size: 13px; font-weight: bold; color: #333;">Amount:</label>
+                    <input type="number" id="INP_MohAmount" class="wd-input-setup" value="0" style="padding: 5px 8px; border: 1px solid #aaa; border-radius: 1px; font-size: 12px;">
                 </div>
             </form>
         </div>
         <!-- Modal Footer -->
         <div class="coa-modal-footer" style="padding: 12px; background: #f5f5f5; border-top: 1px solid #ddd; text-align: right; display: flex; justify-content: center; gap: 15px;">
-            <button class="wd-btn primary" style="padding: 8px 25px;" onclick="OtherHcmManager.handleSave()">
+            <button class="wd-btn primary" style="padding: 10px 40px; min-width: 120px;" onclick="OtherHcmManager.handleSave()">
                 Validate <i class="fa-solid fa-circle-check"></i>
             </button>
-            <button class="wd-btn danger" style="padding: 8px 25px;" onclick="OtherHcmManager.closeModal()">
+            <button class="wd-btn danger" style="padding: 10px 40px; min-width: 120px;" onclick="OtherHcmManager.closeModal()">
                 Cancel <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
@@ -345,5 +341,29 @@
         border: 1px solid #ccc;
         border-radius: 2px;
         font-size: 12px;
+    }
+    .wd-btn {
+        border-radius: 4px;
+        cursor: pointer;
+        transition: 0.2s;
+        border: 1px solid #ccc;
+        background: #fff;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
+    }
+    .wd-btn.primary {
+        background: #2e3192 !important;
+        color: #fff !important;
+        border-color: #2e3192 !important;
+        font-weight: bold;
+    }
+    .wd-btn.danger {
+        background: #cd2027 !important;
+        color: #fff !important;
+        border-color: #cd2027 !important;
+        font-weight: bold;
     }
 </style>

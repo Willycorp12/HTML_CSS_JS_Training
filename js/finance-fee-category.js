@@ -31,7 +31,6 @@ window.FeeCategoryManager = {
     openNew() {
         this.selectedId = null;
         document.getElementById('MFC_CatTitle').textContent = "New Fees Category";
-        document.getElementById('MFC_CatBodyHeader').textContent = "Creating a new Fees Category";
         document.getElementById('MFC_CatForm').reset();
         document.getElementById('MODAL_FeeCategory').style.display = 'flex';
     },
@@ -42,7 +41,6 @@ window.FeeCategoryManager = {
         if (!item) return;
         
         document.getElementById('MFC_CatTitle').textContent = "Modify Fees Category";
-        document.getElementById('MFC_CatBodyHeader').textContent = "Modifying Fees Category Details";
         document.getElementById('MFC_CatName').value = item.name;
         document.getElementById('MODAL_FeeCategory').style.display = 'flex';
     },
